@@ -28,6 +28,14 @@ public class QRImageEntity {
 	
 	@Column(name = "path_name")
 	private String pathName;
+	
+	public QRImageEntity() {}
+	
+	public QRImageEntity(String fileName, String pathName, QRInfoEntity qrInfo) {
+		this.fileName = fileName;
+		this.pathName = pathName;
+		this.qrInfo = qrInfo;
+	}
 
 	public Long getId() {
 		return id;
