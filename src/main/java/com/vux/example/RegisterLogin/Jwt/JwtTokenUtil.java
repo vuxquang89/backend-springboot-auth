@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
@@ -118,5 +119,11 @@ public class JwtTokenUtil {
 				.setSigningKey(secretKey)
 				.parseClaimsJws(token)
 				.getBody();
+	}
+	
+	public String getToken(HttpServletRequest request) {
+		String header = request.getHeader("Authorization");
+		String token = header.split(" ")[1].trim();
+		return token;
 	}
 }
