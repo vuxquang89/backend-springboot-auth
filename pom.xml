@@ -73,6 +73,12 @@
 		    <version>8.0.25</version>
 		</dependency>
 		
+		<!-- random alphanumeric-->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+		
 	</dependencies>
 
 	<build>
