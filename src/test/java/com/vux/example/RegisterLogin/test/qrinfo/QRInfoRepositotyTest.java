@@ -3,7 +3,6 @@ package com.vux.example.RegisterLogin.test.qrinfo;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
@@ -30,7 +29,7 @@ public class QRInfoRepositotyTest {
 		
 		for(QRInfoEntity qr : qrInfos) {
 			System.out.println(qr.getContent());
-			Set<QRImageEntity> images = qr.getQrImages();
+			List<QRImageEntity> images = qr.getQrImages();
 			List<QRImageEntity> arr = images.stream().collect(Collectors.toList());
 			System.out.println("images => ");
 			for(QRImageEntity image : arr) {

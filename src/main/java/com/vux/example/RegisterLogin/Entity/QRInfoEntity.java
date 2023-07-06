@@ -1,6 +1,7 @@
 package com.vux.example.RegisterLogin.Entity;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,9 +20,13 @@ public class QRInfoEntity extends BaseEntity{
 	private double lng;
 	@Column
 	private String content;
+	@Column
+	private String address;
+	@Column
+	private String dateUpload;
 	
 	@OneToMany(mappedBy = "qrInfo", cascade = CascadeType.REMOVE, orphanRemoval = true)
-	private Set<QRImageEntity> qrImages;
+	private List<QRImageEntity> qrImages = new ArrayList<QRImageEntity>();
 
 	public double getLat() {
 		return lat;
@@ -47,12 +52,28 @@ public class QRInfoEntity extends BaseEntity{
 		this.content = content;
 	}
 
-	public Set<QRImageEntity> getQrImages() {
+	public List<QRImageEntity> getQrImages() {
 		return qrImages;
 	}
 
-	public void setQrImages(Set<QRImageEntity> qrImages) {
+	public void setQrImages(List<QRImageEntity> qrImages) {
 		this.qrImages = qrImages;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getDateUpload() {
+		return dateUpload;
+	}
+
+	public void setDateUpload(String dateUpload) {
+		this.dateUpload = dateUpload;
 	}
 	
 	

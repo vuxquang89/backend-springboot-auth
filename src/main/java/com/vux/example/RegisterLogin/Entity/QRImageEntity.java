@@ -26,13 +26,17 @@ public class QRImageEntity {
 	@Column(name = "file_name")
 	private String fileName;
 	
+	@Column(name = "file_name_resize")
+	private String fileNameResize;
+	
 	@Column(name = "path_name")
 	private String pathName;
 	
 	public QRImageEntity() {}
 	
-	public QRImageEntity(String fileName, String pathName, QRInfoEntity qrInfo) {
+	public QRImageEntity(String fileName, String fileNameResize, String pathName, QRInfoEntity qrInfo) {
 		this.fileName = fileName;
+		this.fileNameResize = fileNameResize;
 		this.pathName = pathName;
 		this.qrInfo = qrInfo;
 	}
@@ -59,6 +63,14 @@ public class QRImageEntity {
 
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+	
+	public String getFileNameResize() {
+		return fileNameResize;
+	}
+
+	public void setFileNameResize(String fileNameResize) {
+		this.fileNameResize = fileNameResize;
 	}
 
 	public String getPathName() {
