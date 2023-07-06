@@ -92,7 +92,7 @@ public class SecurityConfig {
 				.antMatchers("/api/auth/login", 
 						"/api/auth/register", 
 						"/api/token/refresh").permitAll()
-				.antMatchers("/api/test/**").permitAll()
+				.antMatchers("/upload/**").permitAll()
 				.anyRequest().authenticated()
 			.and()
 			.authenticationProvider(authenticationProvider());
