@@ -19,6 +19,8 @@ public class QRConvert {
 		entity.setLat(request.getLat());
 		entity.setLng(request.getLng());
 		entity.setContent(request.getContent());
+		entity.setAddress(request.getAddress());
+		entity.setDateUpload(request.getDateTakePic());
 		return entity;
 	}
 	

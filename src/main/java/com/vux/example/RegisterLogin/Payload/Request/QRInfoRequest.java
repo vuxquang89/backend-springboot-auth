@@ -8,6 +8,8 @@ public class QRInfoRequest {
 	private double lat;
 	private double lng;
 	private String content;
+	private String address;
+	private String dateTakePic;
 	private MultipartFile file;
 	
 	public long getId() {
@@ -37,8 +39,21 @@ public class QRInfoRequest {
 	public MultipartFile getFile() {
 		return file;
 	}
-	public void setFiles(MultipartFile file) {
+	public void setFile(MultipartFile file) {
 		this.file = file;
 	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getDateTakePic() {
+		return dateTakePic;
+	}
+	public void setDateTakePic(String dateTakePic) {
+		this.dateTakePic = dateTakePic;
+	}
+	
 	
 }
