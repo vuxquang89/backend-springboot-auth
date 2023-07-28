@@ -65,6 +65,14 @@ public class UserEntity extends BaseEntity implements UserDetails{
 	public List<RoleEntity> getRoles() {
 		return roles;
 	}
+	
+	public List<String> getRolesToString(){
+		List<String> listRoles = new ArrayList<String>();
+		for(RoleEntity role:roles) {
+			listRoles.add(role.getName());
+		}
+		return listRoles;
+	}
 
 	public void setRoles(List<RoleEntity> roles) {
 		this.roles = roles;

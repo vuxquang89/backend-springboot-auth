@@ -2,6 +2,7 @@ package com.vux.example.RegisterLogin.Controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,9 +24,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.api.client.auth.openidconnect.IdToken.Payload;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.gson.GsonFactory;
+import com.vux.example.RegisterLogin.Converter.UserConvert;
 import com.vux.example.RegisterLogin.Entity.RoleEntity;
 import com.vux.example.RegisterLogin.Entity.UserEntity;
 import com.vux.example.RegisterLogin.Jwt.JwtTokenUtil;
+import com.vux.example.RegisterLogin.Payload.Request.AccessGoogleRequest;
 import com.vux.example.RegisterLogin.Payload.Request.LoginRequest;
 import com.vux.example.RegisterLogin.Payload.Request.RegisterRequest;
 import com.vux.example.RegisterLogin.Payload.Response.JwtResponse;
@@ -35,6 +45,20 @@ import com.vux.example.RegisterLogin.lib.Password;
 @RestController
 @RequestMapping("/api")
 public class AuthController {
+	
+	@Value("${google.client-id.spring}") //lay gia tri tu file .properties
+	private String clientIdSpring;
+	
+	@Value("${google.client-id.android}") 
+	private String clientIdAndroid;
+	@Value("${google.client-id.ios}") 
+	private String clientIdIos;
+	@Value("${google.client-id.expo}") 
+	private String clientIdExpo;
+	@Value("${google.client-id.web}") 
+	private String clientIdWeb;
+	
+	
 	@Autowired
 	private AuthenticationManager authManager;
 	
@@ -42,9 +66,58 @@ public class AuthController {
 	private UserService userService;
 	
 	@Autowired
-	private JwtTokenUtil jwtUtil;
+	private UserConvert userConvert;
 	
+	@Autowired
+	private JwtTokenUtil jwtUtil;	
 
+	@PostMapping("/auth/google/verify")
+	//public ResponseEntity<?> getEmail(@RequestHeader String idToken){
+	public ResponseEntity<?> getEmail(@RequestBody AccessGoogleRequest idToken){
+		try {
+			NetHttpTransport transport = new NetHttpTransport();
+			JsonFactory jsonFactory = new GsonFactory();
+
+			GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
+			  //.setAudience(Collections.singletonList(clientId))
+					.setAudience(Arrays.asList(
+							clientIdAndroid,
+							clientIdIos,
+							clientIdExpo,
+							clientIdSpring,
+							clientIdWeb))
+					.setIssuer("https://accounts.google.com")
+					.build();
+
+            GoogleIdToken googleIdToken = verifier.verify(idToken.getIdToken());
+            if (googleIdToken != null) {
+                Payload payload = googleIdToken.getPayload();
+                //String userId = payload.getSubject();
+                String email = (String)payload.get("email");
+                System.out.println(email);
+                // Additional validation or user handling can be done here
+                UserEntity user = userConvert.accountToEntity(payload);
+                
+                String accessToken = jwtUtil.generateAccessToken(user);
+        		String refreshToken = jwtUtil.generateRefreshToken(user);
+        		List<String> roles = user.getRolesToString();
+                
+        		return ResponseEntity.ok(new JwtResponse( 
+                        user.getId(), 
+                        user.getUsername(), 
+                        user.getEmail(), 
+                        roles,
+                        accessToken,
+                        refreshToken));
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid ID Token.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error while verifying ID Token.");
+        }
+	}
+	
 	@PostMapping("/auth/login")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 		System.out.println(loginRequest.getUsername());

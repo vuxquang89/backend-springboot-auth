@@ -89,12 +89,15 @@ public class SecurityConfig {
 			.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 			.authorizeRequests()
-				.antMatchers("/api/auth/login", 
+				.antMatchers("/api/auth/login",
+						"/api/auth/google/verify",
 						"/api/auth/register", 
 						"/api/token/refresh").permitAll()
 				.antMatchers("/upload/**").permitAll()
 				.anyRequest().authenticated()
 			.and()
+			.formLogin().permitAll()
+				.and().oauth2Login(oc -> oc.defaultSuccessUrl("/api/google"))
 			.authenticationProvider(authenticationProvider());
 		
 		
