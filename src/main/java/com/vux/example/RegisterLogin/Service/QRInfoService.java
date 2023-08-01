@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.vux.example.RegisterLogin.Entity.QRInfoEntity;
@@ -27,7 +28,12 @@ public class QRInfoService implements QRInfoServiceImpl{
 	
 	@Override
 	public List<QRInfoEntity> getAllByUsername(String username) {
-		return qrInfoRepo.findByCreatedBy(username);
+		return qrInfoRepo.findByCreatedByOrderByCreatedDateDesc(username);
+	}
+	
+	@Override
+	public List<QRInfoEntity> getAllByUsernameWithPage(String username, Pageable pageable) {
+		return qrInfoRepo.findByCreatedByOrderByCreatedDateDesc(username, pageable).getContent();
 	}
 	
 	@Override

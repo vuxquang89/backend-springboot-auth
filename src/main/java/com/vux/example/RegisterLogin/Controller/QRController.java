@@ -8,6 +8,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -57,12 +59,23 @@ public class QRController {
 	
 
 	@GetMapping("/qr")
-	public ResponseEntity<?> getData(HttpServletRequest request){
+	public ResponseEntity<?> getData(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "limit", required = false) Integer limit,
+			HttpServletRequest request){
 		String token = jwtTokenUtil.getToken(request);
 		String username = jwtTokenUtil.getUserNameFromJwtSubject(token);
 		
 		System.out.println("get QR Info");
-		List<QRInfoEntity> qrInfos = qrInfoService.getAllByUsername(username);
+		
+		if(page == null && limit == null) { //required = false => cho phep kiem tra param
+			page = 1;
+			limit = 10;
+		}
+		Pageable pageable = PageRequest.of(page - 1, limit);
+		
+		//List<QRInfoEntity> qrInfos = qrInfoService.getAllByUsername(username);
+		List<QRInfoEntity> qrInfos = qrInfoService.getAllByUsernameWithPage(username, pageable);
 		List<QRResponse> result = new ArrayList<QRResponse>();
 		for(QRInfoEntity entity : qrInfos) {
 			QRResponse response = qrConvert.toResponse(entity);
