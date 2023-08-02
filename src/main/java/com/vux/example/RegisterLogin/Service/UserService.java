@@ -21,6 +21,21 @@ public class UserService implements UserServiceImpl{
 	}
 	
 	@Override
+	public Boolean existsByEmail(String email) {
+		return userRepository.existsByEmail(email);
+	}
+	
+	@Override
+	public Boolean existsByUsername(String username) {
+		return userRepository.existsByUsername(username);
+	}
+	
+	@Override
+	public Optional<UserEntity> findUserByEmail(String email) {
+		return userRepository.findByEmail(email);
+	}
+	
+	@Override
 	public UserEntity save(UserEntity user) {
 		return userRepository.save(user);
 	}

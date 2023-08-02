@@ -38,6 +38,7 @@ import com.vux.example.RegisterLogin.Payload.Request.AccessGoogleRequest;
 import com.vux.example.RegisterLogin.Payload.Request.LoginRequest;
 import com.vux.example.RegisterLogin.Payload.Request.RegisterRequest;
 import com.vux.example.RegisterLogin.Payload.Response.JwtResponse;
+import com.vux.example.RegisterLogin.Payload.Response.ResponseMessage;
 import com.vux.example.RegisterLogin.Service.UserService;
 import com.vux.example.RegisterLogin.lib.Password;
 
@@ -146,6 +147,15 @@ public class AuthController {
 	
 	@PostMapping("/auth/register")
 	public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request){
+		
+		if(userService.existsByUsername(request.getUsername())) {			
+			return ResponseEntity.ok(new ResponseMessage(201, "Username already exists!"));
+		}
+		
+		if(userService.existsByEmail(request.getEmail())) {
+			return ResponseEntity.ok(new ResponseMessage(201, "Email already exists!"));
+		}
+		
 		UserEntity user = new UserEntity();
 		user.setEmail(request.getEmail());
 		user.setUsername(request.getUsername());
