@@ -184,6 +184,29 @@ public class AuthController {
 		                         accessToken,
 		                         refreshToken));
 	}
+	
+	@PostMapping("/auth/logout")
+	public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response){
+		String header = request.getHeader("Authorization");
+		if(ObjectUtils.isEmpty(header) || !header.startsWith("Bearer")) {
+			throw new RuntimeException("Token is missing");
+		}else {
+			try {
+				String token = header.split(" ")[1].trim();
+				ResponseMessage responseMessage = new ResponseMessage();
+				if(jwtUtil.validateToken(token, response)) {
+					responseMessage.setStatus(200);
+					responseMessage.setMessage("");
+				}else {
+					responseMessage.setStatus(201);
+					responseMessage.setMessage("");
+				}
+				return ResponseEntity.ok(responseMessage);
+			}catch (Exception e) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+			}
+		}
+	}
 
 	@PostMapping("/token/refresh")
 	public ResponseEntity<?> refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException{

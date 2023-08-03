@@ -35,6 +35,7 @@ public class JwtTokenFilter extends OncePerRequestFilter{
 			FilterChain filterChain
 	)throws ServletException, IOException {
 		if(request.getServletPath().equals("/api/auth/login") || 
+				request.getServletPath().equals("/api/auth/logout") ||
 				request.getServletPath().equals("/api/token/refresh") ||
 				request.getServletPath().equals("/api/auth/register") ||
 				request.getServletPath().equals("/api/auth/user/google")) {

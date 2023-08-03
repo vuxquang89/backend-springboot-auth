@@ -90,6 +90,7 @@ public class SecurityConfig {
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 			.authorizeRequests()
 				.antMatchers("/api/auth/login",
+						"/api/auth/logout",
 						"/api/auth/google/verify",
 						"/api/auth/register", 
 						"/api/token/refresh").permitAll()
