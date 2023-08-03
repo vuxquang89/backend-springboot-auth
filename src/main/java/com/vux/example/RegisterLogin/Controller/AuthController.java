@@ -166,7 +166,7 @@ public class AuthController {
 		UserEntity saveUser = userService.save(user);
 		String accessToken = jwtUtil.generateAccessToken(saveUser);
 		String refreshToken = jwtUtil.generateRefreshToken(saveUser);
-		List<String> roles = new ArrayList<String>();
+		List<String> roles = user.getRolesToString();
 		//for (RoleEntity role : user.getRoles()) {
 		//	roles.add(role.getName().name());
 		//}
@@ -191,9 +191,10 @@ public class AuthController {
 		if(ObjectUtils.isEmpty(header) || !header.startsWith("Bearer")) {
 			throw new RuntimeException("Token is missing");
 		}else {
+			ResponseMessage responseMessage = new ResponseMessage();
 			try {
 				String token = header.split(" ")[1].trim();
-				ResponseMessage responseMessage = new ResponseMessage();
+				
 				if(jwtUtil.validateToken(token, response)) {
 					responseMessage.setStatus(200);
 					responseMessage.setMessage("");
@@ -201,10 +202,14 @@ public class AuthController {
 					responseMessage.setStatus(201);
 					responseMessage.setMessage("");
 				}
-				return ResponseEntity.ok(responseMessage);
+				
 			}catch (Exception e) {
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+				//return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+				responseMessage.setStatus(202);
+				responseMessage.setMessage(e.getMessage());
+				return ResponseEntity.ok(responseMessage);
 			}
+			return ResponseEntity.ok(responseMessage);
 		}
 	}
 

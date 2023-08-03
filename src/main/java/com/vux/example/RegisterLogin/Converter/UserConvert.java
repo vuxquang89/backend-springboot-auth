@@ -11,7 +11,7 @@ public class UserConvert {
 
 	public UserEntity accountToEntity(Payload payload) {
 		UserEntity entity = new UserEntity();
-		entity.setId(Long.valueOf(payload.getSubject()));
+		entity.setId(102L);
 		entity.setUsername((String)payload.get("email"));
 		entity.setEmail((String)payload.get("email"));
 		entity.addRole(new RoleEntity("ROLE_USER"));

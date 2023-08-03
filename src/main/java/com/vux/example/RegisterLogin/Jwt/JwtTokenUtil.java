@@ -31,8 +31,8 @@ import io.jsonwebtoken.UnsupportedJwtException;
 public class JwtTokenUtil {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenUtil.class);
-	private static final long EXPIRE_DURATION_ACCESS_TOKEN = 2 * 60 * 1000; //10m
-	private static final long EXPIRE_DURATION_REFRESH_TOKEN = 30 * 60 * 1000; //30m
+	private static final long EXPIRE_DURATION_ACCESS_TOKEN = 10 * 60 * 1000; //10m
+	private static final long EXPIRE_DURATION_REFRESH_TOKEN = 7 * 24 * 60 * 60 * 1000; //7 day
 	
 	@Value("${app.jwt.secret}") //lay gia tri tu file .properties
 	private String secretKey;
@@ -69,11 +69,13 @@ public class JwtTokenUtil {
 	 */
 	public boolean validateToken(String token, HttpServletResponse response) throws StreamWriteException, DatabindException, IOException {
 		String exMessage = "";
+		String status = "failed";
 		try {
 			Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
 			return true;
 		}catch(ExpiredJwtException ex) {
 			exMessage = ex.getMessage();
+			status = "202";
 			LOGGER.error("JWT expired", ex);
 		}catch (IllegalArgumentException ex) {
 			exMessage = ex.getMessage();
@@ -92,6 +94,7 @@ public class JwtTokenUtil {
 		Map<String, String> error = new HashMap<String, String>();
 		
 		error.put("error_message", exMessage);
+		error.put("status", status);
 		new ObjectMapper().writeValue(response.getOutputStream(), error);
 		
 		return false;
