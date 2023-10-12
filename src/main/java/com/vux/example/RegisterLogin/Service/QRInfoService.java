@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.vux.example.RegisterLogin.Entity.QRImageEntity;
 import com.vux.example.RegisterLogin.Entity.QRInfoEntity;
 import com.vux.example.RegisterLogin.Repo.QRInfoRepository;
 import com.vux.example.RegisterLogin.Service.impl.QRInfoServiceImpl;
@@ -20,6 +21,9 @@ public class QRInfoService implements QRInfoServiceImpl{
 
 	@Autowired
 	private QRInfoRepository qrInfoRepo;
+	
+	@Autowired
+	private QRImageService qrImageService;
 	
 	@Override
 	public List<QRInfoEntity> getAll() {
@@ -45,11 +49,14 @@ public class QRInfoService implements QRInfoServiceImpl{
 	public boolean delete(long id, String uri) {
 		
 		try {
-			boolean existed = deleteFile(uri);
-			if(existed) {
-				qrInfoRepo.deleteById(id);
-				return true;
+			List<QRImageEntity> listQRImage = qrImageService.getQRImageById(id);
+			for(QRImageEntity qrImage : listQRImage) {
+				deleteFile(qrImage.getPathName() + "/" + qrImage.getFileName());
+				deleteFile(qrImage.getPathName() + "/" + qrImage.getFileNameResize());
 			}
+			
+			qrInfoRepo.deleteById(id);
+			return true;
 		}catch (Exception e) {
 			System.out.println("Delete Error: " + e.getMessage());
 		}

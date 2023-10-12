@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,7 +30,6 @@ import com.vux.example.RegisterLogin.Entity.QRInfoEntity;
 import com.vux.example.RegisterLogin.Exception.BaseException;
 import com.vux.example.RegisterLogin.Jwt.JwtTokenUtil;
 import com.vux.example.RegisterLogin.Payload.Request.QRInfoRequest;
-import com.vux.example.RegisterLogin.Payload.Request.QRItemRequest;
 import com.vux.example.RegisterLogin.Payload.Response.QRResponse;
 import com.vux.example.RegisterLogin.Payload.Response.ResponseMessage;
 import com.vux.example.RegisterLogin.Service.QRImageService;
@@ -97,18 +95,20 @@ public class QRController {
 		
 	}
 	
-	@DeleteMapping("/qr")
+	@DeleteMapping("/qr/{id}")
 	public ResponseEntity<?> deleteById(
-			@RequestBody QRItemRequest request){
+			//@RequestBody QRItemRequest request){
+			@PathVariable Long id){
 		
 		String message = "";
-		boolean isDelete = qrInfoService.delete(request.getId(), request.getUri());
+		//boolean isDelete = qrInfoService.delete(request.getId(), request.getUri());
+		boolean isDelete = qrInfoService.delete(id, "");
 		if(isDelete) {
 			message = "Delete the file successfully";
-			return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+			return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(200, message));
 		}
 		message = "The file does not exits!";
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseMessage(message));
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseMessage(201, message));
 		
 	}
 	
