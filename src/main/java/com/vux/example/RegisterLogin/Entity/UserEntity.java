@@ -9,11 +9,15 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.vux.example.RegisterLogin.Entity.HubDevice.HubEntity;
 
 
 @Entity// Đánh dấu đây là table trong db
@@ -33,7 +37,13 @@ public class UserEntity extends BaseEntity implements UserDetails{
 
 	@Column
 	private String password;
-
+	
+	@Column
+	private String fullname;
+	
+	@Column
+	@Pattern(regexp = "(\\+84|0)[0-9]{9}")
+	private String phone;
 	
 	@ManyToMany
 	@JoinTable(name = "user_role", 
@@ -43,6 +53,9 @@ public class UserEntity extends BaseEntity implements UserDetails{
 	
 	@Column
 	private Integer status;
+	
+	@OneToMany(mappedBy="personnelChargeName")
+	private List<HubEntity> hubs;
 
 	public void setUsername(String username) {
 		this.username = username;
@@ -81,8 +94,22 @@ public class UserEntity extends BaseEntity implements UserDetails{
 	public void addRole(RoleEntity role) {
         this.roles.add(role);
     }
-	
-	
+
+	public String getFullname() {
+		return fullname;
+	}
+
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 
 	public String getEmail() {
 		return email;
@@ -90,6 +117,14 @@ public class UserEntity extends BaseEntity implements UserDetails{
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public List<HubEntity> getHubs() {
+		return hubs;
+	}
+
+	public void setHubs(List<HubEntity> hubs) {
+		this.hubs = hubs;
 	}
 
 	/*
