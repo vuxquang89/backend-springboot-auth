@@ -21,7 +21,7 @@ import com.vux.example.RegisterLogin.Entity.HubDevice.HubEntity;
 
 
 @Entity// Đánh dấu đây là table trong db
-@Table(name = "user")
+@Table(name = "`user`")
 public class UserEntity extends BaseEntity implements UserDetails{
 
 	/**

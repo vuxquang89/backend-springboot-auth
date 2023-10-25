@@ -25,6 +25,9 @@ public class WebConfig implements WebMvcConfigurer{
         .allowedOrigins(allowedOrigins)
         .allowedMethods("HEAD", "OPTIONS", "GET", "POST", "PUT", "PATCH", "DELETE")
         .maxAge(MAX_AGE_SECS);
+//        .allowedHeaders("*")
+//        .exposedHeaders("Authorization")
+//        .allowCredentials(true);
     }
     
     @Override
