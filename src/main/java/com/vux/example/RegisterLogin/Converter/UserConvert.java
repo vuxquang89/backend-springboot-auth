@@ -9,6 +9,7 @@ import com.google.api.client.auth.openidconnect.IdToken.Payload;
 import com.vux.example.RegisterLogin.Entity.RoleEntity;
 import com.vux.example.RegisterLogin.Entity.UserEntity;
 import com.vux.example.RegisterLogin.Payload.Request.UserRequest;
+import com.vux.example.RegisterLogin.Payload.Response.OptionSelectResponse;
 import com.vux.example.RegisterLogin.Payload.Response.UserResponse;
 import com.vux.example.RegisterLogin.lib.Password;
 
@@ -61,6 +62,14 @@ public class UserConvert {
 		}
 				
 		return entity;
+	}
+	
+	public OptionSelectResponse toOptionSelect(UserEntity entity) {
+		OptionSelectResponse response = new OptionSelectResponse();
+		response.setName("userId");
+		response.setValue(entity.getId().toString());
+		response.setLabel(entity.getFullname());
+		return response;
 	}
 	
 }

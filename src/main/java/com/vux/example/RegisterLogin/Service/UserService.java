@@ -74,4 +74,22 @@ public class UserService implements UserServiceImpl{
 		}
 		return responses;
 	}
+	@Override
+	public List<UserResponse> getUserRole(int roleId) {
+		List<UserEntity> entities = userRepository.findUserManager(roleId);
+		List<UserResponse> responses = new ArrayList<UserResponse>();
+		for(UserEntity entity : entities) {
+			if(!entity.getUsername().equalsIgnoreCase("admin")) {
+				responses.add(userConvert.toResponse(entity));
+			}
+		}
+		return responses;
+	}
+	
+	@Override
+	public List<UserEntity> getUserEntityRole(int roleId) {
+		List<UserEntity> entities = userRepository.findUserManager(roleId);
+		
+		return entities;
+	}
 }

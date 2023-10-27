@@ -11,5 +11,6 @@ public interface BranchServiceImpl {
 	public BranchEntity save(BranchEntity entity);
 	public boolean delete(String id);
 	public BranchResponse findBranchById(String branchId);
+	public BranchEntity findByBranchId(String branchId);
 	
 }

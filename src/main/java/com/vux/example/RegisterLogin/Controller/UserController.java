@@ -1,5 +1,6 @@
 package com.vux.example.RegisterLogin.Controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import com.vux.example.RegisterLogin.Converter.UserConvert;
 import com.vux.example.RegisterLogin.Entity.RoleEntity;
 import com.vux.example.RegisterLogin.Entity.UserEntity;
 import com.vux.example.RegisterLogin.Payload.Request.UserRequest;
+import com.vux.example.RegisterLogin.Payload.Response.OptionSelectResponse;
 import com.vux.example.RegisterLogin.Payload.Response.UserResponse;
 import com.vux.example.RegisterLogin.Payload.Response.UserResponseStatus;
 import com.vux.example.RegisterLogin.Service.UserService;
@@ -122,5 +124,22 @@ public class UserController {
 		if(result)
 			return ResponseEntity.status(HttpStatus.OK).body(result);
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
+	}
+	
+	@GetMapping("/users/role/{roleId}")
+	public ResponseEntity<?> getUserRole(@PathVariable("roleId") int roleId){
+		
+		List<UserResponse> responses = userService.getUserRole(roleId);
+		return ResponseEntity.status(HttpStatus.OK).body(responses);
+	}
+	
+	@GetMapping("/users/role/selectoption/{roleId}")
+	public ResponseEntity<?> getUserRoleOptionSelect(@PathVariable("roleId") int roleId){
+		List<UserEntity> entities = userService.getUserEntityRole(roleId);
+		List<OptionSelectResponse> responses = new ArrayList<>();
+		for(UserEntity entity : entities) {
+			responses.add(userConvert.toOptionSelect(entity));
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(responses);
 	}
 }

@@ -20,7 +20,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.vux.example.RegisterLogin.Entity.HubDevice.HubEntity;
 
 
-@Entity// Đánh dấu đây là table trong db
+@Entity(name = "user")// Đánh dấu đây là table trong db
 @Table(name = "`user`")
 public class UserEntity extends BaseEntity implements UserDetails{
 

@@ -46,4 +46,8 @@ public class BranchService implements BranchServiceImpl {
 			response = convert.toResponse(entity);
 		return response;
 	}
+	@Override
+	public BranchEntity findByBranchId(String branchId) {
+		return branchRepository.findBranchByBranchId(branchId).orElse(null);
+	}
 }

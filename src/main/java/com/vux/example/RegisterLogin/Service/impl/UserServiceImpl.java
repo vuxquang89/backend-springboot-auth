@@ -18,6 +18,8 @@ public interface UserServiceImpl {
 	
 	UserEntity save(UserEntity user);
 	List<UserResponse> getAll();
+	List<UserResponse> getUserRole(int roleId);
+	List<UserEntity> getUserEntityRole(int roleId);
 	boolean delete(long id);
 	
 }
