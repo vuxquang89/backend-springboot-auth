@@ -16,6 +16,10 @@ public class DeviceEntity extends BaseEntity{
 	@Column(name = "device_name")
 	private String deviceName;
 	
+	@Column(name = "background_color")
+	private String backgroundColor;
+	
+	
 	@OneToMany(mappedBy = "device")
 	private List<HubDetailEntity> hubDetails;
 
@@ -33,6 +37,14 @@ public class DeviceEntity extends BaseEntity{
 
 	public void setHubDetails(List<HubDetailEntity> hubDetails) {
 		this.hubDetails = hubDetails;
+	}
+
+	public String getBackgroundColor() {
+		return backgroundColor;
+	}
+
+	public void setBackgroundColor(String backgroundColor) {
+		this.backgroundColor = backgroundColor;
 	}
 	
 	

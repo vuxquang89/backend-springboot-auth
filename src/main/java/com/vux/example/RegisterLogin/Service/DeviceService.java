@@ -1,6 +1,7 @@
 package com.vux.example.RegisterLogin.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,9 @@ public class DeviceService implements DeviceServiceImpl {
 		
 		return deviceRepository.save(device);
 	}
-	
+	@Override
+	public Optional<DeviceEntity> findById(Long deviceId) {
+		return deviceRepository.findById(deviceId);
+	}
 	
 }

@@ -1,6 +1,6 @@
 package com.vux.example.RegisterLogin.Entity.HubDevice;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,7 +19,7 @@ public class MaintenanceHistoryEntity extends BaseEntity{
 	private HubDetailEntity hubDetail;
 	
 	@Column(name = "maintenance_time")
-	private LocalDateTime maintenanceTime;
+	private LocalDate maintenanceTime;
 	
 	@Column(name = "maintenance_note")
 	private String maintenanceNote;
@@ -32,11 +32,11 @@ public class MaintenanceHistoryEntity extends BaseEntity{
 		this.hubDetail = hubDetail;
 	}
 
-	public LocalDateTime getMaintenanceTime() {
+	public LocalDate getMaintenanceTime() {
 		return maintenanceTime;
 	}
 
-	public void setMaintenanceTime(LocalDateTime maintenanceTime) {
+	public void setMaintenanceTime(LocalDate maintenanceTime) {
 		this.maintenanceTime = maintenanceTime;
 	}
 
