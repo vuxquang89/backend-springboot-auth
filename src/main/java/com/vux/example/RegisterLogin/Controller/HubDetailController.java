@@ -24,6 +24,7 @@ import com.vux.example.RegisterLogin.Entity.HubDevice.HubEntity;
 import com.vux.example.RegisterLogin.Entity.HubDevice.MaintenanceHistoryEntity;
 import com.vux.example.RegisterLogin.Payload.Request.HubDetailRequest;
 import com.vux.example.RegisterLogin.Payload.Response.HubDetailResponse;
+import com.vux.example.RegisterLogin.Payload.Response.HubDetailResponseStatus;
 import com.vux.example.RegisterLogin.Service.DeviceService;
 import com.vux.example.RegisterLogin.Service.HubDetailService;
 import com.vux.example.RegisterLogin.Service.HubService;
@@ -51,6 +52,20 @@ public class HubDetailController {
 	public ResponseEntity<?> getAll(){
 		List<HubDetailResponse> hubDetailResponses = hubDetailService.getAll();
 		return ResponseEntity.status(HttpStatus.OK).body(hubDetailResponses);
+	}
+	
+	@GetMapping("/hub/detail/{hubDetailId}")
+	public ResponseEntity<?> getHubDetailById(@PathVariable("hubDetailId") Long hubDetailId){
+		HubDetailEntity entity = hubDetailService.findById(hubDetailId).orElse(null);
+		HubDetailResponseStatus responseStatus = new HubDetailResponseStatus();
+		responseStatus.setStatus(100);
+		if(entity != null) {
+			HubDetailResponse response = hubDetailConvert.toResponse(entity);
+			responseStatus.setResponse(response);
+		}else {
+			responseStatus.setStatus(101);
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(responseStatus);
 	}
 	
 	@PostMapping("/hub/detail")
