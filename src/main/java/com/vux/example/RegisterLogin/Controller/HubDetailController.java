@@ -3,8 +3,6 @@ package com.vux.example.RegisterLogin.Controller;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,7 +29,6 @@ import com.vux.example.RegisterLogin.Service.HubDetailService;
 import com.vux.example.RegisterLogin.Service.HubService;
 import com.vux.example.RegisterLogin.Service.MaintenanceHistoryService;
 
-import ch.qos.logback.core.joran.conditional.IfAction;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -95,9 +93,53 @@ public class HubDetailController {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("NOT");
 	}
 	
+	@PutMapping("/hub/detail/{hubDetailId}")
+	public ResponseEntity<?> editDeviceForHubDetail(
+			@PathVariable("hubDetailId") Long hubDetailId,
+			@RequestBody HubDetailRequest request){
+		
+		HubDetailEntity entity = hubDetailService.findById(hubDetailId).orElse(null);
+		
+		if(entity != null) {
+			entity = hubDetailConvert.toUpdateEntity(entity, request);
+			
+			entity = hubDetailService.save(entity);
+			
+			HubDetailResponse response = hubDetailConvert.toResponse(entity);
+			return ResponseEntity.status(HttpStatus.OK).body(response);
+		}
+		
+		
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("NOT");
+	}
+	
 	@DeleteMapping("/hub/detail/{hubDetailId}")
 	public ResponseEntity<?> delete(@PathVariable("hubDetailId") Long hubDetailId){
 		boolean result = hubDetailService.delete(hubDetailId);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
+	
+	/**
+	 * switch hub
+	 */
+	@PutMapping("/hub/detail/switch/{hubDetailId}")
+	public ResponseEntity<?> editSwitchHub(
+			@PathVariable("hubDetailId") Long hubDetailId,
+			@RequestBody HubDetailRequest request){
+		
+		HubDetailEntity entity = hubDetailService.findById(hubDetailId).orElse(null);
+		HubEntity hubEntity = hubService.findByHubId(request.getHubId());
+		if(entity != null && hubEntity.getHubId() != null) {
+			
+			entity.setHubEntity(hubEntity);
+			
+			entity = hubDetailService.save(entity);
+			
+			HubDetailResponse response = hubDetailConvert.toResponse(entity);
+			return ResponseEntity.status(HttpStatus.OK).body(response);
+		}
+		
+		
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("NOT");
 	}
 }

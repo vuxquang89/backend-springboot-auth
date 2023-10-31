@@ -1,6 +1,6 @@
 package com.vux.example.RegisterLogin.Payload.Response;
 
-public class BranchSelectResponse {
+public class SelectResponse {
 
 	private String value;
 	private String label;

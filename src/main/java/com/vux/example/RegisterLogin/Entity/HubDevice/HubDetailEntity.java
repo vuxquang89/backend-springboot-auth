@@ -64,10 +64,18 @@ public class HubDetailEntity extends BaseEntity{
 	private String number;//số lượng
 	
 	@Column(name = "current_status")
-	private String currentStatus;
+	private String currentStatus;//hien trang
 	
 	@Column(name = "latest_maintenance_time")
-	private LocalDate latestMaintenanceTime;
+	private LocalDate latestMaintenanceTime;//ngay bao duong gan nhat
+	
+	@Column(name="date_now")
+	private LocalDate dateNow;
+	
+	@Column(name = "date_maintenance")
+	private Integer dateMaintenance;//so ngay can bao duong
+	@Column(name = "alarm_maintenance")
+	private Integer alarmMaintenance;//trang thai thong bao canbao duong
 	
 	/*
 	 * //trạng thái bảo dưỡng=> 
@@ -221,6 +229,30 @@ public class HubDetailEntity extends BaseEntity{
 
 	public void setLatestMaintenanceTime(LocalDate latestMaintenanceTime) {
 		this.latestMaintenanceTime = latestMaintenanceTime;
+	}
+
+	public LocalDate getDateNow() {
+		return dateNow;
+	}
+
+	public void setDateNow(LocalDate dateNow) {
+		this.dateNow = dateNow;
+	}
+
+	public Integer getDateMaintenance() {
+		return dateMaintenance;
+	}
+
+	public void setDateMaintenance(Integer dateMaintenance) {
+		this.dateMaintenance = dateMaintenance;
+	}
+
+	public Integer getAlarmMaintenance() {
+		return alarmMaintenance;
+	}
+
+	public void setAlarmMaintenance(Integer alarmMaintenance) {
+		this.alarmMaintenance = alarmMaintenance;
 	}
 	
 }

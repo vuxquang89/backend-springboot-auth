@@ -21,7 +21,7 @@ import com.vux.example.RegisterLogin.Entity.HubDevice.BranchEntity;
 import com.vux.example.RegisterLogin.Payload.Request.BranchRequest;
 import com.vux.example.RegisterLogin.Payload.Response.BranchResponse;
 import com.vux.example.RegisterLogin.Payload.Response.BranchResponseStatus;
-import com.vux.example.RegisterLogin.Payload.Response.BranchSelectResponse;
+import com.vux.example.RegisterLogin.Payload.Response.SelectResponse;
 import com.vux.example.RegisterLogin.Service.BranchService;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -48,7 +48,7 @@ public class BranchController {
 	@GetMapping("/branch/list")
 	public ResponseEntity<?> getBranchList(){
 		List<BranchEntity> entities = branchService.getAll();
-		List<BranchSelectResponse> results = new ArrayList<>();
+		List<SelectResponse> results = new ArrayList<>();
 		for(BranchEntity entity : entities) {
 			results.add(branchConvert.toBranchSelect(entity));
 		}

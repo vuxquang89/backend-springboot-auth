@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class MaintenanceHistoryRequest {
 
 	private long hubDetailId;
-	private LocalDate maintenanceTime;
+	private String maintenanceTime;
 	private String maintenanceNote;
 	public long getHubDetailId() {
 		return hubDetailId;
@@ -13,10 +13,10 @@ public class MaintenanceHistoryRequest {
 	public void setHubDetailId(long hubDetailId) {
 		this.hubDetailId = hubDetailId;
 	}
-	public LocalDate getMaintenanceTime() {
+	public String getMaintenanceTime() {
 		return maintenanceTime;
 	}
-	public void setMaintenanceTime(LocalDate maintenanceTime) {
+	public void setMaintenanceTime(String maintenanceTime) {
 		this.maintenanceTime = maintenanceTime;
 	}
 	public String getMaintenanceNote() {

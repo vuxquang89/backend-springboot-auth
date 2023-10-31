@@ -2,11 +2,13 @@ package com.vux.example.RegisterLogin.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.vux.example.RegisterLogin.Converter.MaintenanceHistoryConvert;
+import com.vux.example.RegisterLogin.Entity.HubDevice.HubDetailEntity;
 import com.vux.example.RegisterLogin.Entity.HubDevice.MaintenanceHistoryEntity;
 import com.vux.example.RegisterLogin.Payload.Response.MaintenanceHistoryResponse;
 import com.vux.example.RegisterLogin.Repo.MaintenanceHistoryRepository;
@@ -19,6 +21,7 @@ public class MaintenanceHistoryService implements MaintenanceHistoryServiceImpl 
 	private MaintenanceHistoryRepository repository;
 	@Autowired
 	private MaintenanceHistoryConvert convert;
+	
 	
 	@Override
 	public MaintenanceHistoryEntity save(MaintenanceHistoryEntity entity) {
@@ -53,6 +56,22 @@ public class MaintenanceHistoryService implements MaintenanceHistoryServiceImpl 
 			responses.add(convert.toResponse(entity));
 		}
 		return responses;
+	}
+	
+	@Override
+	public List<MaintenanceHistoryResponse> findByHubDetailId(Long hubDetailId) {
+		
+		List<MaintenanceHistoryEntity> entities = repository.findByHubDetailIdByOrderByMaintenanceTimeDesc(hubDetailId);		
+		List<MaintenanceHistoryResponse> responses = new ArrayList<MaintenanceHistoryResponse>();
+		for(MaintenanceHistoryEntity entity : entities) {
+			responses.add(convert.toResponse(entity));
+		}
+		return responses;
+	}
+	
+	@Override
+	public Optional<MaintenanceHistoryEntity> findById(Long id) {
+		return repository.findById(id);
 	}
 
 }

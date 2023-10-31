@@ -10,6 +10,7 @@ import com.vux.example.RegisterLogin.Entity.HubDevice.HubEntity;
 import com.vux.example.RegisterLogin.Payload.Request.HubRequest;
 
 import com.vux.example.RegisterLogin.Payload.Response.HubResponse;
+import com.vux.example.RegisterLogin.Payload.Response.SelectResponse;
 
 @Component
 public class HubConvert {
@@ -59,5 +60,18 @@ public class HubConvert {
 		entity.setHubManagerName(request.getHubManagerName());
 		entity.setHubManagerPhone(request.getHubManagerPhone());
 		return entity;
+	}
+	
+	public SelectResponse toHubSelect(HubEntity entity) {
+		SelectResponse branchSelectResponse = new SelectResponse();
+		branchSelectResponse.setValue(entity.getHubId());
+		branchSelectResponse.setLabel(entity.getHubName());
+		return branchSelectResponse;
+	}
+	public SelectResponse toHubSelect(HubResponse response) {
+		SelectResponse branchSelectResponse = new SelectResponse();
+		branchSelectResponse.setValue(response.getHubId());
+		branchSelectResponse.setLabel(response.getHubName());
+		return branchSelectResponse;
 	}
 }

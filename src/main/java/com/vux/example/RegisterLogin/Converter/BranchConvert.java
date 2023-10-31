@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import com.vux.example.RegisterLogin.Entity.HubDevice.BranchEntity;
 import com.vux.example.RegisterLogin.Payload.Request.BranchRequest;
 import com.vux.example.RegisterLogin.Payload.Response.BranchResponse;
-import com.vux.example.RegisterLogin.Payload.Response.BranchSelectResponse;
+import com.vux.example.RegisterLogin.Payload.Response.SelectResponse;
 
 @Component
 public class BranchConvert {
@@ -32,8 +32,8 @@ public class BranchConvert {
 		return entity;
 	}
 	
-	public BranchSelectResponse toBranchSelect(BranchEntity entity) {
-		BranchSelectResponse branchSelectResponse = new BranchSelectResponse();
+	public SelectResponse toBranchSelect(BranchEntity entity) {
+		SelectResponse branchSelectResponse = new SelectResponse();
 		branchSelectResponse.setValue(entity.getBranchId());
 		branchSelectResponse.setLabel(entity.getBranchName());
 		return branchSelectResponse;

@@ -23,6 +23,7 @@ import com.vux.example.RegisterLogin.Entity.HubDevice.HubEntity;
 import com.vux.example.RegisterLogin.Payload.Request.HubRequest;
 import com.vux.example.RegisterLogin.Payload.Response.HubResponse;
 import com.vux.example.RegisterLogin.Payload.Response.HubResponseStatus;
+import com.vux.example.RegisterLogin.Payload.Response.SelectResponse;
 import com.vux.example.RegisterLogin.Service.BranchService;
 import com.vux.example.RegisterLogin.Service.HubService;
 import com.vux.example.RegisterLogin.Service.UserService;
@@ -58,6 +59,23 @@ public class HubController {
 			responses = hubService.findByBranchId(branchEntity);
 		}
 		return ResponseEntity.status(HttpStatus.OK).body(responses);
+	}
+	
+	
+	@GetMapping("/hub/list/branch/{branchId}")
+	public ResponseEntity<?> getHubByBranchToSelect(
+			@PathVariable("branchId") String branchId){
+		BranchEntity branchEntity = branchService.findByBranchId(branchId);
+		
+		List<SelectResponse> selectResponses = new ArrayList<>();
+		if(branchEntity.getBranchId() != null) {
+			List<HubResponse> hubResponses = hubService.findByBranchId(branchEntity);
+			for(HubResponse response : hubResponses) {
+				selectResponses.add(hubConvert.toHubSelect(response));
+			}
+			
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(selectResponses);
 	}
 	
 	@GetMapping("/hub/{hubId}")

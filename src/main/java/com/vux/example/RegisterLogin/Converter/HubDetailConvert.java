@@ -7,7 +7,6 @@ import com.vux.example.RegisterLogin.Entity.HubDevice.HubDetailEntity;
 import com.vux.example.RegisterLogin.Entity.HubDevice.MaintenanceHistoryEntity;
 import com.vux.example.RegisterLogin.Payload.Request.HubDetailRequest;
 import com.vux.example.RegisterLogin.Payload.Response.HubDetailResponse;
-import com.vux.example.RegisterLogin.Util.LocalDateConverter;
 
 @Component
 public class HubDetailConvert {
@@ -15,7 +14,36 @@ public class HubDetailConvert {
 	@Autowired
 	private MaintenanceConvert mainConvert;
 	
-	private LocalDateConverter localDateConverter;
+	//private LocalDateConverter localDateConverter;
+	
+	public HubDetailEntity toUpdateEntity(HubDetailEntity entity, HubDetailRequest request) {
+		entity.setTrademark(request.getTrademark());
+		
+		entity.setRatedPower(request.getRatedPower());
+		
+		entity.setLoadDuringPowerOutage(request.getLoadDuringPowerOutage());
+		
+		entity.setBatteryQuantity(request.getBatteryQuantity());
+		
+		entity.setBatteryNumber(request.getBatteryNumber());
+		
+		entity.setBatteryCapacity(request.getBatteryCapacity());
+		
+		entity.setProductionTime(request.getProductionTime());
+		
+		entity.setConductorType(request.getConductorType());
+		
+		entity.setCbPower(request.getCbPower());
+		
+		entity.setSchneider(request.getSchneider());
+		
+		entity.setYearInstall(request.getYearInstall());
+		
+		entity.setNumber(request.getNumber());
+		
+		entity.setCurrentStatus(request.getCurrentStatus());
+		return entity;
+	}
 	
 	public HubDetailEntity toEntity(HubDetailRequest request) {
 		HubDetailEntity entity = new HubDetailEntity();
