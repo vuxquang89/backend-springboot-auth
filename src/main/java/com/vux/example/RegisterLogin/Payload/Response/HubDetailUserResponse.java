@@ -1,10 +1,7 @@
 package com.vux.example.RegisterLogin.Payload.Response;
 
-import java.util.ArrayList;
-import java.util.List;
 
-
-public class HubDetailResponse {
+public class HubDetailUserResponse {
 
 	private long hubDetailId;
 	private Long deviceId;
@@ -46,119 +43,12 @@ public class HubDetailResponse {
 	private String currentStatus;
 	private String latestMaintenanceTime;
 	private Integer alarmMaintenanceStatus;
-	private List<MaintenanceResponse> maintenanceResponses = new ArrayList<MaintenanceResponse>();
-	
-	public void addMaintenanceResponse(MaintenanceResponse response) {
-		this.maintenanceResponses.add(response);
-	}
-	
-	public String getBackgroundColor() {
-		return backgroundColor;
-	}
-	public void setBackgroundColor(String backgroundColor) {
-		this.backgroundColor = backgroundColor;
-	}
+	private MaintenanceResponse maintenanceResponse = new MaintenanceResponse();
 	public long getHubDetailId() {
 		return hubDetailId;
 	}
 	public void setHubDetailId(long hubDetailId) {
 		this.hubDetailId = hubDetailId;
-	}
-	public List<MaintenanceResponse> getMaintenanceHistories() {
-		return maintenanceResponses;
-	}
-	public void setMaintenanceHistories(List<MaintenanceResponse> maintenanceResponses) {
-		this.maintenanceResponses = maintenanceResponses;
-	}
-	public String getTrademark() {
-		return trademark;
-	}
-	public void setTrademark(String trademark) {
-		this.trademark = trademark;
-	}
-	public String getRatedPower() {
-		return ratedPower;
-	}
-	public void setRatedPower(String ratedPower) {
-		this.ratedPower = ratedPower;
-	}
-	public String getLoadDuringPowerOutage() {
-		return loadDuringPowerOutage;
-	}
-	public void setLoadDuringPowerOutage(String loadDuringPowerOutage) {
-		this.loadDuringPowerOutage = loadDuringPowerOutage;
-	}
-	public String getBatteryQuantity() {
-		return batteryQuantity;
-	}
-	public void setBatteryQuantity(String batteryQuantity) {
-		this.batteryQuantity = batteryQuantity;
-	}
-	public String getBatteryNumber() {
-		return batteryNumber;
-	}
-	public void setBatteryNumber(String batteryNumber) {
-		this.batteryNumber = batteryNumber;
-	}
-	public String getBatteryCapacity() {
-		return batteryCapacity;
-	}
-	public void setBatteryCapacity(String batteryCapacity) {
-		this.batteryCapacity = batteryCapacity;
-	}
-	public String getProductionTime() {
-		return productionTime;
-	}
-	public void setProductionTime(String productionTime) {
-		this.productionTime = productionTime;
-	}
-	public String getConductorType() {
-		return conductorType;
-	}
-	public void setConductorType(String conductorType) {
-		this.conductorType = conductorType;
-	}
-	public String getCbPower() {
-		return cbPower;
-	}
-	public void setCbPower(String cbPower) {
-		this.cbPower = cbPower;
-	}
-	public String getSchneider() {
-		return schneider;
-	}
-	public void setSchneider(String schneider) {
-		this.schneider = schneider;
-	}
-	public String getYearInstall() {
-		return yearInstall;
-	}
-	public void setYearInstall(String yearInstall) {
-		this.yearInstall = yearInstall;
-	}
-	public String getNumber() {
-		return number;
-	}
-	public void setNumber(String number) {
-		this.number = number;
-	}
-	public String getCurrentStatus() {
-		return currentStatus;
-	}
-	public void setCurrentStatus(String currentStatus) {
-		this.currentStatus = currentStatus;
-	}
-	public String getLatestMaintenanceTime() {
-		return latestMaintenanceTime;
-	}
-	public void setLatestMaintenanceTime(String latestMaintenanceTime) {
-		this.latestMaintenanceTime = latestMaintenanceTime;
-	}
-	public Integer getAlarmMaintenanceStatus() {
-		return alarmMaintenanceStatus;
-	}
-	public void setAlarmMaintenanceStatus(Integer alarmMaintenanceStatus) {
-		this.alarmMaintenanceStatus = alarmMaintenanceStatus;
 	}
 	public Long getDeviceId() {
 		return deviceId;
@@ -171,6 +61,12 @@ public class HubDetailResponse {
 	}
 	public void setDeviceName(String deviceName) {
 		this.deviceName = deviceName;
+	}
+	public String getBackgroundColor() {
+		return backgroundColor;
+	}
+	public void setBackgroundColor(String backgroundColor) {
+		this.backgroundColor = backgroundColor;
 	}
 	public String getHubId() {
 		return hubId;
@@ -273,6 +169,102 @@ public class HubDetailResponse {
 	}
 	public void setBranchAddress(String branchAddress) {
 		this.branchAddress = branchAddress;
+	}
+	public String getTrademark() {
+		return trademark;
+	}
+	public void setTrademark(String trademark) {
+		this.trademark = trademark;
+	}
+	public String getRatedPower() {
+		return ratedPower;
+	}
+	public void setRatedPower(String ratedPower) {
+		this.ratedPower = ratedPower;
+	}
+	public String getLoadDuringPowerOutage() {
+		return loadDuringPowerOutage;
+	}
+	public void setLoadDuringPowerOutage(String loadDuringPowerOutage) {
+		this.loadDuringPowerOutage = loadDuringPowerOutage;
+	}
+	public String getBatteryQuantity() {
+		return batteryQuantity;
+	}
+	public void setBatteryQuantity(String batteryQuantity) {
+		this.batteryQuantity = batteryQuantity;
+	}
+	public String getBatteryNumber() {
+		return batteryNumber;
+	}
+	public void setBatteryNumber(String batteryNumber) {
+		this.batteryNumber = batteryNumber;
+	}
+	public String getBatteryCapacity() {
+		return batteryCapacity;
+	}
+	public void setBatteryCapacity(String batteryCapacity) {
+		this.batteryCapacity = batteryCapacity;
+	}
+	public String getProductionTime() {
+		return productionTime;
+	}
+	public void setProductionTime(String productionTime) {
+		this.productionTime = productionTime;
+	}
+	public String getConductorType() {
+		return conductorType;
+	}
+	public void setConductorType(String conductorType) {
+		this.conductorType = conductorType;
+	}
+	public String getCbPower() {
+		return cbPower;
+	}
+	public void setCbPower(String cbPower) {
+		this.cbPower = cbPower;
+	}
+	public String getSchneider() {
+		return schneider;
+	}
+	public void setSchneider(String schneider) {
+		this.schneider = schneider;
+	}
+	public String getYearInstall() {
+		return yearInstall;
+	}
+	public void setYearInstall(String yearInstall) {
+		this.yearInstall = yearInstall;
+	}
+	public String getNumber() {
+		return number;
+	}
+	public void setNumber(String number) {
+		this.number = number;
+	}
+	public String getCurrentStatus() {
+		return currentStatus;
+	}
+	public void setCurrentStatus(String currentStatus) {
+		this.currentStatus = currentStatus;
+	}
+	public String getLatestMaintenanceTime() {
+		return latestMaintenanceTime;
+	}
+	public void setLatestMaintenanceTime(String latestMaintenanceTime) {
+		this.latestMaintenanceTime = latestMaintenanceTime;
+	}
+	public Integer getAlarmMaintenanceStatus() {
+		return alarmMaintenanceStatus;
+	}
+	public void setAlarmMaintenanceStatus(Integer alarmMaintenanceStatus) {
+		this.alarmMaintenanceStatus = alarmMaintenanceStatus;
+	}
+	public MaintenanceResponse getMaintenanceResponse() {
+		return maintenanceResponse;
+	}
+	public void setMaintenanceResponse(MaintenanceResponse maintenanceResponse) {
+		this.maintenanceResponse = maintenanceResponse;
 	}
 	
 	

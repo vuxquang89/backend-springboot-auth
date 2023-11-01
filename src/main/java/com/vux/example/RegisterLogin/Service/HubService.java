@@ -33,6 +33,17 @@ public class HubService implements HubServiceImpl {
 	}
 	
 	@Override
+	public List<HubResponse> getHubByUser(String username) {
+		List<HubEntity> entities = hubRepository.findByPersonnelChargeName(username);
+		List<HubResponse> responses = new ArrayList<HubResponse>();
+		for(HubEntity entity : entities) {
+			responses.add(hubConvert.toResponse(entity));
+		}
+		return responses;
+		
+	}
+	
+	@Override
 	public List<HubResponse> findByBranchId(BranchEntity entity) {
 	
 		List<HubEntity> entities = hubRepository.findByBranchEntity(entity);

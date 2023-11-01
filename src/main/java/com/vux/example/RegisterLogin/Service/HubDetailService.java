@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.vux.example.RegisterLogin.Converter.HubDetailConvert;
 import com.vux.example.RegisterLogin.Entity.HubDevice.HubDetailEntity;
+import com.vux.example.RegisterLogin.Payload.Response.HubDetailAlarmResponse;
 import com.vux.example.RegisterLogin.Payload.Response.HubDetailResponse;
+import com.vux.example.RegisterLogin.Payload.Response.HubDetailUserResponse;
 import com.vux.example.RegisterLogin.Repo.HubDetailRepository;
 import com.vux.example.RegisterLogin.Service.impl.HubDetailServiceImpl;
 
@@ -35,6 +37,28 @@ public class HubDetailService implements HubDetailServiceImpl {
 	}
 	
 	@Override
+	public List<HubDetailResponse> findAllWithKetSearch(String keyword) {
+		List<HubDetailEntity> hubDetails = hubDetailRepository.findHubDetails(keyword);
+		
+		List<HubDetailResponse> hubDetailResponses = new ArrayList<HubDetailResponse>();
+		for(HubDetailEntity entity : hubDetails) {
+			hubDetailResponses.add(hubDetailConvert.toResponse(entity));
+		}
+		
+		return hubDetailResponses;
+	}
+	
+	@Override
+	public List<HubDetailUserResponse> getAllUser() {
+		List<HubDetailEntity> hubDetails = hubDetailRepository.getHubDetails();
+		List<HubDetailUserResponse> hubDetailUserResponses = new ArrayList<HubDetailUserResponse>();
+		for(HubDetailEntity entity : hubDetails) {
+			hubDetailUserResponses.add(hubDetailConvert.toUserResponse(entity));
+		}
+		return hubDetailUserResponses;
+	}
+	
+	@Override
 	public Optional<HubDetailEntity> findById(long hubDetailId) {
 		return hubDetailRepository.findById(hubDetailId);
 	}
@@ -52,6 +76,23 @@ public class HubDetailService implements HubDetailServiceImpl {
 			return true;
 		}
 		return false;
+	}
+	
+	@Override
+	public void runProcedureUpdateMaintenanceDate() {
+		hubDetailRepository.procedureUpdateMaintenanceDate("update");
+	}
+	
+	@Override
+	public List<HubDetailAlarmResponse> getAlarm() {
+		List<HubDetailEntity> hubDetails = hubDetailRepository.getHubDetailAlarm();
+		
+		List<HubDetailAlarmResponse> hubDetailResponses = new ArrayList<HubDetailAlarmResponse>();
+		for(HubDetailEntity entity : hubDetails) {
+			hubDetailResponses.add(hubDetailConvert.toAlarm(entity));
+		}
+		
+		return hubDetailResponses;
 	}
 
 }

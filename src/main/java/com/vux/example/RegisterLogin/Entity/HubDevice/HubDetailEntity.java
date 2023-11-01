@@ -7,12 +7,18 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedStoredProcedureQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureParameter;
 import javax.persistence.Table;
 
 import com.vux.example.RegisterLogin.Entity.BaseEntity;
 
 @Entity
+@NamedStoredProcedureQuery(name = "HubDetailEntity.updateMaintenanceDate", 
+	procedureName = "PR_UPDATE_MAINTENANCE_DATE", 
+	parameters = {@StoredProcedureParameter(mode = ParameterMode.IN, name = "Action", type = String.class)})
 @Table(name = "hub_detail")
 public class HubDetailEntity extends BaseEntity{
 

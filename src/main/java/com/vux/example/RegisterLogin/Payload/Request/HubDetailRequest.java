@@ -17,7 +17,7 @@ public class HubDetailRequest {
 	private String yearInstall;//năm lắp đặt hệ thống điện
 	private String number;//số lượng
 	private String currentStatus;//tinh trang
-	private Integer dateMaintenance;
+	private Integer dateMaintenance;//so ngay bao duong
 	public Long getDeviceId() {
 		return deviceId;
 	}

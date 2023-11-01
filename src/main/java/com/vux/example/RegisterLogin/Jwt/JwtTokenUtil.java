@@ -31,7 +31,8 @@ import io.jsonwebtoken.UnsupportedJwtException;
 public class JwtTokenUtil {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenUtil.class);
-	private static final long EXPIRE_DURATION_ACCESS_TOKEN = 10 * 60 * 1000; //10m
+	//private static final long EXPIRE_DURATION_ACCESS_TOKEN = 10 * 60 * 1000; //10m
+	private static final long EXPIRE_DURATION_ACCESS_TOKEN = 5 * 24 * 60 * 60 * 1000; //5day
 	private static final long EXPIRE_DURATION_REFRESH_TOKEN = 7 * 24 * 60 * 60 * 1000; //7 day
 	
 	@Value("${app.jwt.secret}") //lay gia tri tu file .properties

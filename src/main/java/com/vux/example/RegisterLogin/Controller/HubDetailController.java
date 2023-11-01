@@ -22,8 +22,10 @@ import com.vux.example.RegisterLogin.Entity.HubDevice.HubDetailEntity;
 import com.vux.example.RegisterLogin.Entity.HubDevice.HubEntity;
 import com.vux.example.RegisterLogin.Entity.HubDevice.MaintenanceHistoryEntity;
 import com.vux.example.RegisterLogin.Payload.Request.HubDetailRequest;
+import com.vux.example.RegisterLogin.Payload.Response.HubDetailAlarmResponse;
 import com.vux.example.RegisterLogin.Payload.Response.HubDetailResponse;
 import com.vux.example.RegisterLogin.Payload.Response.HubDetailResponseStatus;
+import com.vux.example.RegisterLogin.Payload.Response.HubDetailUserResponse;
 import com.vux.example.RegisterLogin.Service.DeviceService;
 import com.vux.example.RegisterLogin.Service.HubDetailService;
 import com.vux.example.RegisterLogin.Service.HubService;
@@ -52,6 +54,20 @@ public class HubDetailController {
 		return ResponseEntity.status(HttpStatus.OK).body(hubDetailResponses);
 	}
 	
+	@GetMapping("/hub/detail/search/{keysearch}")
+	public ResponseEntity<?> findSearch(@PathVariable("keysearch") String keyword){
+		List<HubDetailResponse> hubDetailResponses = hubDetailService.findAllWithKetSearch(keyword);
+		return ResponseEntity.status(HttpStatus.OK).body(hubDetailResponses);
+	}
+	
+	@GetMapping("/user/hub/detail")
+	public ResponseEntity<?> getAllUser(){
+//		List<HubDetailUserResponse> hubDetailUserResponses = hubDetailService.getAllUser();
+//		return ResponseEntity.status(HttpStatus.OK).body(hubDetailUserResponses);
+		List<HubDetailResponse> hubDetailResponses = hubDetailService.getAll();
+		return ResponseEntity.status(HttpStatus.OK).body(hubDetailResponses);
+	}
+	
 	@GetMapping("/hub/detail/{hubDetailId}")
 	public ResponseEntity<?> getHubDetailById(@PathVariable("hubDetailId") Long hubDetailId){
 		HubDetailEntity entity = hubDetailService.findById(hubDetailId).orElse(null);
@@ -76,6 +92,7 @@ public class HubDetailController {
 			hubDetailEntity.setDevice(deviceEntity);
 			hubDetailEntity.setHubEntity(hubEntity);
 			hubDetailEntity.setLatestMaintenanceTime(LocalDate.now());
+			hubDetailEntity.setDateNow(LocalDate.now());
 			hubDetailEntity = hubDetailService.save(hubDetailEntity);
 			
 			
@@ -141,5 +158,14 @@ public class HubDetailController {
 		
 		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("NOT");
+	}
+	
+	/**
+	 * get alarm
+	 */
+	@GetMapping("/hub/detail/alarm")
+	public ResponseEntity<?> getAlarm(){
+		List<HubDetailAlarmResponse> hubDetailAlarmResponses = hubDetailService.getAlarm();
+		return ResponseEntity.status(HttpStatus.OK).body(hubDetailAlarmResponses);
 	}
 }

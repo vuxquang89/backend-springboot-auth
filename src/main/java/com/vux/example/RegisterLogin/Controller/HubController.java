@@ -3,6 +3,8 @@ package com.vux.example.RegisterLogin.Controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vux.example.RegisterLogin.Converter.HubConvert;
+import com.vux.example.RegisterLogin.Converter.QRConvert;
 import com.vux.example.RegisterLogin.Entity.UserEntity;
 import com.vux.example.RegisterLogin.Entity.HubDevice.BranchEntity;
 import com.vux.example.RegisterLogin.Entity.HubDevice.HubEntity;
+import com.vux.example.RegisterLogin.Jwt.JwtTokenUtil;
 import com.vux.example.RegisterLogin.Payload.Request.HubRequest;
 import com.vux.example.RegisterLogin.Payload.Response.HubResponse;
 import com.vux.example.RegisterLogin.Payload.Response.HubResponseStatus;
@@ -41,12 +45,26 @@ public class HubController {
 	private BranchService branchService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private QRConvert qrConvert;
+	
+	@Autowired
+	private JwtTokenUtil jwtTokenUtil;
 	
 	
 	
 	@GetMapping("/hub")
 	public ResponseEntity<?> getAll(){
 		List<HubResponse> responses = hubService.getAll();
+		return ResponseEntity.status(HttpStatus.OK).body(responses);
+	}
+	
+	@GetMapping("/hub/manager")
+	public ResponseEntity<?> getHubByUserAll(HttpServletRequest request){
+		String token = jwtTokenUtil.getToken(request);
+		String username = jwtTokenUtil.getUserNameFromJwtSubject(token);
+		
+		List<HubResponse> responses = hubService.getHubByUser(username);
 		return ResponseEntity.status(HttpStatus.OK).body(responses);
 	}
 	

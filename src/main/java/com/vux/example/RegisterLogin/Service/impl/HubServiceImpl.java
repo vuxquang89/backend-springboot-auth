@@ -9,6 +9,7 @@ import com.vux.example.RegisterLogin.Payload.Response.HubResponse;
 public interface HubServiceImpl {
 
 	public List<HubResponse> getAll();
+	public List<HubResponse> getHubByUser(String username);
 	public List<HubResponse> findByBranchId(BranchEntity entity);
 	public HubEntity findByHubId(String hubId);
 	public HubResponse save(HubEntity entity);

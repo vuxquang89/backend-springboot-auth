@@ -35,8 +35,7 @@ public class HubConvert {
 		if(entity.getHubDetails() != null && entity.getHubDetails().size() > 0) {
 			for(HubDetailEntity hubDetailEntity : entity.getHubDetails()) {
 				response.addHubDetailResponse(hubDetailConvert.toResponse(hubDetailEntity));
-			}
-			
+			}			
 		}
 		
 		return response;

@@ -228,9 +228,9 @@ public class AuthController {
 					String accessToken = jwtUtil.generateAccessToken(user);
 					
 					List<String> roles = new ArrayList<String>();
-					//for (RoleEntity role : user.getRoles()) {
-					//	roles.add(role.getName().name());
-					//}
+					for (RoleEntity role : user.getRoles()) {
+						roles.add(role.getName());
+					}
 					
 					return ResponseEntity.ok(new JwtResponse( 
 	                         user.getId(), 
