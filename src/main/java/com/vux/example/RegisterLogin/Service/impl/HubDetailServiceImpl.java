@@ -11,11 +11,14 @@ import com.vux.example.RegisterLogin.Payload.Response.HubDetailUserResponse;
 public interface HubDetailServiceImpl {
 
 	public List<HubDetailResponse> getAll();
-	public List<HubDetailResponse> findAllWithKetSearch(String keyword);
+	public List<HubDetailResponse> getAllManager(String username);
+	public List<HubDetailResponse> findAllWithKeySearch(String keyword);
+	public List<HubDetailResponse> findAllWithKeySearch(String keyword, String username);
 	public Optional<HubDetailEntity> findById(long hubDetailId);
 	public HubDetailEntity save(HubDetailEntity entity);
 	public boolean delete(long hubDetailId);
-	public List<HubDetailAlarmResponse> getAlarm();
+	public List<HubDetailAlarmResponse> getAlarm(String username);
+	public Integer getCountAlarm(String usename);
 	public List<HubDetailUserResponse> getAllUser();
 	public void runProcedureUpdateMaintenanceDate();
 }

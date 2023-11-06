@@ -37,7 +37,19 @@ public class HubDetailService implements HubDetailServiceImpl {
 	}
 	
 	@Override
-	public List<HubDetailResponse> findAllWithKetSearch(String keyword) {
+	public List<HubDetailResponse> getAllManager(String username) {
+		List<HubDetailEntity> hubDetails = hubDetailRepository.getHubDetails(username);
+		
+		List<HubDetailResponse> hubDetailResponses = new ArrayList<HubDetailResponse>();
+		for(HubDetailEntity entity : hubDetails) {
+			hubDetailResponses.add(hubDetailConvert.toResponse(entity));
+		}
+		
+		return hubDetailResponses;
+	}
+	
+	@Override
+	public List<HubDetailResponse> findAllWithKeySearch(String keyword) {
 		List<HubDetailEntity> hubDetails = hubDetailRepository.findHubDetails(keyword);
 		
 		List<HubDetailResponse> hubDetailResponses = new ArrayList<HubDetailResponse>();
@@ -46,6 +58,12 @@ public class HubDetailService implements HubDetailServiceImpl {
 		}
 		
 		return hubDetailResponses;
+	}
+	
+	@Override
+	public List<HubDetailResponse> findAllWithKeySearch(String keyword, String username) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	@Override
@@ -84,8 +102,8 @@ public class HubDetailService implements HubDetailServiceImpl {
 	}
 	
 	@Override
-	public List<HubDetailAlarmResponse> getAlarm() {
-		List<HubDetailEntity> hubDetails = hubDetailRepository.getHubDetailAlarm();
+	public List<HubDetailAlarmResponse> getAlarm(String username) {
+		List<HubDetailEntity> hubDetails = hubDetailRepository.getHubDetailAlarm(username);
 		
 		List<HubDetailAlarmResponse> hubDetailResponses = new ArrayList<HubDetailAlarmResponse>();
 		for(HubDetailEntity entity : hubDetails) {
@@ -95,4 +113,8 @@ public class HubDetailService implements HubDetailServiceImpl {
 		return hubDetailResponses;
 	}
 
+	@Override
+	public Integer getCountAlarm(String usename) {
+		return hubDetailRepository.getHubDetailAlarm(usename).size();
+	}
 }

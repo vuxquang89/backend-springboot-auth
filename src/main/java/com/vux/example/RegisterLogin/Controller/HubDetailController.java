@@ -3,6 +3,8 @@ package com.vux.example.RegisterLogin.Controller;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,7 @@ import com.vux.example.RegisterLogin.Entity.HubDevice.DeviceEntity;
 import com.vux.example.RegisterLogin.Entity.HubDevice.HubDetailEntity;
 import com.vux.example.RegisterLogin.Entity.HubDevice.HubEntity;
 import com.vux.example.RegisterLogin.Entity.HubDevice.MaintenanceHistoryEntity;
+import com.vux.example.RegisterLogin.Jwt.JwtTokenUtil;
 import com.vux.example.RegisterLogin.Payload.Request.HubDetailRequest;
 import com.vux.example.RegisterLogin.Payload.Response.HubDetailAlarmResponse;
 import com.vux.example.RegisterLogin.Payload.Response.HubDetailResponse;
@@ -47,6 +50,9 @@ public class HubDetailController {
 	private MaintenanceHistoryService mainHistoryService;
 	@Autowired
 	private HubDetailConvert hubDetailConvert;
+
+	@Autowired
+	private JwtTokenUtil jwtTokenUtil;
 	
 	@GetMapping("/hub/detail")
 	public ResponseEntity<?> getAll(){
@@ -54,9 +60,28 @@ public class HubDetailController {
 		return ResponseEntity.status(HttpStatus.OK).body(hubDetailResponses);
 	}
 	
+	@GetMapping("/hub/manager/detail")
+	public ResponseEntity<?> getMangerAll(HttpServletRequest request){
+		String token = jwtTokenUtil.getToken(request);
+		String username = jwtTokenUtil.getUserNameFromJwtSubject(token);
+		List<HubDetailResponse> hubDetailResponses = hubDetailService.getAllManager(username);
+		return ResponseEntity.status(HttpStatus.OK).body(hubDetailResponses);
+	}
+	
 	@GetMapping("/hub/detail/search/{keysearch}")
 	public ResponseEntity<?> findSearch(@PathVariable("keysearch") String keyword){
-		List<HubDetailResponse> hubDetailResponses = hubDetailService.findAllWithKetSearch(keyword);
+		List<HubDetailResponse> hubDetailResponses = hubDetailService.findAllWithKeySearch(keyword);
+		return ResponseEntity.status(HttpStatus.OK).body(hubDetailResponses);
+	}
+	
+	@GetMapping("/hub/manager/detail/search/{keysearch}")
+	public ResponseEntity<?> findSearchManager(
+			@PathVariable("keysearch") String keyword,
+			HttpServletRequest request){
+		String token = jwtTokenUtil.getToken(request);
+		String username = jwtTokenUtil.getUserNameFromJwtSubject(token);
+		
+		List<HubDetailResponse> hubDetailResponses = hubDetailService.findAllWithKeySearch(keyword, username);
 		return ResponseEntity.status(HttpStatus.OK).body(hubDetailResponses);
 	}
 	
@@ -164,8 +189,10 @@ public class HubDetailController {
 	 * get alarm
 	 */
 	@GetMapping("/hub/detail/alarm")
-	public ResponseEntity<?> getAlarm(){
-		List<HubDetailAlarmResponse> hubDetailAlarmResponses = hubDetailService.getAlarm();
+	public ResponseEntity<?> getAlarm(HttpServletRequest request){
+		String token = jwtTokenUtil.getToken(request);
+		String username = jwtTokenUtil.getUserNameFromJwtSubject(token);
+		List<HubDetailAlarmResponse> hubDetailAlarmResponses = hubDetailService.getAlarm(username);
 		return ResponseEntity.status(HttpStatus.OK).body(hubDetailAlarmResponses);
 	}
 }

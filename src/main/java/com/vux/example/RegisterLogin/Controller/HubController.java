@@ -45,8 +45,7 @@ public class HubController {
 	private BranchService branchService;
 	@Autowired
 	private UserService userService;
-	@Autowired
-	private QRConvert qrConvert;
+	
 	
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;

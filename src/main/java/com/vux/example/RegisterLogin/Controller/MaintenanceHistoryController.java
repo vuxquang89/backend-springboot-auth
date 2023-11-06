@@ -119,6 +119,8 @@ public class MaintenanceHistoryController {
 			
 			hubDetailEntity.setLatestMaintenanceTime(entity.getMaintenanceTime());
 			hubDetailService.save(hubDetailEntity);
+			hubDetailEntity = hubDetailService.findById(hubDetailEntity.getId()).get();
+			entity.setHubDetail(hubDetailEntity);
 			return ResponseEntity.status(HttpStatus.OK).body(maintenanceHistoryConvert.toResponse(entity));
 		}
 		

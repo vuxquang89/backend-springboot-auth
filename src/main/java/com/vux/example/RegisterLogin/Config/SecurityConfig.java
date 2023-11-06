@@ -89,6 +89,7 @@ public class SecurityConfig {
 			.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 			.authorizeRequests()
+				.antMatchers("/","/chat/**").permitAll()
 				.antMatchers("/api/auth/login",
 						"/api/auth/logout",
 						"/api/auth/google/verify",
