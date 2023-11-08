@@ -2,13 +2,13 @@ package com.vux.example.RegisterLogin.Payload.Response;
 
 public class OptionSelectResponse {
 
-	private String value;
+	private Long value;
 	private String label;
-	private String name;
-	public String getValue() {
+//	private String name;
+	public Long getValue() {
 		return value;
 	}
-	public void setValue(String value) {
+	public void setValue(Long value) {
 		this.value = value;
 	}
 	public String getLabel() {
@@ -17,11 +17,11 @@ public class OptionSelectResponse {
 	public void setLabel(String label) {
 		this.label = label;
 	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
+//	public String getName() {
+//		return name;
+//	}
+//	public void setName(String name) {
+//		this.name = name;
+//	}
 	
 }

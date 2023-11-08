@@ -57,7 +57,10 @@ public class UserService implements UserServiceImpl{
 	@Override
 	public boolean delete(long id) {
 		if(userRepository.existsById(id)) {
-			userRepository.deleteById(id);
+			UserEntity user = userRepository.findById(id).get();
+			user.setStatus(0);
+//			userRepository.deleteById(id);
+			userRepository.save(user);
 			return true;
 		}
 		return false;

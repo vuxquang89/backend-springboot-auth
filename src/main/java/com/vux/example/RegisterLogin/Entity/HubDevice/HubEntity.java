@@ -2,6 +2,7 @@ package com.vux.example.RegisterLogin.Entity.HubDevice;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -64,7 +65,9 @@ public class HubEntity {
 	@JoinColumn(name = "branch_id", nullable=false)
 	private BranchEntity branchEntity;
 	
-	@OneToMany(mappedBy = "hubEntity")
+	@OneToMany(mappedBy = "hubEntity"
+//			,cascade = CascadeType.REMOVE, orphanRemoval = true
+			)
 	private List<HubDetailEntity> hubDetails;
 
 	public String getHubId() {

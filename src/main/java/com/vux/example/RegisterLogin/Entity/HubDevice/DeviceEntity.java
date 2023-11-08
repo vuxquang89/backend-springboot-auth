@@ -2,6 +2,7 @@ package com.vux.example.RegisterLogin.Entity.HubDevice;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -20,7 +21,9 @@ public class DeviceEntity extends BaseEntity{
 	private String backgroundColor;
 	
 	
-	@OneToMany(mappedBy = "device")
+	@OneToMany(mappedBy = "device"
+//			,cascade = CascadeType.REMOVE, orphanRemoval = true
+			)
 	private List<HubDetailEntity> hubDetails;
 
 	public String getDeviceName() {

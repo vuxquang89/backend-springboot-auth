@@ -12,7 +12,9 @@ public class UserResponse {
 	private String fullname;
 	private String phone;
 	private Integer status;
-	private List<Integer> roles = new ArrayList<Integer>();
+	private String statusName;
+	private List<Integer> rolesId = new ArrayList<Integer>();
+	private List<String> rolesName = new ArrayList<String>();
 	public long getId() {
 		return id;
 	}
@@ -37,20 +39,37 @@ public class UserResponse {
 	public void setFullname(String fullname) {
 		this.fullname = fullname;
 	}
+	
 	public Integer getStatus() {
 		return status;
 	}
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
-	public List<Integer> getRoles() {
-		return roles;
+	public String getStatusName() {
+		return statusName;
 	}
-	public void setRoles(List<Integer> roles) {
-		this.roles = roles;
+	public void setStatusName(String statusName) {
+		this.statusName = statusName;
 	}
-	public void addRole(Integer role) {
-		this.roles.add(role);
+	public List<Integer> getRolesId() {
+		return rolesId;
+	}
+	public void setRolesId(List<Integer> rolesId) {
+		this.rolesId = rolesId;
+	}
+	public void addRolesId(Integer rolesId) {
+		this.rolesId.add(rolesId);
+	}
+	
+	public List<String> getRolesName() {
+		return rolesName;
+	}
+	public void setRolesName(List<String> rolesName) {
+		this.rolesName = rolesName;
+	}
+	public void addRolesName(String rolesName) {
+		this.rolesName.add(rolesName);
 	}
 	public String getPhone() {
 		return phone;

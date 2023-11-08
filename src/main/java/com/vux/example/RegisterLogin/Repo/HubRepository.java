@@ -3,13 +3,23 @@ package com.vux.example.RegisterLogin.Repo;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
 import com.vux.example.RegisterLogin.Entity.HubDevice.BranchEntity;
 import com.vux.example.RegisterLogin.Entity.HubDevice.HubEntity;
 
 public interface HubRepository extends JpaRepository<HubEntity, String>{
 
+	@Transactional
+	@Modifying
+	@Query(value = "select * from hub h inner join users u on u.id = h.user_id"
+			+ " where u.username = ?1"
+			+ "	order by h.hub_id asc;",
+			nativeQuery = true)
 	public List<HubEntity> findByPersonnelChargeName(String username);
 	public List<HubEntity> findBybranchEntity(String branchName);
 	public List<HubEntity> findByOrderByBranchEntityAsc();

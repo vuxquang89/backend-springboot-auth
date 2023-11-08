@@ -20,8 +20,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.vux.example.RegisterLogin.Entity.HubDevice.HubEntity;
 
 
-@Entity(name = "user")// Đánh dấu đây là table trong db
-@Table(name = "`user`")
+//@Entity(name = "user")// Đánh dấu đây là table trong db
+//@Table(name = "`user`")
+@Entity(name = "users")// Đánh dấu đây là table trong db
+@Table(name = "users")
 public class UserEntity extends BaseEntity implements UserDetails{
 
 	/**
@@ -168,6 +170,8 @@ public class UserEntity extends BaseEntity implements UserDetails{
 
 	@Override
 	public boolean isEnabled() {
+		if(status == 0)
+			return false;
 		return true;
 	}
 }

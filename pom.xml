@@ -77,12 +77,13 @@
 			<scope>runtime</scope>
 		</dependency>
 		 -->
+		 <!-- 
 		<dependency>
 		    <groupId>com.microsoft.sqlserver</groupId>
 		    <artifactId>mssql-jdbc</artifactId>
 		    <scope>runtime</scope>
 		</dependency>
-		
+		-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -95,13 +96,13 @@
 		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
-		<!-- 
+		
 		<dependency>
 		    <groupId>mysql</groupId>
 		    <artifactId>mysql-connector-java</artifactId>
 		    <version>8.0.25</version>
 		</dependency>
-		 -->
+		 
 		<!-- random alphanumeric-->
 		<dependency>
 			<groupId>org.apache.commons</groupId>

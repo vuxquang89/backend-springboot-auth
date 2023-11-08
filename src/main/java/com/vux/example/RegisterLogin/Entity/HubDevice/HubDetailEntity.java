@@ -3,6 +3,7 @@ package com.vux.example.RegisterLogin.Entity.HubDevice;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -30,7 +31,9 @@ public class HubDetailEntity extends BaseEntity{
 	@JoinColumn(name = "hub_id", nullable = false)
 	private HubEntity hubEntity;
 	
-	@OneToMany(mappedBy = "hubDetail")
+	@OneToMany(mappedBy = "hubDetail"
+//			,cascade = CascadeType.REMOVE, orphanRemoval = true
+			)
 	private List<MaintenanceHistoryEntity> maintenanceHistories;
 	
 	@Column

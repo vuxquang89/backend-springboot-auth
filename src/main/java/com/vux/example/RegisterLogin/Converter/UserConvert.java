@@ -32,10 +32,15 @@ public class UserConvert {
 		response.setEmail(entity.getEmail());
 		response.setUsername(entity.getUsername());
 		response.setStatus(entity.getStatus());
+		if(entity.getStatus() == 0) {
+			response.setStatusName("Inactivate");
+		}else { response.setStatusName("Activate");}
+		
 		response.setPhone(entity.getPhone());
 		List<RoleEntity> roles = entity.getRoles();
 		for(RoleEntity role : roles) {
-			response.addRole(role.getId());
+			response.addRolesName(role.getName());
+			response.addRolesId(role.getId());
 		}
 //		response.setRoles(entity.getRoles());
 		return response;
@@ -55,6 +60,7 @@ public class UserConvert {
 		entity.setFullname(request.getFullname());
 		entity.setPhone(request.getPhone());
 		entity.setEmail(entity.getEmail());
+		entity.setStatus(request.getStatus());
 		if(request.getRole() != 1) {
 			entity.getRoles().set(0, new RoleEntity(request.getRole()));
 		}else {
@@ -66,8 +72,8 @@ public class UserConvert {
 	
 	public OptionSelectResponse toOptionSelect(UserEntity entity) {
 		OptionSelectResponse response = new OptionSelectResponse();
-		response.setName("userId");
-		response.setValue(entity.getId().toString());
+//		response.setName("userId");
+		response.setValue(entity.getId());
 		response.setLabel(entity.getFullname());
 		return response;
 	}
