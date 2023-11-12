@@ -62,8 +62,14 @@ public class HubDetailService implements HubDetailServiceImpl {
 	
 	@Override
 	public List<HubDetailResponse> findAllWithKeySearch(String keyword, String username) {
-		// TODO Auto-generated method stub
-		return null;
+		List<HubDetailEntity> hubDetails = hubDetailRepository.findHubDetails(keyword, username);
+		
+		List<HubDetailResponse> hubDetailResponses = new ArrayList<HubDetailResponse>();
+		for(HubDetailEntity entity : hubDetails) {
+			hubDetailResponses.add(hubDetailConvert.toResponse(entity));
+		}
+		
+		return hubDetailResponses;
 	}
 	
 	@Override
@@ -98,7 +104,8 @@ public class HubDetailService implements HubDetailServiceImpl {
 	
 	@Override
 	public void runProcedureUpdateMaintenanceDate() {
-		hubDetailRepository.procedureUpdateMaintenanceDate("update");
+//		hubDetailRepository.procedureUpdateMaintenanceDate("update");
+		hubDetailRepository.procedureUpdateMaintenanceDate();
 	}
 	
 	@Override

@@ -49,6 +49,7 @@ public class MessageController {
 	@MessageMapping("/private-message")
     public WebSocketMessageResponse recMessage(@Payload WebSocketMessageRequest request){
 		WebSocketMessageResponse response = wsMessageConvert.toResponse(request);
+		System.out.println("username send message "+ request.getSenderName());
 		response.setDate(dateTimeConvert.nowString());
 		if(request.getAction() == EnumAction.EDIT_MAINTENANCE || request.getAction() == EnumAction.GET_ALARM) {
 			Integer countAlarm = hubDetailService.getCountAlarm(request.getSenderName());

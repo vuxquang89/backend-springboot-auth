@@ -40,6 +40,7 @@ public class HubDetailUserResponse {
 	private String schneider;//cắt lọc sắt
 	private String yearInstall;//năm lắp đặt hệ thống điện
 	private String number;//số lượng
+	private Integer dateMaintenance; 
 	private String currentStatus;
 	private String latestMaintenanceTime;
 	private Integer alarmMaintenanceStatus;
@@ -265,6 +266,12 @@ public class HubDetailUserResponse {
 	}
 	public void setMaintenanceResponse(MaintenanceResponse maintenanceResponse) {
 		this.maintenanceResponse = maintenanceResponse;
+	}
+	public Integer getDateMaintenance() {
+		return dateMaintenance;
+	}
+	public void setDateMaintenance(Integer dateMaintenance) {
+		this.dateMaintenance = dateMaintenance;
 	}
 	
 	

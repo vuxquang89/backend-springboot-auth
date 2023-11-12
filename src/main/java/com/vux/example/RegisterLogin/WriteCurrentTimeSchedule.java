@@ -21,13 +21,13 @@ public class WriteCurrentTimeSchedule {
 	// fixedDelay = 2 second.
 	//cron (* * * * * *) => (giây phút giờ ngày-trong-tháng tháng ngày-trong-tuần)
 	@Scheduled(cron = "0 0 0 * * *") //once a day
-	//@Scheduled(cron = "*/300 * * * * ?")
+//	@Scheduled(cron = "*/300 * * * * ?")
 	public void writeCurrentTime() {
 		        
 		Date now = new Date();
 		        
 		String nowString = df.format(now);
-		System.out.println("runtime"+nowString);	
+		System.out.println("=============> run Procedure runtime"+nowString);	
 		hubDetailService.runProcedureUpdateMaintenanceDate();	 
 		        
 	}

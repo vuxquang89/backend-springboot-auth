@@ -142,7 +142,7 @@ public class HubDetailConvert {
 		response.setTrademark(entity.getTrademark());
 		response.setRatedPower(entity.getRatedPower());
 		response.setLoadDuringPowerOutage(entity.getLoadDuringPowerOutage());
-		response.setBatteryQuantity(entity.getBatteryCapacity());
+		response.setBatteryQuantity(entity.getBatteryQuantity());
 		response.setBatteryNumber(entity.getBatteryNumber());
 		response.setBatteryCapacity(entity.getBatteryCapacity());
 		response.setProductionTime(entity.getProductionTime());
@@ -151,6 +151,7 @@ public class HubDetailConvert {
 		response.setSchneider(entity.getSchneider());
 		response.setYearInstall(entity.getYearInstall());
 		response.setNumber(entity.getNumber());
+		response.setDateMaintenance(entity.getDateMaintenance());
 		response.setCurrentStatus(entity.getCurrentStatus());
 		response.setLatestMaintenanceTime( entity.getLatestMaintenanceTime().toString());
 		response.setAlarmMaintenanceStatus(entity.getAlarmMaintenance());
@@ -202,6 +203,7 @@ public class HubDetailConvert {
 		response.setSchneider(entity.getSchneider());
 		response.setYearInstall(entity.getYearInstall());
 		response.setNumber(entity.getNumber());
+		response.setDateMaintenance(entity.getDateMaintenance());
 		response.setCurrentStatus(entity.getCurrentStatus());
 		response.setLatestMaintenanceTime( entity.getLatestMaintenanceTime().toString());
 		response.setAlarmMaintenanceStatus(entity.getAlarmMaintenance());

@@ -43,6 +43,7 @@ public class HubDetailResponse {
 	private String schneider;//cắt lọc sắt
 	private String yearInstall;//năm lắp đặt hệ thống điện
 	private String number;//số lượng
+	private Integer dateMaintenance;//so ngay can bao duong
 	private String currentStatus;
 	private String latestMaintenanceTime;
 	private Integer alarmMaintenanceStatus;
@@ -273,6 +274,22 @@ public class HubDetailResponse {
 	}
 	public void setBranchAddress(String branchAddress) {
 		this.branchAddress = branchAddress;
+	}
+
+	public Integer getDateMaintenance() {
+		return dateMaintenance;
+	}
+
+	public void setDateMaintenance(Integer dateMaintenance) {
+		this.dateMaintenance = dateMaintenance;
+	}
+
+	public List<MaintenanceResponse> getMaintenanceResponses() {
+		return maintenanceResponses;
+	}
+
+	public void setMaintenanceResponses(List<MaintenanceResponse> maintenanceResponses) {
+		this.maintenanceResponses = maintenanceResponses;
 	}
 	
 	

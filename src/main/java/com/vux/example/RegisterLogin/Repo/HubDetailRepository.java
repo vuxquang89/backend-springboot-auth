@@ -84,7 +84,10 @@ public interface HubDetailRepository extends JpaRepository<HubDetailEntity, Long
 //			nativeQuery = true)
 //	List<HubDetailEntity> getHubDetailAlarm();
 	
-	@Procedure(name = "HubDetailEntity.updateMaintenanceDate")	
-	void procedureUpdateMaintenanceDate(@Param("Action") String action);
+//	@Procedure(name = "HubDetailEntity.updateMaintenanceDate")	
+//	void procedureUpdateMaintenanceDate(@Param("Action") String action);
+	
+	@Procedure("procedure_update_maintenance_date")
+	void procedureUpdateMaintenanceDate();
 	
 }
