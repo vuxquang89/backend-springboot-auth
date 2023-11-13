@@ -41,7 +41,7 @@ public interface HubDetailRepository extends JpaRepository<HubDetailEntity, Long
 	@Query(value = "select * from hub_detail hd inner join hub h on h.hub_id = hd.hub_id"
 //			+ " inner join dbo.[user] u on u.id = h.user_id"
 			+ " inner join users u on u.id = h.user_id"
-			+ "	inner join branch b on b.branch_id = h.branch_id where b.branch_name like %?1% or h.hub_name like %?1%"
+			+ "	inner join branch b on b.branch_id = h.branch_id where h.hub_id like %?1% or b.branch_name like %?1% or h.hub_name like %?1%"
 			+ "	order by b.branch_id,hd.hub_id,hd.device_id asc;",
 			nativeQuery = true)
 	List<HubDetailEntity> findHubDetails(String keyword);
@@ -52,7 +52,7 @@ public interface HubDetailRepository extends JpaRepository<HubDetailEntity, Long
 	@Query(value = "select * from hub_detail hd inner join hub h on h.hub_id = hd.hub_id"
 //			+ " inner join dbo.[user] u on u.id = h.user_id"
 			+ " inner join users u on u.id = h.user_id"
-			+ "	inner join branch b on b.branch_id = h.branch_id where u.username = ?2 and (b.branch_name like %?1% or h.hub_name like %?1%)"
+			+ "	inner join branch b on b.branch_id = h.branch_id where u.username = ?2 and (h.hub_id like %?1% or b.branch_name like %?1% or h.hub_name like %?1%)"
 			+ "	order by b.branch_id,hd.hub_id,hd.device_id asc;",
 			nativeQuery = true)
 	List<HubDetailEntity> findHubDetails(String keyword, String username);
