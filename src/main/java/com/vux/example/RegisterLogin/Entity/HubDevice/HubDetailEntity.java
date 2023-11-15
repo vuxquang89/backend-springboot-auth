@@ -3,7 +3,6 @@ package com.vux.example.RegisterLogin.Entity.HubDevice;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -35,6 +34,9 @@ public class HubDetailEntity extends BaseEntity{
 //			,cascade = CascadeType.REMOVE, orphanRemoval = true
 			)
 	private List<MaintenanceHistoryEntity> maintenanceHistories;
+	
+	@OneToMany(mappedBy = "hubDetail")
+	private List<HistoryOperationDeviceEntity> historyOperationDeviceEntities;
 	
 	@Column
 	private String trademark;//thuong hieu
@@ -262,6 +264,14 @@ public class HubDetailEntity extends BaseEntity{
 
 	public void setAlarmMaintenance(Integer alarmMaintenance) {
 		this.alarmMaintenance = alarmMaintenance;
+	}
+
+	public List<HistoryOperationDeviceEntity> getHistoryOperationDeviceEntities() {
+		return historyOperationDeviceEntities;
+	}
+
+	public void setHistoryOperationDeviceEntities(List<HistoryOperationDeviceEntity> historyOperationDeviceEntities) {
+		this.historyOperationDeviceEntities = historyOperationDeviceEntities;
 	}
 	
 }

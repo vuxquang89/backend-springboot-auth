@@ -17,6 +17,8 @@ public interface HubDetailServiceImpl {
 	public Optional<HubDetailEntity> findById(long hubDetailId);
 	public HubDetailEntity save(HubDetailEntity entity);
 	public boolean delete(long hubDetailId);
+	public void delete(HubDetailEntity entity);
+	
 	public List<HubDetailAlarmResponse> getAlarm(String username);
 	public Integer getCountAlarm(String usename);
 	public List<HubDetailUserResponse> getAllUser();

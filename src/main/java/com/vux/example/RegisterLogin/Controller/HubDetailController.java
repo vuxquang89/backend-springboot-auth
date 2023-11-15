@@ -20,16 +20,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.vux.example.RegisterLogin.Converter.HubDetailConvert;
 import com.vux.example.RegisterLogin.Entity.HubDevice.DeviceEntity;
+import com.vux.example.RegisterLogin.Entity.HubDevice.HistoryOperationDeviceEntity;
 import com.vux.example.RegisterLogin.Entity.HubDevice.HubDetailEntity;
 import com.vux.example.RegisterLogin.Entity.HubDevice.HubEntity;
 import com.vux.example.RegisterLogin.Entity.HubDevice.MaintenanceHistoryEntity;
 import com.vux.example.RegisterLogin.Jwt.JwtTokenUtil;
 import com.vux.example.RegisterLogin.Payload.Request.HubDetailRequest;
+import com.vux.example.RegisterLogin.Payload.Response.HistoryOperationDeviceResponse;
 import com.vux.example.RegisterLogin.Payload.Response.HubDetailAlarmResponse;
 import com.vux.example.RegisterLogin.Payload.Response.HubDetailResponse;
 import com.vux.example.RegisterLogin.Payload.Response.HubDetailResponseStatus;
-import com.vux.example.RegisterLogin.Payload.Response.HubDetailUserResponse;
 import com.vux.example.RegisterLogin.Service.DeviceService;
+import com.vux.example.RegisterLogin.Service.HistoryOperationDeviceService;
 import com.vux.example.RegisterLogin.Service.HubDetailService;
 import com.vux.example.RegisterLogin.Service.HubService;
 import com.vux.example.RegisterLogin.Service.MaintenanceHistoryService;
@@ -48,6 +50,8 @@ public class HubDetailController {
 	private DeviceService deviceService;
 	@Autowired
 	private MaintenanceHistoryService mainHistoryService;
+	@Autowired
+	private HistoryOperationDeviceService historyOperationDeviceService;
 	@Autowired
 	private HubDetailConvert hubDetailConvert;
 
@@ -107,6 +111,11 @@ public class HubDetailController {
 		return ResponseEntity.status(HttpStatus.OK).body(responseStatus);
 	}
 	
+	/**
+	 * add new device for hub
+	 * @param request
+	 * @return
+	 */
 	@PostMapping("/hub/detail")
 	public ResponseEntity<?> saveDeviceForHubDetail(@RequestBody HubDetailRequest request){
 		HubEntity hubEntity = hubService.findByHubId(request.getHubId());
@@ -127,6 +136,12 @@ public class HubDetailController {
 			maintenanceHistoryEntity.setMaintenanceTime(LocalDate.now());
 			mainHistoryService.save(maintenanceHistoryEntity);
 			
+			HistoryOperationDeviceEntity historyOperationDevice = new HistoryOperationDeviceEntity();
+			historyOperationDevice.setAction("THÊM MỚI");
+			historyOperationDevice.setContent("Được tạo mới tại hub " + hubEntity.getHubName());
+			historyOperationDevice.setHubDetail(hubDetailEntity);
+			historyOperationDeviceService.save(historyOperationDevice);
+			
 			HubDetailResponse response = hubDetailConvert.toResponse(hubDetailEntity);
 			return ResponseEntity.status(HttpStatus.OK).body(response);
 		}
@@ -135,6 +150,12 @@ public class HubDetailController {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("NOT");
 	}
 	
+	/**
+	 * edit info device
+	 * @param hubDetailId
+	 * @param request
+	 * @return
+	 */
 	@PutMapping("/hub/detail/{hubDetailId}")
 	public ResponseEntity<?> editDeviceForHubDetail(
 			@PathVariable("hubDetailId") Long hubDetailId,
@@ -147,6 +168,12 @@ public class HubDetailController {
 			
 			entity = hubDetailService.save(entity);
 			
+			HistoryOperationDeviceEntity historyOperationDevice = new HistoryOperationDeviceEntity();
+			historyOperationDevice.setAction("CHỈNH SỬA");
+			historyOperationDevice.setContent("Chỉnh sửa thông tin thiết bị");
+			historyOperationDevice.setHubDetail(entity);
+			historyOperationDeviceService.save(historyOperationDevice);
+			
 			HubDetailResponse response = hubDetailConvert.toResponse(entity);
 			return ResponseEntity.status(HttpStatus.OK).body(response);
 		}
@@ -157,7 +184,22 @@ public class HubDetailController {
 	
 	@DeleteMapping("/hub/detail/{hubDetailId}")
 	public ResponseEntity<?> delete(@PathVariable("hubDetailId") Long hubDetailId){
-		boolean result = hubDetailService.delete(hubDetailId);
+		//boolean result = hubDetailService.delete(hubDetailId);
+		
+		HubDetailEntity entity = hubDetailService.findById(hubDetailId).orElse(null);
+		boolean result = false;
+		if(entity != null) {
+			hubDetailService.delete(entity);
+			
+			HistoryOperationDeviceEntity historyOperationDevice = new HistoryOperationDeviceEntity();
+			historyOperationDevice.setAction("XÓA");
+			historyOperationDevice.setContent("Xóa thiết bị khỏi hub " + entity.getHubEntity().getHubName());
+			historyOperationDevice.setHubDetail(entity);
+			historyOperationDeviceService.save(historyOperationDevice);
+			
+			result = true;
+		}
+		
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 	
@@ -170,12 +212,24 @@ public class HubDetailController {
 			@RequestBody HubDetailRequest request){
 		
 		HubDetailEntity entity = hubDetailService.findById(hubDetailId).orElse(null);
+		
 		HubEntity hubEntity = hubService.findByHubId(request.getHubId());
 		if(entity != null && hubEntity.getHubId() != null) {
+		
+			String hubNameOld = entity.getHubEntity().getHubName();
+			String branchOld = entity.getHubEntity().getBranchEntity().getBranchName();
 			
 			entity.setHubEntity(hubEntity);
 			
 			entity = hubDetailService.save(entity);
+			
+			HistoryOperationDeviceEntity historyOperationDevice = new HistoryOperationDeviceEntity();
+			historyOperationDevice.setAction("CHUYỂN THIẾT BỊ");
+			historyOperationDevice.setContent("Thiết bị được chuyển từ hub " + hubNameOld + " - " 
+							+ branchOld + " sang hub " + entity.getHubEntity().getHubName() + " - " 
+							+ entity.getHubEntity().getBranchEntity().getBranchName());
+			historyOperationDevice.setHubDetail(entity);
+			historyOperationDeviceService.save(historyOperationDevice);
 			
 			HubDetailResponse response = hubDetailConvert.toResponse(entity);
 			return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -194,5 +248,15 @@ public class HubDetailController {
 		String username = jwtTokenUtil.getUserNameFromJwtSubject(token);
 		List<HubDetailAlarmResponse> hubDetailAlarmResponses = hubDetailService.getAlarm(username);
 		return ResponseEntity.status(HttpStatus.OK).body(hubDetailAlarmResponses);
+	}
+	
+	/**
+	 * 
+	 */
+	@GetMapping("/hub/detail/device/history/operation/{hubDetailId}")
+	public ResponseEntity<?> getHistoryOperation(
+			@PathVariable("hubDetailId") Long hubDetailId){
+		List<HistoryOperationDeviceResponse> historyOperationDeviceResponses = historyOperationDeviceService.findAllByHubDetailId(hubDetailId);
+		return ResponseEntity.status(HttpStatus.OK).body(historyOperationDeviceResponses);
 	}
 }

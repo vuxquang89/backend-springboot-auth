@@ -103,6 +103,11 @@ public class HubDetailService implements HubDetailServiceImpl {
 	}
 	
 	@Override
+	public void delete(HubDetailEntity entity) {
+		hubDetailRepository.delete(entity);
+	}
+	
+	@Override
 	public void runProcedureUpdateMaintenanceDate() {
 //		hubDetailRepository.procedureUpdateMaintenanceDate("update");
 		hubDetailRepository.procedureUpdateMaintenanceDate();
