@@ -8,5 +8,5 @@ import com.vux.example.RegisterLogin.Entity.HubDevice.HistoryOperationDeviceEnti
 
 public interface HistoryOperationDeviceRepository extends JpaRepository<HistoryOperationDeviceEntity, Long> {
 
-	public List<HistoryOperationDeviceEntity> findByHubDetailId(Long hubDetailId);
+	public List<HistoryOperationDeviceEntity> findByHubDetailIdOrderByCreatedDateDesc(Long hubDetailId);
 }
