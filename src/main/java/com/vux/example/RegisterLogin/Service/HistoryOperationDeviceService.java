@@ -22,7 +22,7 @@ public class HistoryOperationDeviceService implements HistoryOperationDeviceImpl
 
 	@Override
 	public List<HistoryOperationDeviceResponse> findAllByHubDetailId(Long hubDetailId) {
-		List<HistoryOperationDeviceEntity> entities = historyOperationRepository.findByHubDetailId(hubDetailId);
+		List<HistoryOperationDeviceEntity> entities = historyOperationRepository.findByHubDetailIdOrderByCreatedDateDesc(hubDetailId);
 		List<HistoryOperationDeviceResponse> responses = new ArrayList<HistoryOperationDeviceResponse>();
 		for(HistoryOperationDeviceEntity entity : entities) {
 			responses.add(convert.toResponse(entity));

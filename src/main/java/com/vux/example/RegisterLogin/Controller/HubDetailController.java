@@ -98,8 +98,12 @@ public class HubDetailController {
 	}
 	
 	@GetMapping("/hub/detail/{hubDetailId}")
-	public ResponseEntity<?> getHubDetailById(@PathVariable("hubDetailId") Long hubDetailId){
-		HubDetailEntity entity = hubDetailService.findById(hubDetailId).orElse(null);
+	public ResponseEntity<?> getHubDetailById(
+			@PathVariable("hubDetailId") Long hubDetailId,
+			HttpServletRequest request){
+		String token = jwtTokenUtil.getToken(request);
+		String username = jwtTokenUtil.getUserNameFromJwtSubject(token);
+		HubDetailEntity entity = hubDetailService.findByIdAndUsername(hubDetailId, username).orElse(null);
 		HubDetailResponseStatus responseStatus = new HubDetailResponseStatus();
 		responseStatus.setStatus(100);
 		if(entity != null) {

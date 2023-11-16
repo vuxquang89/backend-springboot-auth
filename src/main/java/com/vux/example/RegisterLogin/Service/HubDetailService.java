@@ -86,6 +86,10 @@ public class HubDetailService implements HubDetailServiceImpl {
 	public Optional<HubDetailEntity> findById(long hubDetailId) {
 		return hubDetailRepository.findById(hubDetailId);
 	}
+	@Override
+	public Optional<HubDetailEntity> findByIdAndUsername(long hubDetailId, String username) {
+		return hubDetailRepository.findByIdAndUsername(hubDetailId, username);
+	}
 	
 	@Override
 	public HubDetailEntity save(HubDetailEntity entity) {

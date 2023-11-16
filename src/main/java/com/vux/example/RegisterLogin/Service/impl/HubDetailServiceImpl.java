@@ -15,6 +15,7 @@ public interface HubDetailServiceImpl {
 	public List<HubDetailResponse> findAllWithKeySearch(String keyword);
 	public List<HubDetailResponse> findAllWithKeySearch(String keyword, String username);
 	public Optional<HubDetailEntity> findById(long hubDetailId);
+	public Optional<HubDetailEntity> findByIdAndUsername(long hubDetailId, String username);
 	public HubDetailEntity save(HubDetailEntity entity);
 	public boolean delete(long hubDetailId);
 	public void delete(HubDetailEntity entity);

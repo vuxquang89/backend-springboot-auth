@@ -1,6 +1,7 @@
 package com.vux.example.RegisterLogin.Repo;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -25,6 +26,15 @@ public interface HubDetailRepository extends JpaRepository<HubDetailEntity, Long
 			+ "	order by b.branch_id,hd.hub_id,hd.device_id asc;",
 			nativeQuery = true)
 	List<HubDetailEntity> getHubDetails();
+	
+//	@Transactional
+//	@Modifying(clearAutomatically = true)
+	@Query(value = "select * from hub_detail hd inner join hub h on h.hub_id = hd.hub_id"
+			+ " inner join users u on u.id = h.user_id"
+			+ "	inner join branch b on b.branch_id = h.branch_id"
+			+ "	where hd.id = ?1 and u.username = ?2",
+			nativeQuery = true)
+	Optional<HubDetailEntity> findByIdAndUsername(long hubDetailId, String username);
 	
 	@Transactional
 	@Modifying
