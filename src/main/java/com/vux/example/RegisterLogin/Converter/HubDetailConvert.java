@@ -9,7 +9,6 @@ import com.vux.example.RegisterLogin.Payload.Request.HubDetailRequest;
 import com.vux.example.RegisterLogin.Payload.Response.HubDetailAlarmResponse;
 import com.vux.example.RegisterLogin.Payload.Response.HubDetailResponse;
 import com.vux.example.RegisterLogin.Payload.Response.HubDetailUserResponse;
-import com.vux.example.RegisterLogin.Payload.Response.MaintenanceHistoryResponse;
 
 @Component
 public class HubDetailConvert {
@@ -43,6 +42,13 @@ public class HubDetailConvert {
 		entity.setYearInstall(request.getYearInstall());
 		
 		entity.setNumber(request.getNumber());
+		
+		if(request.getDateMaintenance() > 30) {
+			entity.setDateMaintenance(request.getDateMaintenance());
+		}
+		
+		entity.setOrderMaintenance(request.getOrderMaintenance());
+		entity.setStatusDelete(request.getStatusDelete());
 		
 		entity.setCurrentStatus(request.getCurrentStatus());
 		return entity;
@@ -94,11 +100,14 @@ public class HubDetailConvert {
 		
 		entity.setNumber(request.getNumber());
 		
+		entity.setOrderMaintenance(request.getOrderMaintenance());
+		entity.setStatusDelete(request.getStatusDelete());
+		
 		entity.setCurrentStatus(request.getCurrentStatus());
 		
 		entity.setDateMaintenance(request.getDateMaintenance());
-		if(request.getDateMaintenance() <= 0) {
-			entity.setDateMaintenance(365);
+		if(request.getOrderMaintenance() == false || request.getDateMaintenance() <= 30) {
+			entity.setDateMaintenance(60);
 		}
 		
 		return entity;
@@ -155,6 +164,10 @@ public class HubDetailConvert {
 		response.setCurrentStatus(entity.getCurrentStatus());
 		response.setLatestMaintenanceTime( entity.getLatestMaintenanceTime().toString());
 		response.setAlarmMaintenanceStatus(entity.getAlarmMaintenance());
+		
+		response.setOrderMaintenance(entity.getOrderMaintenance());
+		response.setStatusDelete(entity.getStatusDelete());
+		
 		return response;
 	}
 	
@@ -207,6 +220,10 @@ public class HubDetailConvert {
 		response.setCurrentStatus(entity.getCurrentStatus());
 		response.setLatestMaintenanceTime( entity.getLatestMaintenanceTime().toString());
 		response.setAlarmMaintenanceStatus(entity.getAlarmMaintenance());
+		
+		response.setOrderMaintenance(entity.getOrderMaintenance());
+		response.setStatusDelete(entity.getStatusDelete());
+		
 		return response;
 	}
 }

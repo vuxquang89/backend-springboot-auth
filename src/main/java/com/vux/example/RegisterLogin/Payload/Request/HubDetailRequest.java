@@ -18,6 +18,8 @@ public class HubDetailRequest {
 	private String number;//số lượng
 	private String currentStatus;//tinh trang
 	private Integer dateMaintenance;//so ngay bao duong
+	private Boolean orderMaintenance;//true : nhan thong bao; false : khong nhan thong bao	 
+	private Boolean statusDelete = false;//trang thai xoa :
 	public Long getDeviceId() {
 		return deviceId;
 	}
@@ -113,6 +115,18 @@ public class HubDetailRequest {
 	}
 	public void setDateMaintenance(Integer dateMaintenance) {
 		this.dateMaintenance = dateMaintenance;
+	}
+	public Boolean getOrderMaintenance() {
+		return orderMaintenance;
+	}
+	public void setOrderMaintenance(Boolean orderMaintenance) {
+		this.orderMaintenance = orderMaintenance;
+	}
+	public Boolean getStatusDelete() {
+		return statusDelete;
+	}
+	public void setStatusDelete(Boolean statusDelete) {
+		this.statusDelete = statusDelete;
 	}
 	
 	

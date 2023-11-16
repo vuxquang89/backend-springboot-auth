@@ -86,7 +86,7 @@ public class HubDetailEntity extends BaseEntity{
 	@Column(name = "date_maintenance")
 	private Integer dateMaintenance;//so ngay can bao duong
 	@Column(name = "alarm_maintenance")
-	private Integer alarmMaintenance;//trang thai thong bao canbao duong
+	private Integer alarmMaintenance;//trang thai thong bao can bao duong
 	
 	/*
 	 * //trạng thái bảo dưỡng=> 
@@ -97,6 +97,11 @@ public class HubDetailEntity extends BaseEntity{
 	@Column
 	private Integer maintenanceStatus;
 	
+	@Column(name = "order_maintenance")//dat lich bao duong
+	private Boolean orderMaintenance;//true : nhan thong bao; false : khong nhan thong bao
+	
+	@Column(name = "status_delete")//trang thai xoa : 
+	private Boolean statusDelete;// true => da xoa, false : dang hoat dong
 
 	public Integer getMaintenanceStatus() {
 		return maintenanceStatus;
@@ -272,6 +277,22 @@ public class HubDetailEntity extends BaseEntity{
 
 	public void setHistoryOperationDeviceEntities(List<HistoryOperationDeviceEntity> historyOperationDeviceEntities) {
 		this.historyOperationDeviceEntities = historyOperationDeviceEntities;
+	}
+
+	public Boolean getOrderMaintenance() {
+		return orderMaintenance;
+	}
+
+	public void setOrderMaintenance(Boolean orderMaintenance) {
+		this.orderMaintenance = orderMaintenance;
+	}
+
+	public Boolean getStatusDelete() {
+		return statusDelete;
+	}
+
+	public void setStatusDelete(Boolean statusDelete) {
+		this.statusDelete = statusDelete;
 	}
 	
 }

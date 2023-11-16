@@ -193,7 +193,9 @@ public class HubDetailController {
 		HubDetailEntity entity = hubDetailService.findById(hubDetailId).orElse(null);
 		boolean result = false;
 		if(entity != null) {
-			hubDetailService.delete(entity);
+			//hubDetailService.delete(entity);
+			entity.setStatusDelete(true);
+			hubDetailService.save(entity);
 			
 			HistoryOperationDeviceEntity historyOperationDevice = new HistoryOperationDeviceEntity();
 			historyOperationDevice.setAction("XÓA");

@@ -44,6 +44,10 @@ public class HubDetailResponse {
 	private String yearInstall;//năm lắp đặt hệ thống điện
 	private String number;//số lượng
 	private Integer dateMaintenance;//so ngay can bao duong
+	
+	private Boolean orderMaintenance;//true : nhan thong bao; false : khong nhan thong bao	 
+	private Boolean statusDelete;//trang thai xoa :
+	
 	private String currentStatus;
 	private String latestMaintenanceTime;
 	private Integer alarmMaintenanceStatus;
@@ -290,6 +294,22 @@ public class HubDetailResponse {
 
 	public void setMaintenanceResponses(List<MaintenanceResponse> maintenanceResponses) {
 		this.maintenanceResponses = maintenanceResponses;
+	}
+
+	public Boolean getOrderMaintenance() {
+		return orderMaintenance;
+	}
+
+	public void setOrderMaintenance(Boolean orderMaintenance) {
+		this.orderMaintenance = orderMaintenance;
+	}
+
+	public Boolean getStatusDelete() {
+		return statusDelete;
+	}
+
+	public void setStatusDelete(Boolean statusDelete) {
+		this.statusDelete = statusDelete;
 	}
 	
 	

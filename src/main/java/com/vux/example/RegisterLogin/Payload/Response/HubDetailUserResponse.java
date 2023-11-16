@@ -40,6 +40,10 @@ public class HubDetailUserResponse {
 	private String schneider;//cắt lọc sắt
 	private String yearInstall;//năm lắp đặt hệ thống điện
 	private String number;//số lượng
+	
+	private Boolean orderMaintenance;//true : nhan thong bao; false : khong nhan thong bao	 
+	private Boolean statusDelete;//trang thai xoa :
+	
 	private Integer dateMaintenance; 
 	private String currentStatus;
 	private String latestMaintenanceTime;
@@ -272,6 +276,18 @@ public class HubDetailUserResponse {
 	}
 	public void setDateMaintenance(Integer dateMaintenance) {
 		this.dateMaintenance = dateMaintenance;
+	}
+	public Boolean getOrderMaintenance() {
+		return orderMaintenance;
+	}
+	public void setOrderMaintenance(Boolean orderMaintenance) {
+		this.orderMaintenance = orderMaintenance;
+	}
+	public Boolean getStatusDelete() {
+		return statusDelete;
+	}
+	public void setStatusDelete(Boolean statusDelete) {
+		this.statusDelete = statusDelete;
 	}
 	
 	
