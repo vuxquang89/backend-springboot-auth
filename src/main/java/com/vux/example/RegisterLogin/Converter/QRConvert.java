@@ -3,13 +3,23 @@ package com.vux.example.RegisterLogin.Converter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.vux.example.RegisterLogin.Entity.QRImageEntity;
 import com.vux.example.RegisterLogin.Entity.QRInfoEntity;
+import com.vux.example.RegisterLogin.Entity.UserEntity;
 import com.vux.example.RegisterLogin.Payload.Request.QRInfoRequest;
+import com.vux.example.RegisterLogin.Payload.Request.UserChangePasswordRequest;
 import com.vux.example.RegisterLogin.Payload.Response.QRImageResponse;
 import com.vux.example.RegisterLogin.Payload.Response.QRResponse;
+import com.vux.example.RegisterLogin.Payload.Response.UserResponseStatus;
+import com.vux.example.RegisterLogin.lib.Password;
 
 @Component
 public class QRConvert {
@@ -48,4 +58,6 @@ public class QRConvert {
 		response.setUriResize(entity.getPathName()+"/"+entity.getFileNameResize());
 		return response;
 	}
+	
+	
 }

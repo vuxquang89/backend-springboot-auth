@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.exc.StreamWriteException;
 import com.fasterxml.jackson.databind.DatabindException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vux.example.RegisterLogin.Entity.UserEntity;
 
 import io.jsonwebtoken.Claims;

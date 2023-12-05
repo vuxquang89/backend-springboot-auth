@@ -46,6 +46,16 @@ public class BranchController {
 	}
 	
 	@GetMapping("/branch/list")
+	public ResponseEntity<?> getManagerBranchList(){
+		List<BranchEntity> entities = branchService.getAll();
+		List<SelectResponse> results = new ArrayList<>();
+		for(BranchEntity entity : entities) {
+			results.add(branchConvert.toBranchSelect(entity));
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(results);
+	}
+	
+	@GetMapping("/admin/branch/list")
 	public ResponseEntity<?> getBranchList(){
 		List<BranchEntity> entities = branchService.getAll();
 		List<SelectResponse> results = new ArrayList<>();

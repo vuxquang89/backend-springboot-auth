@@ -22,6 +22,11 @@ public interface MaintenanceHistoryRepository extends JpaRepository<MaintenanceH
 	List<MaintenanceHistoryEntity> findByUsername(String username);
 	
 	@Transactional
+	@Query(value = "select count(*) from maintenance_history mh where mh.hubdetail_id = ?1 and DATE(mh.maintenance_time) = STR_TO_DATE(?2, '%Y-%m-%d');",
+			nativeQuery = true)
+	public Long countMaitenanceByMaitenanceTime(Long hubDetailId, String maintenanceTime);
+	
+	@Transactional
 	@Modifying
 	@Query(value = "select * from maintenance_history mh where mh.hubdetail_id = ?1 order by mh.maintenance_time desc;",
 			nativeQuery = true)

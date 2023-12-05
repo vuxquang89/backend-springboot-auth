@@ -5,13 +5,17 @@ import java.util.Optional;
 
 import com.vux.example.RegisterLogin.Entity.HubDevice.HubDetailEntity;
 import com.vux.example.RegisterLogin.Payload.Response.HubDetailAlarmResponse;
+import com.vux.example.RegisterLogin.Payload.Response.HubDetailListResponse;
 import com.vux.example.RegisterLogin.Payload.Response.HubDetailResponse;
 import com.vux.example.RegisterLogin.Payload.Response.HubDetailUserResponse;
 
 public interface HubDetailServiceImpl {
 
 	public List<HubDetailResponse> getAll();
+	
 	public List<HubDetailResponse> getAllManager(String username);
+	public List<HubDetailListResponse> getAllHubDetailListManager(String username);
+	
 	public List<HubDetailResponse> findAllWithKeySearch(String keyword);
 	public List<HubDetailResponse> findAllWithKeySearch(String keyword, String username);
 	public Optional<HubDetailEntity> findById(long hubDetailId);

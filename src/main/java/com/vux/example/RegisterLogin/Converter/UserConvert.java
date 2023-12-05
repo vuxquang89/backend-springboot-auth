@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 import com.google.api.client.auth.openidconnect.IdToken.Payload;
 import com.vux.example.RegisterLogin.Entity.RoleEntity;
 import com.vux.example.RegisterLogin.Entity.UserEntity;
+import com.vux.example.RegisterLogin.Entity.HubDevice.StaffBranchEntity;
+import com.vux.example.RegisterLogin.Entity.HubDevice.StaffDepartmentEntity;
+import com.vux.example.RegisterLogin.Entity.HubDevice.StaffLeaderEntity;
 import com.vux.example.RegisterLogin.Payload.Request.UserRequest;
 import com.vux.example.RegisterLogin.Payload.Response.OptionSelectResponse;
 import com.vux.example.RegisterLogin.Payload.Response.UserResponse;
@@ -59,12 +62,12 @@ public class UserConvert {
 	public UserEntity toUpdateEntity(UserEntity entity, UserRequest request) {
 		entity.setFullname(request.getFullname());
 		entity.setPhone(request.getPhone());
-		entity.setEmail(entity.getEmail());
+		entity.setEmail(request.getEmail());
 		entity.setStatus(request.getStatus());
 		if(request.getRole() != 1) {
 			entity.getRoles().set(0, new RoleEntity(request.getRole()));
 		}else {
-			entity.getRoles().set(0,new RoleEntity(3));
+			entity.getRoles().set(0,new RoleEntity(5));
 		}
 				
 		return entity;
@@ -78,4 +81,57 @@ public class UserConvert {
 		return response;
 	}
 	
+	public OptionSelectResponse toManagerOptionSelect(StaffBranchEntity entity) {
+		OptionSelectResponse response = new OptionSelectResponse();
+//		response.setName("userId");
+		response.setValue(entity.getId());
+		response.setLabel(entity.getHubManagerName());
+		return response;
+	}
+	
+	public StaffDepartmentEntity toDepartmentEntity(UserEntity entity) {
+		StaffDepartmentEntity departmentEntity = new StaffDepartmentEntity();
+		departmentEntity.setId(entity.getId());
+		departmentEntity.setFullname(entity.getFullname());
+		departmentEntity.setPhone(entity.getPhone());
+		departmentEntity.setEmail(entity.getEmail());
+		departmentEntity.setStatus(entity.getStatus());
+		
+		departmentEntity.setUsername(entity.getUsername());
+		departmentEntity.setRoleName(entity.getRoles().get(0).getName());	
+		departmentEntity.setRoleId(entity.getRoles().get(0).getId());
+		
+		
+		return departmentEntity;
+	}
+	
+	public StaffBranchEntity toBranchEntity(UserEntity entity) {
+		StaffBranchEntity branchEntity = new StaffBranchEntity();
+		branchEntity.setId(entity.getId());
+		branchEntity.setHubManagerName(entity.getFullname());
+		branchEntity.setHubManagerPhone(entity.getPhone());
+		branchEntity.setEmail(entity.getEmail());
+		branchEntity.setStatus(entity.getStatus());
+		
+		branchEntity.setUsername(entity.getUsername());
+		branchEntity.setRoleName(entity.getRoles().get(0).getName());	
+		branchEntity.setRoleId(entity.getRoles().get(0).getId());
+		
+		return branchEntity;
+	}
+	
+	public StaffLeaderEntity toLeaderEntity(UserEntity entity) {
+		StaffLeaderEntity branchEntity = new StaffLeaderEntity();
+		branchEntity.setId(entity.getId());
+		branchEntity.setDeputyTechnicalDirector(entity.getFullname());
+		branchEntity.setPhoneDeputyTechnicalDirector(entity.getPhone());
+		branchEntity.setEmailDeputyTechnicalDirector(entity.getEmail());
+		branchEntity.setStatus(entity.getStatus());
+		
+		branchEntity.setUsername(entity.getUsername());
+		branchEntity.setRoleName(entity.getRoles().get(0).getName());	
+		branchEntity.setRoleId(entity.getRoles().get(0).getId());
+		
+		return branchEntity;
+	}
 }

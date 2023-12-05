@@ -15,6 +15,15 @@ public class UserResponse {
 	private String statusName;
 	private List<Integer> rolesId = new ArrayList<Integer>();
 	private List<String> rolesName = new ArrayList<String>();
+	private String branchId;
+	private String branchName;
+	
+	public String getBranchName() {
+		return branchName;
+	}
+	public void setBranchName(String branchName) {
+		this.branchName = branchName;
+	}
 	public long getId() {
 		return id;
 	}
@@ -40,6 +49,13 @@ public class UserResponse {
 		this.fullname = fullname;
 	}
 	
+	
+	public String getBranchId() {
+		return branchId;
+	}
+	public void setBranchId(String branchId) {
+		this.branchId = branchId;
+	}
 	public Integer getStatus() {
 		return status;
 	}

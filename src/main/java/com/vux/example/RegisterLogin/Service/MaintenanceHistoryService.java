@@ -74,4 +74,8 @@ public class MaintenanceHistoryService implements MaintenanceHistoryServiceImpl 
 		return repository.findById(id);
 	}
 
+	@Override
+	public Long countMaintenanceByTime(Long hubDetailId, String maintenanceTime) {
+		return repository.countMaitenanceByMaitenanceTime(hubDetailId, maintenanceTime);
+	}
 }

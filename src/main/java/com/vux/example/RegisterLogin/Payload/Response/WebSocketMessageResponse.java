@@ -8,9 +8,17 @@ public class WebSocketMessageResponse {
 	private String senderName;
     private String receiverName;
     private String message;
+    private String content;
     private String date;
     private EnumStatus status;
     private EnumAction action;
+    
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}
 	public String getSenderName() {
 		return senderName;
 	}

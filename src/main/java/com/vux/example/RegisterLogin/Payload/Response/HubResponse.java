@@ -12,7 +12,8 @@ public class HubResponse {
 	private String hubCity;
 	private String hubManagerName;
 	private String hubManagerPhone;
-	private UserResponse userResponse;
+	private StaffDepartmentResponse departmentResponse;
+	private StaffBranchResponse managerResponse;
 	private BranchResponse branchResponse;
 	private List<HubDetailResponse> hubDetailResponses = new ArrayList<>();
 	public String getHubId() {
@@ -51,11 +52,12 @@ public class HubResponse {
 	public void setHubManagerPhone(String hubManagerPhone) {
 		this.hubManagerPhone = hubManagerPhone;
 	}
-	public UserResponse getUserResponse() {
-		return userResponse;
+	
+	public StaffDepartmentResponse getDepartmentResponse() {
+		return departmentResponse;
 	}
-	public void setUserResponse(UserResponse userResponse) {
-		this.userResponse = userResponse;
+	public void setDepartmentResponse(StaffDepartmentResponse departmentResponse) {
+		this.departmentResponse = departmentResponse;
 	}
 	public BranchResponse getBranchResponse() {
 		return branchResponse;
@@ -72,4 +74,11 @@ public class HubResponse {
 	public void addHubDetailResponse(HubDetailResponse hubDetailResponse) {
 		this.hubDetailResponses.add(hubDetailResponse);
 	}
+	public StaffBranchResponse getManagerResponse() {
+		return managerResponse;
+	}
+	public void setManagerResponse(StaffBranchResponse managerResponse) {
+		this.managerResponse = managerResponse;
+	}
+	
 }

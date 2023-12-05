@@ -12,6 +12,7 @@ public class WebSocketMessageConvert {
 		WebSocketMessageResponse response = new WebSocketMessageResponse();
 		response.setSenderName(request.getSenderName());
 		response.setStatus(request.getStatus());
+		response.setContent(request.getContent());
 		response.setReceiverName(request.getReceiverName());
 		response.setMessage(request.getMessage());
 		response.setAction(request.getAction());

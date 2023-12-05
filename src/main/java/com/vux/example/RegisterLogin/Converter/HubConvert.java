@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import com.vux.example.RegisterLogin.Entity.HubDevice.HubDetailEntity;
 import com.vux.example.RegisterLogin.Entity.HubDevice.HubEntity;
 import com.vux.example.RegisterLogin.Payload.Request.HubRequest;
-
+import com.vux.example.RegisterLogin.Payload.Response.HubAdminResponse;
 import com.vux.example.RegisterLogin.Payload.Response.HubResponse;
 import com.vux.example.RegisterLogin.Payload.Response.SelectResponse;
 
@@ -16,21 +16,41 @@ import com.vux.example.RegisterLogin.Payload.Response.SelectResponse;
 public class HubConvert {
 	
 	@Autowired
-	private UserConvert userConvert;
-	@Autowired
 	private BranchConvert branchConvert;
 	@Autowired
 	private HubDetailConvert hubDetailConvert;
+	@Autowired
+	private StaffDepartmentConvert staffDepartmentConvert;
+	@Autowired
+	private StaffBranchConvert staffBranchConvert;
 
+	public HubAdminResponse toAdminResponse(HubEntity entity) {
+		HubAdminResponse response = new HubAdminResponse();
+		response.setHubId(entity.getHubId());
+		response.setHubAddress(entity.getHubAddress());
+		response.setHubCity(entity.getHubCity());
+		response.setBranchName(entity.getBranchEntity().getBranchName());
+		response.setHubManagerName(entity.getStaffBranch().getHubManagerName());
+		response.setHubManagerPhone(entity.getStaffBranch().getHubManagerPhone());
+		response.setHubName(entity.getHubName());
+		response.setDepartmentName(entity.getStaffDepartment().getFullname());
+		response.setDepartmentPhone(entity.getStaffDepartment().getPhone());
+		
+		return response;
+		
+	}
+	
 	public HubResponse toResponse(HubEntity entity) {
 		HubResponse response = new HubResponse();
 		response.setHubId(entity.getHubId());
 		response.setHubName(entity.getHubName());
-		response.setHubManagerName(entity.getHubManagerName());
-		response.setHubManagerPhone(entity.getHubManagerPhone());
+		response.setHubManagerName(entity.getStaffBranch().getHubManagerName());
+		response.setHubManagerPhone(entity.getStaffBranch().getHubManagerPhone());
 		response.setHubCity(entity.getHubCity());
 		response.setHubAddress(entity.getHubAddress());
-		response.setUserResponse(userConvert.toResponse(entity.getPersonnelChargeName()));
+		response.setDepartmentResponse(staffDepartmentConvert.toResponse(entity.getStaffDepartment()));
+		response.setManagerResponse(staffBranchConvert.toStaffBranchResponse(entity.getStaffBranch()));
+		
 		response.setBranchResponse(branchConvert.toResponse(entity.getBranchEntity()));
 		if(entity.getHubDetails() != null && entity.getHubDetails().size() > 0) {
 			for(HubDetailEntity hubDetailEntity : entity.getHubDetails()) {
@@ -46,8 +66,7 @@ public class HubConvert {
 		entity.setHubName(request.getHubName());
 		entity.setHubAddress(request.getHubAddress());
 		entity.setHubCity(request.getHubCity());
-		entity.setHubManagerName(request.getHubManagerName());
-		entity.setHubManagerPhone(request.getHubManagerPhone());
+		
 		return entity;
 	}
 	
@@ -56,8 +75,8 @@ public class HubConvert {
 		entity.setHubName(request.getHubName());
 		entity.setHubAddress(request.getHubAddress());
 		entity.setHubCity(request.getHubCity());
-		entity.setHubManagerName(request.getHubManagerName());
-		entity.setHubManagerPhone(request.getHubManagerPhone());
+//		entity.getStaffBranch().setHubManagerName(request.getHubManagerName());
+//		entity.getStaffBranch().setHubManagerPhone(request.getHubManagerPhone());
 		return entity;
 	}
 	

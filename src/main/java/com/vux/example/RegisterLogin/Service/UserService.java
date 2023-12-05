@@ -77,6 +77,17 @@ public class UserService implements UserServiceImpl{
 		}
 		return responses;
 	}
+	
+	@Override
+	public List<UserResponse> findByUserType(String userType) {
+		List<UserEntity> entities = userRepository.findByUserType(userType);
+		List<UserResponse> responses = new ArrayList<UserResponse>();
+		for(UserEntity entity : entities) {
+			responses.add(userConvert.toResponse(entity));
+		}
+		return responses;
+	}
+	
 	@Override
 	public List<UserResponse> getUserRole(int roleId) {
 		List<UserEntity> entities = userRepository.findUserManager(roleId);

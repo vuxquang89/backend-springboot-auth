@@ -7,10 +7,24 @@ public class HubRequest {
 	private String hubName;
 	private String hubAddress;
 	private String hubCity;
-	private String hubManagerName;
-	private String hubManagerPhone;
-	private Long userId;
+	
+	private Long staffManagerId;
+	private Long staffDepartmentId;
+	
 	private String branchId;
+	
+	public Long getStaffManagerId() {
+		return staffManagerId;
+	}
+	public void setStaffManagerId(Long staffManagerId) {
+		this.staffManagerId = staffManagerId;
+	}
+	public Long getStaffDepartmentId() {
+		return staffDepartmentId;
+	}
+	public void setStaffDepartmentId(Long staffDepartmentId) {
+		this.staffDepartmentId = staffDepartmentId;
+	}
 	public String getHubId() {
 		return hubId;
 	}
@@ -35,24 +49,7 @@ public class HubRequest {
 	public void setHubCity(String hubCity) {
 		this.hubCity = hubCity;
 	}
-	public String getHubManagerName() {
-		return hubManagerName;
-	}
-	public void setHubManagerName(String hubManagerName) {
-		this.hubManagerName = hubManagerName;
-	}
-	public String getHubManagerPhone() {
-		return hubManagerPhone;
-	}
-	public void setHubManagerPhone(String hubManagerPhone) {
-		this.hubManagerPhone = hubManagerPhone;
-	}
-	public Long getUserId() {
-		return userId;
-	}
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
+	
 	public String getBranchId() {
 		return branchId;
 	}

@@ -10,6 +10,7 @@ public interface MaintenanceHistoryServiceImpl {
 
 	public MaintenanceHistoryEntity save(MaintenanceHistoryEntity entity);
 	public boolean delete(Long entityId);
+	public Long countMaintenanceByTime(Long hubDetailId, String maintenanceTime);
 	public Optional<MaintenanceHistoryEntity> findById(Long id);
 	public List<MaintenanceHistoryResponse> findAll();
 	public List<MaintenanceHistoryResponse> findByUsername(String username);

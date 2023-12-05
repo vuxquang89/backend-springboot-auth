@@ -14,9 +14,12 @@ public class BranchConvert {
 		BranchResponse response = new BranchResponse();
 		response.setBranchId(entity.getBranchId());
 		response.setBranchName(entity.getBranchName());
-		response.setDeputyTechnicalDirector(entity.getDeputyTechnicalDirector());
-		response.setPhoneDeputyTechnicalDirector(entity.getPhoneDeputyTechnicalDirector());
-		response.setEmailDeputyTechnicalDirector(entity.getEmailDeputyTechnicalDirector());
+		if(entity.getStaffLeader() != null) {
+			response.setDeputyTechnicalDirector(entity.getStaffLeader().getDeputyTechnicalDirector());
+			response.setPhoneDeputyTechnicalDirector(entity.getStaffLeader().getPhoneDeputyTechnicalDirector());
+			response.setEmailDeputyTechnicalDirector(entity.getStaffLeader().getEmailDeputyTechnicalDirector());	
+		}
+		
 		response.setBranchAddress(entity.getBranchAddress());
 		return response;
 	}
@@ -25,9 +28,9 @@ public class BranchConvert {
 		BranchEntity entity = new BranchEntity();
 		entity.setBranchId(response.getBranchId());
 		entity.setBranchName(response.getBranchName());
-		entity.setDeputyTechnicalDirector(response.getDeputyTechnicalDirector());
-		entity.setPhoneDeputyTechnicalDirector(response.getPhoneDeputyTechnicalDirector());
-		entity.setEmailDeputyTechnicalDirector(response.getEmailDeputyTechnicalDirector());
+//		entity.getStaffLeader().setDeputyTechnicalDirector(response.getDeputyTechnicalDirector());
+//		entity.getStaffLeader().setPhoneDeputyTechnicalDirector(response.getPhoneDeputyTechnicalDirector());
+//		entity.getStaffLeader().setEmailDeputyTechnicalDirector(response.getEmailDeputyTechnicalDirector());
 		entity.setBranchAddress(response.getBranchAddress());
 		return entity;
 	}

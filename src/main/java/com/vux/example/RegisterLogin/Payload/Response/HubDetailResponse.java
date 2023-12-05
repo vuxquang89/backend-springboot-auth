@@ -10,6 +10,8 @@ public class HubDetailResponse {
 	private Long deviceId;
 	private String deviceName;
 	private String backgroundColor;
+	private String modifiedBy;
+	private String modifiedDate;
 
 	private String hubId;
 	private String hubName;
@@ -75,6 +77,23 @@ public class HubDetailResponse {
 	public void setMaintenanceHistories(List<MaintenanceResponse> maintenanceResponses) {
 		this.maintenanceResponses = maintenanceResponses;
 	}
+	
+	public String getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+
+	public String getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(String modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
 	public String getTrademark() {
 		return trademark;
 	}

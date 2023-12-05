@@ -9,15 +9,12 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import com.vux.example.RegisterLogin.Entity.HubDevice.HubEntity;
 
 
 //@Entity(name = "user")// Đánh dấu đây là table trong db
@@ -56,8 +53,16 @@ public class UserEntity extends BaseEntity implements UserDetails{
 	@Column
 	private Integer status;
 	
-	@OneToMany(mappedBy="personnelChargeName")
-	private List<HubEntity> hubs;
+	@Column(name = "user_type")
+	private String userType;
+
+	public String getUserType() {
+		return userType;
+	}
+
+	public void setUserType(String userType) {
+		this.userType = userType;
+	}
 
 	public void setUsername(String username) {
 		this.username = username;
@@ -119,14 +124,6 @@ public class UserEntity extends BaseEntity implements UserDetails{
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public List<HubEntity> getHubs() {
-		return hubs;
-	}
-
-	public void setHubs(List<HubEntity> hubs) {
-		this.hubs = hubs;
 	}
 
 	/*

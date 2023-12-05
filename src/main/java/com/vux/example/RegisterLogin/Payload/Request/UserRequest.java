@@ -10,6 +10,22 @@ public class UserRequest {
 	private String phone;
 	private Integer status;
 	private Integer role;
+	private String branchId;
+	private String branchName;
+	
+	
+	public String getBranchName() {
+		return branchName;
+	}
+	public void setBranchName(String branchName) {
+		this.branchName = branchName;
+	}
+	public String getBranchId() {
+		return branchId;
+	}
+	public void setBranchId(String branchId) {
+		this.branchId = branchId;
+	}
 	public long getId() {
 		return id;
 	}

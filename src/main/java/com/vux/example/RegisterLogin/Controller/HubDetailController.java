@@ -1,6 +1,7 @@
 package com.vux.example.RegisterLogin.Controller;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,20 +22,24 @@ import org.springframework.web.bind.annotation.RestController;
 import com.vux.example.RegisterLogin.Converter.HubDetailConvert;
 import com.vux.example.RegisterLogin.Entity.HubDevice.DeviceEntity;
 import com.vux.example.RegisterLogin.Entity.HubDevice.HistoryOperationDeviceEntity;
+import com.vux.example.RegisterLogin.Entity.HubDevice.HubDetailAfterChange;
 import com.vux.example.RegisterLogin.Entity.HubDevice.HubDetailEntity;
 import com.vux.example.RegisterLogin.Entity.HubDevice.HubEntity;
 import com.vux.example.RegisterLogin.Entity.HubDevice.MaintenanceHistoryEntity;
 import com.vux.example.RegisterLogin.Jwt.JwtTokenUtil;
 import com.vux.example.RegisterLogin.Payload.Request.HubDetailRequest;
 import com.vux.example.RegisterLogin.Payload.Response.HistoryOperationDeviceResponse;
+import com.vux.example.RegisterLogin.Payload.Response.HubDetailAfterChangeResponse;
 import com.vux.example.RegisterLogin.Payload.Response.HubDetailAlarmResponse;
 import com.vux.example.RegisterLogin.Payload.Response.HubDetailResponse;
 import com.vux.example.RegisterLogin.Payload.Response.HubDetailResponseStatus;
 import com.vux.example.RegisterLogin.Service.DeviceService;
 import com.vux.example.RegisterLogin.Service.HistoryOperationDeviceService;
+import com.vux.example.RegisterLogin.Service.HubDetailAfterChangeService;
 import com.vux.example.RegisterLogin.Service.HubDetailService;
 import com.vux.example.RegisterLogin.Service.HubService;
 import com.vux.example.RegisterLogin.Service.MaintenanceHistoryService;
+import com.vux.example.RegisterLogin.Util.LocalDateConvert;
 
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -54,6 +59,8 @@ public class HubDetailController {
 	private HistoryOperationDeviceService historyOperationDeviceService;
 	@Autowired
 	private HubDetailConvert hubDetailConvert;
+	@Autowired
+	private HubDetailAfterChangeService hubDetailAfterChangeService;
 
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
@@ -65,7 +72,29 @@ public class HubDetailController {
 	}
 	
 	@GetMapping("/hub/manager/detail")
-	public ResponseEntity<?> getMangerAll(HttpServletRequest request){
+	public ResponseEntity<?> getManagerAll(HttpServletRequest request){
+		String token = jwtTokenUtil.getToken(request);
+		String username = jwtTokenUtil.getUserNameFromJwtSubject(token);
+		List<HubDetailResponse> hubDetailResponses = hubDetailService.getAllManager(username);
+		return ResponseEntity.status(HttpStatus.OK).body(hubDetailResponses);
+	}
+	
+	@GetMapping("/hub/manager/detail/{hubDetailId}")
+	public ResponseEntity<?> getManager(
+			@PathVariable("hubDetailId") Long hubDetailId,
+			HttpServletRequest request){
+		String token = jwtTokenUtil.getToken(request);
+		String username = jwtTokenUtil.getUserNameFromJwtSubject(token);
+//		List<HubDetailResponse> hubDetailResponses = hubDetailService.getAllManager(username);
+		HubDetailEntity hubDetailEntity = hubDetailService.findByIdAndUsername(hubDetailId, username).orElse(null);
+		HubDetailResponse response = new HubDetailResponse();
+		response = hubDetailConvert.toResponse(hubDetailEntity);
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
+	
+
+	@GetMapping("/hub/manager/detail/list")
+	public ResponseEntity<?> getMangerList(HttpServletRequest request){
 		String token = jwtTokenUtil.getToken(request);
 		String username = jwtTokenUtil.getUserNameFromJwtSubject(token);
 		List<HubDetailResponse> hubDetailResponses = hubDetailService.getAllManager(username);
@@ -113,6 +142,19 @@ public class HubDetailController {
 			responseStatus.setStatus(101);
 		}
 		return ResponseEntity.status(HttpStatus.OK).body(responseStatus);
+	}
+	
+	/**
+	 * get hub detail after change
+	 * 
+	 */
+	@GetMapping("/hub/detail/historybeforechange/{historyChangeId}")
+	public ResponseEntity<?> getHubDetailAfterchangeHubDetailById(
+			@PathVariable("historyChangeId") Long historyChangeId,
+			HttpServletRequest request){
+	
+		List<HubDetailAfterChangeResponse> responses = hubDetailAfterChangeService.findByHubDetailId(historyChangeId);
+		return ResponseEntity.status(HttpStatus.OK).body(responses);
 	}
 	
 	/**
@@ -168,15 +210,29 @@ public class HubDetailController {
 		HubDetailEntity entity = hubDetailService.findById(hubDetailId).orElse(null);
 		
 		if(entity != null) {
+			
+			HubDetailAfterChange hubDetailBeforeChange = hubDetailConvert.toHubDetailAfterChange(entity);
+			hubDetailBeforeChange.setStatus("Trước");
+			
 			entity = hubDetailConvert.toUpdateEntity(entity, request);
 			
 			entity = hubDetailService.save(entity);
+			
+			HubDetailAfterChange hubDetailAfterChange = hubDetailConvert.toHubDetailAfterChange(entity);
+			hubDetailAfterChange.setStatus("Sau");
 			
 			HistoryOperationDeviceEntity historyOperationDevice = new HistoryOperationDeviceEntity();
 			historyOperationDevice.setAction("CHỈNH SỬA");
 			historyOperationDevice.setContent("Chỉnh sửa thông tin thiết bị");
 			historyOperationDevice.setHubDetail(entity);
-			historyOperationDeviceService.save(historyOperationDevice);
+			historyOperationDevice = historyOperationDeviceService.save(historyOperationDevice);
+			
+			//luu thong tin thiet bi truoc khi thay doi
+			hubDetailBeforeChange.setHistoryChangeId(historyOperationDevice.getId());
+			hubDetailAfterChange.setHistoryChangeId(historyOperationDevice.getId());
+			hubDetailAfterChange.setUserModifiedDate(LocalDateConvert.localDateTimeToString(LocalDateTime.now()));
+			hubDetailAfterChangeService.save(hubDetailBeforeChange);
+			hubDetailAfterChangeService.save(hubDetailAfterChange);
 			
 			HubDetailResponse response = hubDetailConvert.toResponse(entity);
 			return ResponseEntity.status(HttpStatus.OK).body(response);

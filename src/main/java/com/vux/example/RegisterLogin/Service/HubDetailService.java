@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.vux.example.RegisterLogin.Converter.HubDetailConvert;
 import com.vux.example.RegisterLogin.Entity.HubDevice.HubDetailEntity;
 import com.vux.example.RegisterLogin.Payload.Response.HubDetailAlarmResponse;
+import com.vux.example.RegisterLogin.Payload.Response.HubDetailListResponse;
 import com.vux.example.RegisterLogin.Payload.Response.HubDetailResponse;
 import com.vux.example.RegisterLogin.Payload.Response.HubDetailUserResponse;
 import com.vux.example.RegisterLogin.Repo.HubDetailRepository;
@@ -47,6 +48,19 @@ public class HubDetailService implements HubDetailServiceImpl {
 		
 		return hubDetailResponses;
 	}
+	
+	@Override
+	public List<HubDetailListResponse> getAllHubDetailListManager(String username) {
+		List<HubDetailEntity> hubDetails = hubDetailRepository.getHubDetails(username);
+		
+		List<HubDetailListResponse> hubDetailListResponses = new ArrayList<HubDetailListResponse>();
+		for(HubDetailEntity entity : hubDetails) {
+			hubDetailListResponses.add(hubDetailConvert.toListResponse(entity));
+		}
+		return hubDetailListResponses;
+	}
+	
+	
 	
 	@Override
 	public List<HubDetailResponse> findAllWithKeySearch(String keyword) {
@@ -133,4 +147,6 @@ public class HubDetailService implements HubDetailServiceImpl {
 	public Integer getCountAlarm(String usename) {
 		return hubDetailRepository.getHubDetailAlarm(usename).size();
 	}
+
+	
 }

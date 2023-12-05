@@ -3,10 +3,12 @@ package com.vux.example.RegisterLogin.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.vux.example.RegisterLogin.Entity.HubDevice.HubDetailAfterChange;
 import com.vux.example.RegisterLogin.Entity.HubDevice.HubDetailEntity;
 import com.vux.example.RegisterLogin.Entity.HubDevice.MaintenanceHistoryEntity;
 import com.vux.example.RegisterLogin.Payload.Request.HubDetailRequest;
 import com.vux.example.RegisterLogin.Payload.Response.HubDetailAlarmResponse;
+import com.vux.example.RegisterLogin.Payload.Response.HubDetailListResponse;
 import com.vux.example.RegisterLogin.Payload.Response.HubDetailResponse;
 import com.vux.example.RegisterLogin.Payload.Response.HubDetailUserResponse;
 
@@ -113,6 +115,13 @@ public class HubDetailConvert {
 		return entity;
 	}
 	
+	public HubDetailListResponse toListResponse(HubDetailEntity entity) {
+		HubDetailListResponse response = new HubDetailListResponse();
+		response.setHubId(entity.getHubEntity().getHubId());
+		response.setHubName(entity.getHubEntity().getHubName());
+		return response;
+	}
+	
 
 	public HubDetailResponse toResponse(HubDetailEntity entity) {
 		HubDetailResponse response = new HubDetailResponse();
@@ -120,25 +129,27 @@ public class HubDetailConvert {
 		response.setDeviceId(entity.getDevice().getId());
 		response.setDeviceName(entity.getDevice().getDeviceName());
 		response.setBackgroundColor(entity.getDevice().getBackgroundColor());
+		response.setModifiedBy(entity.getModifiedBy());
+		response.setModifiedDate(entity.getModifiedDate().toString());
 		
 		response.setHubId(entity.getHubEntity().getHubId());
 		response.setHubName(entity.getHubEntity().getHubName());
 		response.setHubAddress(entity.getHubEntity().getHubAddress());
 		response.setHubCity(entity.getHubEntity().getHubCity());
-		response.setHubManagerName(entity.getHubEntity().getHubManagerName());
-		response.setHubManagerPhone(entity.getHubEntity().getHubManagerPhone());
+		response.setHubManagerName(entity.getHubEntity().getStaffBranch().getHubManagerName());
+		response.setHubManagerPhone(entity.getHubEntity().getStaffBranch().getHubManagerPhone());
 		
-		response.setUserId(entity.getHubEntity().getPersonnelChargeName().getId());
-		response.setUsername(entity.getHubEntity().getPersonnelChargeName().getUsername());
-		response.setEmail(entity.getHubEntity().getPersonnelChargeName().getEmail());
-		response.setFullname(entity.getHubEntity().getPersonnelChargeName().getFullname());
-		response.setPhone(entity.getHubEntity().getPersonnelChargeName().getPhone());
+		response.setUserId(entity.getHubEntity().getStaffDepartment().getId());
+		response.setUsername(entity.getHubEntity().getStaffDepartment().getUsername());
+		response.setEmail(entity.getHubEntity().getStaffDepartment().getEmail());
+		response.setFullname(entity.getHubEntity().getStaffDepartment().getFullname());
+		response.setPhone(entity.getHubEntity().getStaffDepartment().getPhone());
 		
 		response.setBranchId(entity.getHubEntity().getBranchEntity().getBranchId());
 		response.setBranchName(entity.getHubEntity().getBranchEntity().getBranchName());
-		response.setDeputyTechnicalDirector(entity.getHubEntity().getBranchEntity().getDeputyTechnicalDirector());
-		response.setPhoneDeputyTechnicalDirector(entity.getHubEntity().getBranchEntity().getPhoneDeputyTechnicalDirector());
-		response.setEmailDeputyTechnicalDirector(entity.getHubEntity().getBranchEntity().getEmailDeputyTechnicalDirector());
+		response.setDeputyTechnicalDirector(entity.getHubEntity().getBranchEntity().getStaffLeader().getDeputyTechnicalDirector());
+		response.setPhoneDeputyTechnicalDirector(entity.getHubEntity().getBranchEntity().getStaffLeader().getPhoneDeputyTechnicalDirector());
+		response.setEmailDeputyTechnicalDirector(entity.getHubEntity().getBranchEntity().getStaffLeader().getEmailDeputyTechnicalDirector());
 		response.setBranchAddress(entity.getHubEntity().getBranchEntity().getBranchAddress());
 		
 		if(entity.getMaintenanceHistories() != null) {
@@ -182,20 +193,20 @@ public class HubDetailConvert {
 		response.setHubName(entity.getHubEntity().getHubName());
 		response.setHubAddress(entity.getHubEntity().getHubAddress());
 		response.setHubCity(entity.getHubEntity().getHubCity());
-		response.setHubManagerName(entity.getHubEntity().getHubManagerName());
-		response.setHubManagerPhone(entity.getHubEntity().getHubManagerPhone());
+		response.setHubManagerName(entity.getHubEntity().getStaffBranch().getHubManagerName());
+		response.setHubManagerPhone(entity.getHubEntity().getStaffBranch().getHubManagerPhone());
 		
-		response.setUserId(entity.getHubEntity().getPersonnelChargeName().getId());
-		response.setUsername(entity.getHubEntity().getPersonnelChargeName().getUsername());
-		response.setEmail(entity.getHubEntity().getPersonnelChargeName().getEmail());
-		response.setFullname(entity.getHubEntity().getPersonnelChargeName().getFullname());
-		response.setPhone(entity.getHubEntity().getPersonnelChargeName().getPhone());
+		response.setUserId(entity.getHubEntity().getStaffDepartment().getId());
+		response.setUsername(entity.getHubEntity().getStaffDepartment().getUsername());
+		response.setEmail(entity.getHubEntity().getStaffDepartment().getEmail());
+		response.setFullname(entity.getHubEntity().getStaffDepartment().getFullname());
+		response.setPhone(entity.getHubEntity().getStaffDepartment().getPhone());
 		
 		response.setBranchId(entity.getHubEntity().getBranchEntity().getBranchId());
 		response.setBranchName(entity.getHubEntity().getBranchEntity().getBranchName());
-		response.setDeputyTechnicalDirector(entity.getHubEntity().getBranchEntity().getDeputyTechnicalDirector());
-		response.setPhoneDeputyTechnicalDirector(entity.getHubEntity().getBranchEntity().getPhoneDeputyTechnicalDirector());
-		response.setEmailDeputyTechnicalDirector(entity.getHubEntity().getBranchEntity().getEmailDeputyTechnicalDirector());
+		response.setDeputyTechnicalDirector(entity.getHubEntity().getBranchEntity().getStaffLeader().getDeputyTechnicalDirector());
+		response.setPhoneDeputyTechnicalDirector(entity.getHubEntity().getBranchEntity().getStaffLeader().getPhoneDeputyTechnicalDirector());
+		response.setEmailDeputyTechnicalDirector(entity.getHubEntity().getBranchEntity().getStaffLeader().getEmailDeputyTechnicalDirector());
 		response.setBranchAddress(entity.getHubEntity().getBranchEntity().getBranchAddress());
 		/*
 		if(entity.getMaintenanceHistories() != null) {
@@ -224,6 +235,37 @@ public class HubDetailConvert {
 		response.setOrderMaintenance(entity.getOrderMaintenance());
 		response.setStatusDelete(entity.getStatusDelete());
 		
+		return response;
+	}
+	
+	public HubDetailAfterChange toHubDetailAfterChange(HubDetailEntity entity) {
+		HubDetailAfterChange response = new HubDetailAfterChange();
+		response.setHubDetailId(entity.getId());		
+		response.setDeviceId(entity.getDevice().getId());
+		//response.setDeviceName(entity.getDevice().getDeviceName());
+		
+		response.setHubId(entity.getHubEntity().getHubId());
+		response.setUserModifiedBy(entity.getModifiedBy());
+		response.setUserModifiedDate(entity.getModifiedDate().toString());		
+		
+		response.setTrademark(entity.getTrademark());
+		response.setRatedPower(entity.getRatedPower());
+		response.setLoadDuringPowerOutage(entity.getLoadDuringPowerOutage());
+		response.setBatteryQuantity(entity.getBatteryQuantity());
+		response.setBatteryNumber(entity.getBatteryNumber());
+		response.setBatteryCapacity(entity.getBatteryCapacity());
+		response.setProductionTime(entity.getProductionTime());
+		response.setConductorType(entity.getConductorType());
+		response.setCbPower(entity.getCbPower()) ;
+		response.setSchneider(entity.getSchneider());
+		response.setYearInstall(entity.getYearInstall());
+		response.setNumber(entity.getNumber());
+		response.setDateMaintenance(entity.getDateMaintenance());
+		response.setCurrentStatus(entity.getCurrentStatus());
+		response.setLatestMaintenanceTime( entity.getLatestMaintenanceTime());		
+		
+		response.setOrderMaintenance(entity.getOrderMaintenance());
+		response.setStatusDelete(entity.getStatusDelete());
 		return response;
 	}
 }

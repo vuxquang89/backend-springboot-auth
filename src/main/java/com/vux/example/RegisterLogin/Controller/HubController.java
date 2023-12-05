@@ -19,18 +19,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vux.example.RegisterLogin.Converter.HubConvert;
-import com.vux.example.RegisterLogin.Converter.QRConvert;
-import com.vux.example.RegisterLogin.Entity.UserEntity;
+
 import com.vux.example.RegisterLogin.Entity.HubDevice.BranchEntity;
 import com.vux.example.RegisterLogin.Entity.HubDevice.HubEntity;
+import com.vux.example.RegisterLogin.Entity.HubDevice.StaffBranchEntity;
+import com.vux.example.RegisterLogin.Entity.HubDevice.StaffDepartmentEntity;
 import com.vux.example.RegisterLogin.Jwt.JwtTokenUtil;
 import com.vux.example.RegisterLogin.Payload.Request.HubRequest;
+import com.vux.example.RegisterLogin.Payload.Response.HubAdminResponse;
 import com.vux.example.RegisterLogin.Payload.Response.HubResponse;
 import com.vux.example.RegisterLogin.Payload.Response.HubResponseStatus;
 import com.vux.example.RegisterLogin.Payload.Response.SelectResponse;
 import com.vux.example.RegisterLogin.Service.BranchService;
 import com.vux.example.RegisterLogin.Service.HubService;
-import com.vux.example.RegisterLogin.Service.UserService;
+import com.vux.example.RegisterLogin.Service.StaffBranchService;
+import com.vux.example.RegisterLogin.Service.StaffDepartmentService;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -44,7 +47,10 @@ public class HubController {
 	@Autowired
 	private BranchService branchService;
 	@Autowired
-	private UserService userService;
+	private StaffBranchService staffBranchService;
+	@Autowired
+	private StaffDepartmentService staffDepartmentService;
+	;
 	
 	
 	@Autowired
@@ -52,9 +58,9 @@ public class HubController {
 	
 	
 	
-	@GetMapping("/hub")
+	@GetMapping("/admin/hub")
 	public ResponseEntity<?> getAll(){
-		List<HubResponse> responses = hubService.getAll();
+		List<HubAdminResponse> responses = hubService.getAll();
 		return ResponseEntity.status(HttpStatus.OK).body(responses);
 	}
 	
@@ -75,6 +81,18 @@ public class HubController {
 		if(branchEntity.getBranchId() != null) {
 			responses = hubService.findByBranchId(branchEntity);
 		}
+		return ResponseEntity.status(HttpStatus.OK).body(responses);
+	}
+	
+	@GetMapping("/admin/hub/branch/{branchId}")
+	public ResponseEntity<?> getHubAdminBranch(
+			@PathVariable("branchId") String branchId){
+		BranchEntity branchEntity = branchService.findByBranchId(branchId);
+		List<HubAdminResponse> responses = new ArrayList<HubAdminResponse>();
+		if(branchEntity.getBranchId() != null) {
+			responses = hubService.findAdminByBranchId(branchEntity);
+		}
+		
 		return ResponseEntity.status(HttpStatus.OK).body(responses);
 	}
 	
@@ -112,18 +130,21 @@ public class HubController {
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 	
-	@PutMapping("/hub/{hubId}")
+	@PutMapping("/admin/hub/{hubId}")
 	public ResponseEntity<?> edit(
 			@PathVariable("hubId") String hubId,
 			@RequestBody HubRequest request){
 		HubEntity hubEntity = hubService.findByHubId(hubId);
-		UserEntity userEntity = userService.findUserById(request.getUserId()).orElse(null);
 		BranchEntity branchEntity = branchService.findByBranchId(request.getBranchId());
+		StaffBranchEntity staffBranchEntity = staffBranchService.findById(request.getStaffManagerId()).orElse(null);
+		StaffDepartmentEntity staffDepartmentEntity = staffDepartmentService.findById(request.getStaffDepartmentId()).orElse(null);
+		
 		HubResponse response = new HubResponse();
-		if(hubEntity != null && userEntity != null && branchEntity.getBranchId() != null) {
+		if(hubEntity.getHubId() != null && staffBranchEntity != null && staffDepartmentEntity != null && branchEntity.getBranchId() != null) {
 			hubEntity = hubConvert.toUpdateEntity(hubEntity, request);
 			hubEntity.setBranchEntity(branchEntity);
-			hubEntity.setPersonnelChargeName(userEntity);
+			hubEntity.setStaffBranch(staffBranchEntity);
+			hubEntity.setStaffDepartment(staffDepartmentEntity);
 			response = hubService.save(hubEntity);
 		}
 		return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -143,23 +164,26 @@ public class HubController {
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 	
-	@PostMapping("/hub")
+	@PostMapping("/admin/hub")
 	public ResponseEntity<?> save(@RequestBody HubRequest request){
 		HubEntity entity = hubConvert.toEntity(request);
-		UserEntity userEntity = userService.findUserById(request.getUserId()).orElse(null);
+//		UserEntity userEntity = userService.findUserById(request.getUserId()).orElse(null);
 		BranchEntity branchEntity = branchService.findByBranchId(request.getBranchId());
+		StaffBranchEntity staffBranchEntity = staffBranchService.findById(request.getStaffManagerId()).orElse(null);
+		StaffDepartmentEntity staffDepartmentEntity = staffDepartmentService.findById(request.getStaffDepartmentId()).orElse(null);
 		HubResponse response = new HubResponse();
-		if(userEntity != null && branchEntity.getBranchId() != null) {
+		if(staffBranchEntity != null && staffDepartmentEntity != null && branchEntity.getBranchId() != null) {
 			entity.setHubId(request.getHubId());
 			entity.setBranchEntity(branchEntity);
-			entity.setPersonnelChargeName(userEntity);
+			entity.setStaffBranch(staffBranchEntity);
+			entity.setStaffDepartment(staffDepartmentEntity);
 			response = hubService.save(entity);
 		}
 		
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 	
-	@DeleteMapping("/hub/{hubId}")
+	@DeleteMapping("/admin/hub/{hubId}")
 	public ResponseEntity<?> delete(@PathVariable("hubId") String hubId){
 		boolean result = hubService.delete(hubId);
 		return ResponseEntity.status(HttpStatus.OK).body(result);

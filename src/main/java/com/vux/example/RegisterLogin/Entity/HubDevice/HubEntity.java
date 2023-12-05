@@ -2,7 +2,6 @@ package com.vux.example.RegisterLogin.Entity.HubDevice;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -11,9 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 
-import com.vux.example.RegisterLogin.Entity.UserEntity;
 
 @Entity
 @Table(name = "hub")
@@ -44,32 +41,24 @@ public class HubEntity {
 	@NotBlank(message = "Hub city cannot be blank")
 	private String hubCity;
 	
-	@Column(name = "hub_manager_name",
-			nullable = false,
-			length = 150)
-	@NotBlank(message = "Hub manager name cannot be blank")
-	private String hubManagerName;
-	
-	@Column(name = "hub_manager_phone",
-			nullable = false,
-			length = 10)
-	@NotBlank(message = "Hub manager phone cannot be blank")
-	@Pattern(regexp = "(\\+84|0)[0-9]{9}")
-	private String hubManagerPhone;
-	
-	@ManyToOne
-	@JoinColumn(name = "user_id", nullable=false)
-	private UserEntity personnelChargeName;
-	
 	@ManyToOne
 	@JoinColumn(name = "branch_id", nullable=false)
 	private BranchEntity branchEntity;
+	
+	@ManyToOne
+	@JoinColumn(name = "staff_branch_id", nullable = false)
+	private StaffBranchEntity staffBranch;
+	
+	@ManyToOne
+	@JoinColumn(name = "staff_department_id",nullable = false)
+	private StaffDepartmentEntity staffDepartment;
+	
 	
 	@OneToMany(mappedBy = "hubEntity"
 //			,cascade = CascadeType.REMOVE, orphanRemoval = true
 			)
 	private List<HubDetailEntity> hubDetails;
-
+	
 	public String getHubId() {
 		return hubId;
 	}
@@ -102,30 +91,7 @@ public class HubEntity {
 		this.hubCity = hubCity;
 	}
 
-	public String getHubManagerName() {
-		return hubManagerName;
-	}
-
-	public void setHubManagerName(String hubManagerName) {
-		this.hubManagerName = hubManagerName;
-	}
-
-	public String getHubManagerPhone() {
-		return hubManagerPhone;
-	}
-
-	public void setHubManagerPhone(String hubManagerPhone) {
-		this.hubManagerPhone = hubManagerPhone;
-	}
-
-	public UserEntity getPersonnelChargeName() {
-		return personnelChargeName;
-	}
-
-	public void setPersonnelChargeName(UserEntity personnelChargeName) {
-		this.personnelChargeName = personnelChargeName;
-	}
-
+	
 	public BranchEntity getBranchEntity() {
 		return branchEntity;
 	}
@@ -140,6 +106,22 @@ public class HubEntity {
 
 	public void setHubDetails(List<HubDetailEntity> hubDetails) {
 		this.hubDetails = hubDetails;
+	}
+
+	public StaffBranchEntity getStaffBranch() {
+		return staffBranch;
+	}
+
+	public void setStaffBranch(StaffBranchEntity staffBranch) {
+		this.staffBranch = staffBranch;
+	}
+
+	public StaffDepartmentEntity getStaffDepartment() {
+		return staffDepartment;
+	}
+
+	public void setStaffDepartment(StaffDepartmentEntity staffDepartment) {
+		this.staffDepartment = staffDepartment;
 	}
 	
 }

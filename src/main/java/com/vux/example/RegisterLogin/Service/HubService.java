@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.vux.example.RegisterLogin.Converter.HubConvert;
 import com.vux.example.RegisterLogin.Entity.HubDevice.BranchEntity;
 import com.vux.example.RegisterLogin.Entity.HubDevice.HubEntity;
+import com.vux.example.RegisterLogin.Payload.Response.HubAdminResponse;
 import com.vux.example.RegisterLogin.Payload.Response.HubResponse;
 import com.vux.example.RegisterLogin.Repo.HubRepository;
 import com.vux.example.RegisterLogin.Service.impl.HubServiceImpl;
@@ -22,12 +23,12 @@ public class HubService implements HubServiceImpl {
 	private HubConvert hubConvert;
 
 	@Override
-	public List<HubResponse> getAll() {
+	public List<HubAdminResponse> getAll() {
 //		List<HubEntity> entities = hubRepository.findAll();
 		List<HubEntity> entities = hubRepository.findByOrderByBranchEntityAsc();
-		List<HubResponse> responses = new ArrayList<HubResponse>();
+		List<HubAdminResponse> responses = new ArrayList<>();
 		for(HubEntity entity : entities) {
-			responses.add(hubConvert.toResponse(entity));
+			responses.add(hubConvert.toAdminResponse(entity));
 		}
 		return responses;
 	}
@@ -41,6 +42,17 @@ public class HubService implements HubServiceImpl {
 		}
 		return responses;
 		
+	}
+	
+	@Override
+	public List<HubAdminResponse> findAdminByBranchId(BranchEntity entity) {
+	
+		List<HubEntity> entities = hubRepository.findByBranchEntity(entity);
+		List<HubAdminResponse> responses = new ArrayList<HubAdminResponse>();
+		for(HubEntity e : entities) {
+			responses.add(hubConvert.toAdminResponse(e));
+		}
+		return responses;
 	}
 	
 	@Override

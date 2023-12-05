@@ -1,12 +1,27 @@
 package com.vux.example.RegisterLogin.Payload.Request;
 
-import java.time.LocalDate;
+import org.springframework.web.multipart.MultipartFile;
 
 public class MaintenanceHistoryRequest {
 
 	private long hubDetailId;
 	private String maintenanceTime;
 	private String maintenanceNote;
+	private MultipartFile[] imageBeforeMaintenanceFiles;
+	private MultipartFile[] imageAfterMaintenanceFiles;
+	
+	public MultipartFile[] getImageBeforeMaintenanceFiles() {
+		return imageBeforeMaintenanceFiles;
+	}
+	public void setImageBeforeMaintenanceFiles(MultipartFile[] imageBeforeMaintenanceFiles) {
+		this.imageBeforeMaintenanceFiles = imageBeforeMaintenanceFiles;
+	}
+	public MultipartFile[] getImageAfterMaintenanceFiles() {
+		return imageAfterMaintenanceFiles;
+	}
+	public void setImageAfterMaintenanceFiles(MultipartFile[] imageAfterMaintenanceFiles) {
+		this.imageAfterMaintenanceFiles = imageAfterMaintenanceFiles;
+	}
 	public long getHubDetailId() {
 		return hubDetailId;
 	}

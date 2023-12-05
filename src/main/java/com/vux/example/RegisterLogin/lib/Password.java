@@ -4,7 +4,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class Password {
 
-	public static boolean checkPaasword(String pass, String hashPass) {
+	public static boolean checkPassword(String pass, String hashPass) {
 		BCryptPasswordEncoder bc = new BCryptPasswordEncoder();
 	    return bc.matches(pass, hashPass);
 	}

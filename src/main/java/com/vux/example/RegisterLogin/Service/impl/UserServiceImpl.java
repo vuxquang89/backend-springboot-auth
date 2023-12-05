@@ -18,6 +18,7 @@ public interface UserServiceImpl {
 	
 	UserEntity save(UserEntity user);
 	List<UserResponse> getAll();
+	List<UserResponse> findByUserType(String userType);
 	List<UserResponse> getUserRole(int roleId);
 	List<UserEntity> getUserEntityRole(int roleId);
 	boolean delete(long id);

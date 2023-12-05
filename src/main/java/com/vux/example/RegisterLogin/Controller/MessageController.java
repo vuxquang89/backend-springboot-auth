@@ -51,10 +51,16 @@ public class MessageController {
 		WebSocketMessageResponse response = wsMessageConvert.toResponse(request);
 		System.out.println("username send message "+ request.getSenderName());
 		response.setDate(dateTimeConvert.nowString());
-		if(request.getAction() == EnumAction.EDIT_MAINTENANCE || request.getAction() == EnumAction.GET_ALARM) {
+		if(request.getAction() == EnumAction.ADD_MAINTENANCE || 
+				request.getAction() == EnumAction.EDIT_MAINTENANCE ||
+				request.getAction() == EnumAction.DELETE_DEVICE ||
+				request.getAction() == EnumAction.SWITCH_DEVICE ||
+				request.getAction() == EnumAction.GET_ALARM) {
 			Integer countAlarm = hubDetailService.getCountAlarm(request.getSenderName());
 			response.setMessage(String.valueOf(countAlarm));
 			
+		}else if(request.getAction() == EnumAction.EDIT_DEVICE) {
+			response.setMessage(request.getSenderName() + " đã thay đổi thông tin thiết bị");
 		}
     	webSocketService.sendMessage(response);
     	
