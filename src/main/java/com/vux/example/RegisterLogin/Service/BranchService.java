@@ -43,6 +43,10 @@ public class BranchService implements BranchServiceImpl {
 		return branchRepository.getBranchHaveLeader();
 	}
 	
+	@Override
+	public List<BranchEntity> getBranchHaveNotLeader() {
+		return branchRepository.getBranchHaveNotLeader();
+	}
 	
 	@Override
 	public BranchResponse findBranchById(String branchId) {

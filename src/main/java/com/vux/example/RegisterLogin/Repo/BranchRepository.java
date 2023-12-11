@@ -21,7 +21,12 @@ public interface BranchRepository extends JpaRepository<BranchEntity, String> {
 			nativeQuery = true)
 	public List<BranchEntity> getBranchHaveLeader();
 	
-	
+	@Transactional
+	@Modifying
+	@Query(value = "SELECT * FROM branch b WHERE b.branch_id "
+			+ "not IN (select br.branch_id FROM branch br INNER JOIN staff_leader sl ON sl.branch_id = br.branch_id);",
+			nativeQuery = true)
+	public List<BranchEntity> getBranchHaveNotLeader();
 	
 	
 }

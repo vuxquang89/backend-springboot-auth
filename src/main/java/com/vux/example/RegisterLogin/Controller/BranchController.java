@@ -57,7 +57,16 @@ public class BranchController {
 		return ResponseEntity.status(HttpStatus.OK).body(results);
 	}
 	
-	
+	@GetMapping("/admin/branch/list/user")
+	public ResponseEntity<?> getManagerBranchListForAddUser(){
+		
+		List<BranchEntity> entities = branchService.getBranchHaveNotLeader();
+		List<SelectResponse> results = new ArrayList<>();
+		for(BranchEntity entity : entities) {
+			results.add(branchConvert.toBranchSelect(entity));
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(results);
+	}
 	
 	@GetMapping("/admin/branch/list")
 	public ResponseEntity<?> getBranchList(){
