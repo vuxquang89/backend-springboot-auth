@@ -183,6 +183,36 @@ public class HubController {
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 	
+	/**
+	 * set switch hub to branch
+	 * @param request
+	 * @return
+	 */
+	@PostMapping("/admin/hub/switch/branch")
+	public ResponseEntity<?> setSwitchHubToBranch(@RequestBody HubRequest request){
+		String branchId = request.getBranchId();
+		String hubId = request.getHubId();
+		HubEntity hubEntity = hubService.findByHubId(hubId);
+
+		HubResponseStatus response = new HubResponseStatus();
+		response.setStatus(101);
+		
+		if(hubEntity.getHubId() != null) {
+			BranchEntity branchEntity = branchService.findByBranchId(branchId);
+			
+			StaffBranchEntity staffBranchEntity = hubEntity.getStaffBranch();
+			staffBranchEntity.setBranchStaffEntity(branchEntity);
+			StaffBranchEntity staffBranchEntityNew = staffBranchService.save(staffBranchEntity);
+			if(staffBranchEntityNew.getId() != null) {
+				hubEntity.setBranchEntity(branchEntity);
+				response.setHubResponse(hubService.save(hubEntity));
+				response.setStatus(100);
+			}			
+			
+		}		
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
+	
 	@DeleteMapping("/admin/hub/{hubId}")
 	public ResponseEntity<?> delete(@PathVariable("hubId") String hubId){
 		boolean result = hubService.delete(hubId);

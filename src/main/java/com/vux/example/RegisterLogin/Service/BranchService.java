@@ -39,6 +39,12 @@ public class BranchService implements BranchServiceImpl {
 	}
 
 	@Override
+	public List<BranchEntity> getBranchAll() {
+		return branchRepository.getBranchHaveLeader();
+	}
+	
+	
+	@Override
 	public BranchResponse findBranchById(String branchId) {
 		BranchEntity entity = branchRepository.findBranchByBranchId(branchId).orElse(null);
 		BranchResponse response = new BranchResponse();

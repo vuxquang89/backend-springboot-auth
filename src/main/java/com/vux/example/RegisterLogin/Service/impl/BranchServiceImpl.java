@@ -8,6 +8,8 @@ import com.vux.example.RegisterLogin.Payload.Response.BranchResponse;
 public interface BranchServiceImpl {
 
 	public List<BranchEntity> getAll();
+	public List<BranchEntity> getBranchAll();//các chi nhánh có pgđ kt
+	
 	public BranchEntity save(BranchEntity entity);
 	public boolean delete(String id);
 	public BranchResponse findBranchById(String branchId);

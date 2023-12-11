@@ -38,6 +38,7 @@ public class BranchController {
 	@GetMapping("/branch")
 	public ResponseEntity<?> getData(){
 		List<BranchEntity> entities = branchService.getAll();
+		
 		List<BranchResponse> results = new ArrayList<BranchResponse>();
 		for(BranchEntity entity : entities) {
 			results.add(branchConvert.toResponse(entity));
@@ -48,6 +49,7 @@ public class BranchController {
 	@GetMapping("/branch/list")
 	public ResponseEntity<?> getManagerBranchList(){
 		List<BranchEntity> entities = branchService.getAll();
+//		List<BranchEntity> entities = branchService.getBranchAll();
 		List<SelectResponse> results = new ArrayList<>();
 		for(BranchEntity entity : entities) {
 			results.add(branchConvert.toBranchSelect(entity));
@@ -55,9 +57,12 @@ public class BranchController {
 		return ResponseEntity.status(HttpStatus.OK).body(results);
 	}
 	
+	
+	
 	@GetMapping("/admin/branch/list")
 	public ResponseEntity<?> getBranchList(){
-		List<BranchEntity> entities = branchService.getAll();
+//		List<BranchEntity> entities = branchService.getAll();
+		List<BranchEntity> entities = branchService.getBranchAll();
 		List<SelectResponse> results = new ArrayList<>();
 		for(BranchEntity entity : entities) {
 			results.add(branchConvert.toBranchSelect(entity));
