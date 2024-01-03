@@ -10,17 +10,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 public class FileUploadUtil {
 	
-	@Value("${upload.path}")
-	private static String UPLOADED_FOLDER;
+//	@Value("${upload.path}")
+//	private static String UPLOADED_FOLDER;
 
 	public static String uploadFile(String optFolder, String fileName, MultipartFile multipartFile) throws IOException {
-		String uploadDir = UPLOADED_FOLDER + "upload/" + optFolder;
+		String uploadDir = Variables.UPLOADED_FOLDER + "upload/" + optFolder;
 		Path uploadPath = Paths.get(uploadDir);
 		
 		if(!Files.exists(uploadPath)) {

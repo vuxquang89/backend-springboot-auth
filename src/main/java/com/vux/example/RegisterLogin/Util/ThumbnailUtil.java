@@ -3,15 +3,13 @@ package com.vux.example.RegisterLogin.Util;
 import java.io.File;
 import java.io.IOException;
 
-import org.springframework.beans.factory.annotation.Value;
-
 import com.vux.example.RegisterLogin.Exception.BaseException;
 
 import net.coobird.thumbnailator.Thumbnails;
 
 public class ThumbnailUtil {
-	@Value("${upload.path}")
-	private static String UPLOADED_FOLDER;
+//	@Value("${upload.path}")
+//	private static String UPLOADED_FOLDER;
 	
 	public static final int SIZE_WIDTH_100 = 100;
 	public static final int SIZE_HEIGHT_100 = 100;
@@ -19,7 +17,7 @@ public class ThumbnailUtil {
 	
 	
 	public static String resize100x160(String pathName, String fileName) throws BaseException {
-		String pathFile = UPLOADED_FOLDER + pathName;
+		String pathFile = Variables.UPLOADED_FOLDER + pathName;
 		String path = pathFile+"/"+fileName;
 		File file = new File(path);
 		
