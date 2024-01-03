@@ -36,9 +36,19 @@ public class StaffBranchService implements StaffBranchImpl {
 	}
 	
 	@Override
-	public List<StaffBranchEntity> findUserManagerOption(String branhcId, Integer roleId) {
-		List<StaffBranchEntity> branchEntities = staffBranchRepository.findUserOption( branhcId, roleId);
+	public List<StaffBranchEntity> findUserManagerOption(String branchId, Integer roleId) {
+		List<StaffBranchEntity> branchEntities = staffBranchRepository.findUserOption( branchId, roleId);
 		return branchEntities;
+	}
+	
+	@Override
+	public List<UserResponse> findBranchId(String branchId) {
+		List<StaffBranchEntity> staffBranchEntities = staffBranchRepository.findByBranchId(branchId);
+		List<UserResponse> responses = new ArrayList<UserResponse>();
+		for(StaffBranchEntity entity : staffBranchEntities) {
+			responses.add(staffBranchConvert.toUserResponse(entity));
+		}
+		return responses;
 	}
 	
 	@Override

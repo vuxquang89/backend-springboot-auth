@@ -10,7 +10,8 @@ public interface StaffBranchImpl {
 
 	public List<UserResponse> findAll();
 	
-	public List<StaffBranchEntity> findUserManagerOption(String brancId,Integer roleId);
+	public List<StaffBranchEntity> findUserManagerOption(String branchId,Integer roleId);
+	public List<UserResponse> findBranchId(String branchId);
 	public StaffBranchEntity save(StaffBranchEntity entity);
 	public Optional<StaffBranchEntity> findById(Long id);
 	public Optional<StaffBranchEntity> findByUsername(String usename);

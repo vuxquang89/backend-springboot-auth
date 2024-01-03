@@ -11,4 +11,5 @@ public interface StaffLeaderImpl {
 	public List<UserResponse> findAll();
 	public StaffLeaderEntity save(StaffLeaderEntity entity);
 	public Optional<StaffLeaderEntity> findById(Long id);
+	public Optional<StaffLeaderEntity> findByUsername(String username);
 }

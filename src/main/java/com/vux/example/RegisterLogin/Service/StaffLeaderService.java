@@ -34,6 +34,12 @@ public class StaffLeaderService implements StaffLeaderImpl {
 	public Optional<StaffLeaderEntity> findById(Long id) {
 		return staffLeaderRepository.findById(id);
 	}
+	
+	@Override
+	public Optional<StaffLeaderEntity> findByUsername(String username) {
+		return staffLeaderRepository.findByUsername(username);
+	}
+	
 	@Override
 	public StaffLeaderEntity save(StaffLeaderEntity entity) {
 		return staffLeaderRepository.save(entity);

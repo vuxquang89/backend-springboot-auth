@@ -395,5 +395,132 @@ public class UserController {
 				
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}	
+	
+	/**
+	 * leader
+	 */
+	
+	/**
+	 * get users with leader
+	 * @param request
+	 * @return
+	 */
+	@GetMapping("/leader/users")
+	public ResponseEntity<?> getUsersWithLeader(HttpServletRequest request){
+		String token = jwtTokenUtil.getToken(request);
+		String username = jwtTokenUtil.getUserNameFromJwtSubject(token);
+		StaffLeaderEntity leaderEntity = staffLeaderService.findByUsername(username).orElse(null);
+		
+		List<UserResponse> responses = new ArrayList<UserResponse>();
+		
+		if(leaderEntity != null) {
+			responses = staffBranchService.findBranchId(leaderEntity.getBranch().getBranchId());
+		}else {
+			System.out.println("Khong tim thay");
+		}
+		
+		return ResponseEntity.status(HttpStatus.OK).body(responses);
 	}
+	
+	/**
+	 * save user with leader
+	 * @param request
+	 * @return
+	 */
+	@PostMapping("/leader/user")
+	public ResponseEntity<?> saveUserWithLEader(
+			HttpServletRequest request,
+			@RequestBody UserRequest userRequest){
+
+		String token = jwtTokenUtil.getToken(request);
+		String username = jwtTokenUtil.getUserNameFromJwtSubject(token);
+		StaffLeaderEntity leaderEntity = staffLeaderService.findByUsername(username).orElse(null);
+		
+		UserResponseStatus responseStatus = new UserResponseStatus();
+		responseStatus.setStatus(100);
+		
+		String message = "";
+		if(userService.existsByUsername(userRequest.getUsername())) {
+			message = "- Username đã tồn tại \n";
+		}
+		
+		if(userService.existsByEmail(userRequest.getEmail())) {
+			message += "- Email đã tồn tại \n";
+		}
+		
+		if(userService.existsByPhone(userRequest.getPhone())) {
+			message += "- Sdt đã tồn tại";
+		}
+		if(message.length() > 0) {
+			responseStatus.setStatus(101);
+		}else {
+			if(leaderEntity != null) {
+				UserEntity entity = userConvert.toEntity(userRequest);
+				entity.addRole(new RoleEntity(2));//ROLE_MANAGER
+				entity.setStatus(1);
+				entity.setUserType("manager");
+				entity = userService.save(entity);
+				if(entity.getId() != null) {
+					StaffBranchEntity managerEntity = userConvert.toBranchEntity(entity);
+					managerEntity.setBranchStaffEntity(leaderEntity.getBranch());
+					managerEntity.setRoleId(3);
+					managerEntity.setRoleName("ROLE_MANAGER");
+					staffBranchService.save(managerEntity);	
+				}
+				responseStatus.addUserResponse(userConvert.toResponse(entity));
+			}else {
+				message = " PGĐ không tồn tại";
+			}
+			
+		}
+		responseStatus.setMessage(message);
+		return ResponseEntity.status(HttpStatus.OK).body(responseStatus);
+	}
+	
+	/**
+	 * Edit user with leader
+	 
+	 * @param id
+	 * @param request
+	 * @return
+	 */
+	@PutMapping("/leader/user")
+	public ResponseEntity<?> editUser(
+			HttpServletRequest request,			
+			@RequestBody UserRequest userRequest){
+		UserEntity entity = userService.findUserByUsername(userRequest.getUsername()).orElse(null);
+		
+		String token = jwtTokenUtil.getToken(request);
+		String username = jwtTokenUtil.getUserNameFromJwtSubject(token);
+		StaffLeaderEntity leaderEntity = staffLeaderService.findByUsername(username).orElse(null);
+		
+		UserResponseStatus responseStatus = new UserResponseStatus();
+		responseStatus.setStatus(100);
+		String message = "";
+		
+		if(entity != null && leaderEntity != null) {
+			
+			entity = userConvert.toUpdateEntity(entity, userRequest);
+			entity = userService.save(entity);
+			
+			UserResponse userResponse = userConvert.toResponse(entity);
+			
+			
+			StaffBranchEntity branchEntity = userConvert.toBranchEntity(entity);
+			branchEntity.setBranchStaffEntity(leaderEntity.getBranch());
+			branchEntity = staffBranchService.save(branchEntity);
+			userResponse.setBranchId(branchEntity.getBranchStaffEntity().getBranchId());
+			userResponse.setBranchName(branchEntity.getBranchStaffEntity().getBranchName());	
+				
+			
+			responseStatus.addUserResponse(userResponse);
+			
+		}else {
+			responseStatus.setStatus(101);
+			message = "- Không tồn tại";
+		}
+		responseStatus.setMessage(message);
+		return ResponseEntity.status(HttpStatus.OK).body(responseStatus);
+	}
+}
 
