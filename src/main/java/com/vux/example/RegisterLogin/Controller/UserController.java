@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,7 @@ import com.vux.example.RegisterLogin.Payload.Request.UserRequest;
 import com.vux.example.RegisterLogin.Payload.Response.OptionSelectResponse;
 import com.vux.example.RegisterLogin.Payload.Response.UserResponse;
 import com.vux.example.RegisterLogin.Payload.Response.UserResponseStatus;
+import com.vux.example.RegisterLogin.Service.MailService;
 import com.vux.example.RegisterLogin.Service.StaffBranchService;
 import com.vux.example.RegisterLogin.Service.StaffDepartmentService;
 import com.vux.example.RegisterLogin.Service.StaffLeaderService;
@@ -41,6 +43,9 @@ import com.vux.example.RegisterLogin.lib.Password;
 @RestController
 @RequestMapping("/api")
 public class UserController {
+	
+	@Autowired
+	private MailService mailService;
 	
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
@@ -518,6 +523,41 @@ public class UserController {
 		}else {
 			responseStatus.setStatus(101);
 			message = "- Không tồn tại";
+		}
+		responseStatus.setMessage(message);
+		return ResponseEntity.status(HttpStatus.OK).body(responseStatus);
+	}
+	
+	
+	/**
+	 * reset password
+	 * @param userRequest
+	 * @return
+	 */
+	@PutMapping("/leader/user/password/reset")
+	public ResponseEntity<?> resetPassword(
+			@RequestBody UserRequest userRequest){
+		UserEntity entity = userService.findUserByUsername(userRequest.getUsername()).orElse(null);
+		
+		UserResponseStatus responseStatus = new UserResponseStatus();
+		responseStatus.setStatus(100);
+		String message = "";
+		
+		if(entity != null) {
+			String newPassword = RandomStringUtils.randomAlphanumeric(6);
+			Boolean sendMail = mailService.sendEmail(newPassword, entity);
+			if(sendMail) {
+				entity.setPassword(Password.encoderPassword(newPassword));
+				userService.save(entity);
+				message = "- Gửi mail thành công " + userRequest.getUsername();
+			}else {
+				responseStatus.setStatus(101);
+				message = "- Không thể gửi mail " + userRequest.getUsername();
+			}
+			
+		}else {
+			responseStatus.setStatus(101);
+			message = "- User không tồn tại";
 		}
 		responseStatus.setMessage(message);
 		return ResponseEntity.status(HttpStatus.OK).body(responseStatus);
