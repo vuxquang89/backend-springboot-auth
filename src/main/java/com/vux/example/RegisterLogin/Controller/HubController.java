@@ -218,4 +218,31 @@ public class HubController {
 		boolean result = hubService.delete(hubId);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
+	
+	
+	/**==============leader manage============*/
+	@PostMapping("/leader/hub/switch/manager")
+	public ResponseEntity<?> setSwitchHubToManager(@RequestBody HubRequest request){
+		Long staffManager = request.getStaffManagerId();
+		String hubId = request.getHubId();
+		HubEntity hubEntity = hubService.findByHubId(hubId);
+
+		HubResponseStatus response = new HubResponseStatus();
+		response.setStatus(101);
+		
+		if(hubEntity.getHubId() != null) {
+			StaffBranchEntity staffBranchEntity = staffBranchService.findById(staffManager).orElse(null);
+			hubEntity.setStaffBranch(staffBranchEntity);
+			
+//			StaffBranchEntity staffBranchEntityNew = staffBranchService.save(staffBranchEntity);
+//			HubEntity hub = ;
+//			if(hub.getHubId() != null) {
+				
+				response.setHubResponse(hubService.save(hubEntity));
+				response.setStatus(100);
+//			}			
+			
+		}		
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
 }

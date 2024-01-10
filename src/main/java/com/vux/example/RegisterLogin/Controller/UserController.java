@@ -562,5 +562,29 @@ public class UserController {
 		responseStatus.setMessage(message);
 		return ResponseEntity.status(HttpStatus.OK).body(responseStatus);
 	}
+	
+	
+	/**
+	 * get list manager
+	 * @param request
+	 * @return
+	 */
+	@GetMapping("/leader/users/manager")
+	public ResponseEntity<?> getUserManagerOptionSelect(
+			HttpServletRequest request
+			){
+		String token = jwtTokenUtil.getToken(request);
+		String username = jwtTokenUtil.getUserNameFromJwtSubject(token);
+		StaffLeaderEntity leaderEntity = staffLeaderService.findByUsername(username).orElse(null);
+		
+		String branchId = leaderEntity.getBranch().getBranchId();
+		int roleId = 2;//ROLE_MANAGER
+		List<StaffBranchEntity> branchEntities = staffBranchService.findUserManagerOption(branchId, roleId);
+		List<OptionSelectResponse> responses = new ArrayList<>();
+		for(StaffBranchEntity entity : branchEntities) {
+			responses.add(userConvert.toManagerOptionSelect(entity));
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(responses);
+	}
 }
 
