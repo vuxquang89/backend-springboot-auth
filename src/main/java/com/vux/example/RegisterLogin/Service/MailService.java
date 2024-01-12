@@ -25,9 +25,9 @@ public class MailService implements MailServiceImpl {
 		MimeMessageHelper helper = new MimeMessageHelper(message);
 		
 		String mailSubject = "Thông tin mật khẩu mới";
-		String mailContent = "<p><b>Sender Name :</b>Support PKT SCTV</p>";
-		mailContent += "<p>Hi <b>"+ user.getFullname() +"!</b></p>";
-		mailContent += "<p><b>Password:</b>Mật khẩu mới của bạn là: <b>"+password+"</b></p>";
+//		String mailContent = "<p><b>Sender Name :</b>Support PKT SCTV</p>";
+		String mailContent = "<p>Hi <b>"+ user.getFullname() +"</b>!<br></p>";
+		mailContent += "<p>Mật khẩu mới của bạn là: <b>"+password+"</b></p>";
 		
 		try {
 			helper.setFrom("application.cmart@gmail.com", "Support PKT SCTV");
