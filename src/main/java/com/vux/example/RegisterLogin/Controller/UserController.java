@@ -468,7 +468,7 @@ public class UserController {
 				if(entity.getId() != null) {
 					StaffBranchEntity managerEntity = userConvert.toBranchEntity(entity);
 					managerEntity.setBranchStaffEntity(leaderEntity.getBranch());
-					managerEntity.setRoleId(3);
+					managerEntity.setRoleId(2);
 					managerEntity.setRoleName("ROLE_MANAGER");
 					staffBranchService.save(managerEntity);	
 				}
