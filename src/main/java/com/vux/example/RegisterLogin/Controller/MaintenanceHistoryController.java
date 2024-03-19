@@ -173,7 +173,7 @@ public class MaintenanceHistoryController {
 		MaintenanceHistoryResponseStatus responseStatus = new MaintenanceHistoryResponseStatus();
 		responseStatus.setStatus(101);
 		
-		if(!DateConvert.isAfter(maintenanceHistoryRequest.getMaintenanceTime())) {//ngay chon nho hon ngay hien tai
+		if(!DateConvert.isBefore(maintenanceHistoryRequest.getMaintenanceTime())) {//ngay chon nho hon ngay hien tai
 			
 			HubDetailEntity hubDetailEntity = hubDetailService.findById(maintenanceHistoryRequest.getHubDetailId()).orElse(null);
 			

@@ -16,7 +16,8 @@ public class LocalDateConvert {
 			if(dates[1].length() < 2) {
 				dates[1] = "0"+dates[1];
 			}
-			return dates[2] +"-"+dates[0]+"-"+dates[1];
+			//return dates[2] +"-"+dates[0]+"-"+dates[1];
+			return dates[2] +"-"+dates[1]+"-"+dates[0];
 		}
 		return str;
 	}

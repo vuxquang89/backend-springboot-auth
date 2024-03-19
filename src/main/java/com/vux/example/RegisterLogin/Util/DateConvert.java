@@ -21,4 +21,12 @@ public class DateConvert {
 		
 		return localDate.isAfter(otherLocalDate);
 	}
+	
+	public static boolean isBefore(String otherDate) {
+		LocalDate otherLocalDate = LocalDate.parse(otherDate,
+                DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		LocalDate localDate = LocalDate.now();
+		
+		return localDate.isBefore(otherLocalDate);
+	}
 }
