@@ -75,7 +75,7 @@ public class HubDetailController {
 	public ResponseEntity<?> getManagerAll(HttpServletRequest request){
 		String token = jwtTokenUtil.getToken(request);
 		String username = jwtTokenUtil.getUserNameFromJwtSubject(token);
-		List<HubDetailResponse> hubDetailResponses = hubDetailService.getAllManager(username);
+		List<HubDetailResponse> hubDetailResponses = hubDetailService.getAllManager(username, jwtTokenUtil.getRolesFromJwt(token), "ROLE_EDITOR");
 		return ResponseEntity.status(HttpStatus.OK).body(hubDetailResponses);
 	}
 	
@@ -86,7 +86,7 @@ public class HubDetailController {
 		String token = jwtTokenUtil.getToken(request);
 		String username = jwtTokenUtil.getUserNameFromJwtSubject(token);
 //		List<HubDetailResponse> hubDetailResponses = hubDetailService.getAllManager(username);
-		HubDetailEntity hubDetailEntity = hubDetailService.findByIdAndUsername(hubDetailId, username).orElse(null);
+		HubDetailEntity hubDetailEntity = hubDetailService.findByIdAndUsername(hubDetailId, username, jwtTokenUtil.getRolesFromJwt(token), "ROLE_EDITOR").orElse(null);
 		HubDetailResponse response = new HubDetailResponse();
 		response = hubDetailConvert.toResponse(hubDetailEntity);
 		return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -97,7 +97,7 @@ public class HubDetailController {
 	public ResponseEntity<?> getMangerList(HttpServletRequest request){
 		String token = jwtTokenUtil.getToken(request);
 		String username = jwtTokenUtil.getUserNameFromJwtSubject(token);
-		List<HubDetailResponse> hubDetailResponses = hubDetailService.getAllManager(username);
+		List<HubDetailResponse> hubDetailResponses = hubDetailService.getAllManager(username, jwtTokenUtil.getRolesFromJwt(token), "ROLE_EDITOR");
 		return ResponseEntity.status(HttpStatus.OK).body(hubDetailResponses);
 	}
 	
@@ -114,7 +114,7 @@ public class HubDetailController {
 		String token = jwtTokenUtil.getToken(request);
 		String username = jwtTokenUtil.getUserNameFromJwtSubject(token);
 		
-		List<HubDetailResponse> hubDetailResponses = hubDetailService.findAllWithKeySearch(keyword, username);
+		List<HubDetailResponse> hubDetailResponses = hubDetailService.findAllWithKeySearch(keyword, username, jwtTokenUtil.getRolesFromJwt(token), "ROLE_EDITOR");
 		return ResponseEntity.status(HttpStatus.OK).body(hubDetailResponses);
 	}
 	
@@ -132,7 +132,7 @@ public class HubDetailController {
 			HttpServletRequest request){
 		String token = jwtTokenUtil.getToken(request);
 		String username = jwtTokenUtil.getUserNameFromJwtSubject(token);
-		HubDetailEntity entity = hubDetailService.findByIdAndUsername(hubDetailId, username).orElse(null);
+		HubDetailEntity entity = hubDetailService.findByIdAndUsername(hubDetailId, username, jwtTokenUtil.getRolesFromJwt(token), "ROLE_EDITOR").orElse(null);
 		HubDetailResponseStatus responseStatus = new HubDetailResponseStatus();
 		responseStatus.setStatus(100);
 		if(entity != null) {

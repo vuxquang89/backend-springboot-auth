@@ -63,4 +63,10 @@ public class RoleEntity {
 		this.users = users;
 	}
 	
+	@Override
+	public String toString() {
+		
+		return this.name;
+	}
+	
 }

@@ -13,13 +13,13 @@ public interface HubDetailServiceImpl {
 
 	public List<HubDetailResponse> getAll();
 	
-	public List<HubDetailResponse> getAllManager(String username);
-	public List<HubDetailListResponse> getAllHubDetailListManager(String username);
+	public List<HubDetailResponse> getAllManager(String username, String[] roles, String roleName);
+	public List<HubDetailListResponse> getAllHubDetailListManager(String username, String[] roles, String roleName);
 	
 	public List<HubDetailResponse> findAllWithKeySearch(String keyword);
-	public List<HubDetailResponse> findAllWithKeySearch(String keyword, String username);
+	public List<HubDetailResponse> findAllWithKeySearch(String keyword, String username, String[] roles, String roleName);
 	public Optional<HubDetailEntity> findById(long hubDetailId);
-	public Optional<HubDetailEntity> findByIdAndUsername(long hubDetailId, String username);
+	public Optional<HubDetailEntity> findByIdAndUsername(long hubDetailId, String username, String[] roles, String roleName);
 	public HubDetailEntity save(HubDetailEntity entity);
 	public boolean delete(long hubDetailId);
 	public void delete(HubDetailEntity entity);

@@ -58,6 +58,7 @@ public class JwtTokenUtil {
 		return Jwts.builder()
 				.setSubject(user.getId() +","+user.getUsername())
 				.setIssuer("Bearer")
+				.claim("roles", user.getRoles().toString())
 				.setIssuedAt(new Date())
 				.setExpiration(new Date(System.currentTimeMillis() + EXPIRE_DURATION_REFRESH_TOKEN))
 				.signWith(SignatureAlgorithm.HS512, secretKey)
@@ -107,6 +108,14 @@ public class JwtTokenUtil {
 		String[] jwtSubject = subject.split(",");
 		return jwtSubject[1];
 		
+	}
+	
+	public String[] getRolesFromJwt(String token) {
+		Claims claims = parseClaims(token);
+		String roles = (String)claims.get("roles");
+		roles = roles.replace("[", "").replace("]", "");
+	    String[] roleNames = roles.split(",");
+	    return roleNames;
 	}
 	
 	/*

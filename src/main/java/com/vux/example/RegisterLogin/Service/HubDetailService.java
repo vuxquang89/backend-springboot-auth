@@ -1,6 +1,7 @@
 package com.vux.example.RegisterLogin.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,8 +39,13 @@ public class HubDetailService implements HubDetailServiceImpl {
 	}
 	
 	@Override
-	public List<HubDetailResponse> getAllManager(String username) {
+	public List<HubDetailResponse> getAllManager(String username, String[] roles, String roleName) {
 		List<HubDetailEntity> hubDetails = hubDetailRepository.getHubDetails(username);
+		
+		if(checkRole(roles, roleName)) {
+			hubDetails = hubDetailRepository.getHubDetails();
+		}
+		
 		
 		List<HubDetailResponse> hubDetailResponses = new ArrayList<HubDetailResponse>();
 		for(HubDetailEntity entity : hubDetails) {
@@ -50,8 +56,12 @@ public class HubDetailService implements HubDetailServiceImpl {
 	}
 	
 	@Override
-	public List<HubDetailListResponse> getAllHubDetailListManager(String username) {
+	public List<HubDetailListResponse> getAllHubDetailListManager(String username, String[] roles, String roleName) {
 		List<HubDetailEntity> hubDetails = hubDetailRepository.getHubDetails(username);
+		
+		if(checkRole(roles, roleName)) {
+			hubDetails = hubDetailRepository.getHubDetails();
+		}
 		
 		List<HubDetailListResponse> hubDetailListResponses = new ArrayList<HubDetailListResponse>();
 		for(HubDetailEntity entity : hubDetails) {
@@ -75,8 +85,12 @@ public class HubDetailService implements HubDetailServiceImpl {
 	}
 	
 	@Override
-	public List<HubDetailResponse> findAllWithKeySearch(String keyword, String username) {
+	public List<HubDetailResponse> findAllWithKeySearch(String keyword, String username, String[] roles, String roleName) {
 		List<HubDetailEntity> hubDetails = hubDetailRepository.findHubDetails(keyword, username);
+		
+		if(checkRole(roles, roleName)) {
+			hubDetails = hubDetailRepository.findHubDetails(keyword);
+		}
 		
 		List<HubDetailResponse> hubDetailResponses = new ArrayList<HubDetailResponse>();
 		for(HubDetailEntity entity : hubDetails) {
@@ -101,7 +115,10 @@ public class HubDetailService implements HubDetailServiceImpl {
 		return hubDetailRepository.findById(hubDetailId);
 	}
 	@Override
-	public Optional<HubDetailEntity> findByIdAndUsername(long hubDetailId, String username) {
+	public Optional<HubDetailEntity> findByIdAndUsername(long hubDetailId, String username, String[] roles, String roleName) {
+		if(checkRole(roles, roleName)) {
+			return hubDetailRepository.findById(hubDetailId);
+		}
 		return hubDetailRepository.findByIdAndUsername(hubDetailId, username);
 	}
 	
@@ -148,5 +165,11 @@ public class HubDetailService implements HubDetailServiceImpl {
 		return hubDetailRepository.getHubDetailAlarm(usename).size();
 	}
 
-	
+	private boolean checkRole(String[] roles, String roleName) {
+		List<String> rolesName = Arrays.asList(roles);
+		if(rolesName.contains(roleName)) {
+			return true;
+		}
+		return false;
+	}
 }
