@@ -47,6 +47,15 @@ public class HubDetailAfterChange extends BaseEntity{
 	@Column
 	private String schneider;//cắt lọc sắt
 	
+	@Column
+	private Integer resistor; // dien tro
+	
+	@Column(name="load_current_per_phase")
+    private Integer loadCurrentPerPhase; //dong ta moi pha
+	
+	@Column(name="series_or_parallel")
+    private String seriesOrParallel; //mac noi tiep/song song
+	
 	@Column(name = "year_install")
 	private String yearInstall;//năm lắp đặt hệ thống điện
 	
@@ -69,7 +78,7 @@ public class HubDetailAfterChange extends BaseEntity{
 	 * 3: Tới hạn / quá hạn bảo dưỡng
 	 */
 	@Column
-	private Integer maintenanceStatus;
+	private Integer maintenanceStatus;//trang thai bao duong
 	
 	@Column(name = "order_maintenance")//dat lich bao duong
 	private Boolean orderMaintenance;//true : nhan thong bao; false : khong nhan thong bao
@@ -170,6 +179,31 @@ public class HubDetailAfterChange extends BaseEntity{
 
 	public void setSchneider(String schneider) {
 		this.schneider = schneider;
+	}
+
+	
+	public Integer getResistor() {
+		return resistor;
+	}
+
+	public void setResistor(Integer resistor) {
+		this.resistor = resistor;
+	}
+
+	public Integer getLoadCurrentPerPhase() {
+		return loadCurrentPerPhase;
+	}
+
+	public void setLoadCurrentPerPhase(Integer loadCurrentPerPhase) {
+		this.loadCurrentPerPhase = loadCurrentPerPhase;
+	}
+
+	public String getSeriesOrParallel() {
+		return seriesOrParallel;
+	}
+
+	public void setSeriesOrParallel(String seriesOrParallel) {
+		this.seriesOrParallel = seriesOrParallel;
 	}
 
 	public String getYearInstall() {

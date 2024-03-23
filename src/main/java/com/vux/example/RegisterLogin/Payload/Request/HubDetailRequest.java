@@ -1,5 +1,6 @@
 package com.vux.example.RegisterLogin.Payload.Request;
 
+
 public class HubDetailRequest {
 
 	private Long deviceId;
@@ -14,6 +15,11 @@ public class HubDetailRequest {
 	private String conductorType;//loai day dan
 	private String cbPower;//CB nguon
 	private String schneider;//cắt lọc sắt
+	
+	private Integer resistor; // dien tro
+	private Integer loadCurrentPerPhase; //dong ta moi pha
+    private String seriesOrParallel; //mac noi tiep/song song
+    
 	private String yearInstall;//năm lắp đặt hệ thống điện
 	private String number;//số lượng
 	private String currentStatus;//tinh trang
@@ -91,6 +97,25 @@ public class HubDetailRequest {
 	}
 	public void setSchneider(String schneider) {
 		this.schneider = schneider;
+	}
+	
+	public Integer getResistor() {
+		return resistor;
+	}
+	public void setResistor(Integer resistor) {
+		this.resistor = resistor;
+	}
+	public Integer getLoadCurrentPerPhase() {
+		return loadCurrentPerPhase;
+	}
+	public void setLoadCurrentPerPhase(Integer loadCurrentPerPhase) {
+		this.loadCurrentPerPhase = loadCurrentPerPhase;
+	}
+	public String getSeriesOrParallel() {
+		return seriesOrParallel;
+	}
+	public void setSeriesOrParallel(String seriesOrParallel) {
+		this.seriesOrParallel = seriesOrParallel;
 	}
 	public String getYearInstall() {
 		return yearInstall;

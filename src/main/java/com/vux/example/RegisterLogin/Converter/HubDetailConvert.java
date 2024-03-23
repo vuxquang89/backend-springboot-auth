@@ -41,6 +41,10 @@ public class HubDetailConvert {
 		
 		entity.setSchneider(request.getSchneider());
 		
+		entity.setResistor(request.getResistor());
+		entity.setLoadCurrentPerPhase(request.getLoadCurrentPerPhase());
+		entity.setSeriesOrParallel(request.getSeriesOrParallel());
+		
 		entity.setYearInstall(request.getYearInstall());
 		
 		entity.setNumber(request.getNumber());
@@ -97,6 +101,10 @@ public class HubDetailConvert {
 		entity.setCbPower(request.getCbPower());
 		
 		entity.setSchneider(request.getSchneider());
+		
+		entity.setResistor(request.getResistor());
+		entity.setLoadCurrentPerPhase(request.getLoadCurrentPerPhase());
+		entity.setSeriesOrParallel(request.getSeriesOrParallel());
 		
 		entity.setYearInstall(request.getYearInstall());
 		
@@ -169,6 +177,9 @@ public class HubDetailConvert {
 		response.setConductorType(entity.getConductorType());
 		response.setCbPower(entity.getCbPower()) ;
 		response.setSchneider(entity.getSchneider());
+		response.setResistor(entity.getResistor());
+		response.setLoadCurrentPerPhase(entity.getLoadCurrentPerPhase());
+		response.setSeriesOrParallel(entity.getSeriesOrParallel());
 		response.setYearInstall(entity.getYearInstall());
 		response.setNumber(entity.getNumber());
 		response.setDateMaintenance(entity.getDateMaintenance());
@@ -225,6 +236,9 @@ public class HubDetailConvert {
 		response.setConductorType(entity.getConductorType());
 		response.setCbPower(entity.getCbPower()) ;
 		response.setSchneider(entity.getSchneider());
+		response.setResistor(entity.getResistor());
+		response.setLoadCurrentPerPhase(entity.getLoadCurrentPerPhase());
+		response.setSeriesOrParallel(entity.getSeriesOrParallel());
 		response.setYearInstall(entity.getYearInstall());
 		response.setNumber(entity.getNumber());
 		response.setDateMaintenance(entity.getDateMaintenance());
@@ -258,6 +272,9 @@ public class HubDetailConvert {
 		response.setConductorType(entity.getConductorType());
 		response.setCbPower(entity.getCbPower()) ;
 		response.setSchneider(entity.getSchneider());
+		response.setResistor(entity.getResistor());
+		response.setLoadCurrentPerPhase(entity.getLoadCurrentPerPhase());
+		response.setSeriesOrParallel(entity.getSeriesOrParallel());
 		response.setYearInstall(entity.getYearInstall());
 		response.setNumber(entity.getNumber());
 		response.setDateMaintenance(entity.getDateMaintenance());
